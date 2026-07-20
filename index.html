@@ -46,6 +46,7 @@
 </head>
 <body><div id="app" style="min-height:100vh;display:flex;align-items:center;justify-content:center;color:#10b981;font-size:.95rem;font-weight:600">Chargement...</div>
 <script>
+console.log("SCRIPT_START");
 const S = (k,d) => { try { return JSON.parse(localStorage.getItem('p7j_'+k))||d } catch { return d } }
 const SS = (k,v) => localStorage.setItem('p7j_'+k, JSON.stringify(v))
 
@@ -251,7 +252,7 @@ function nav(p) { cp=p; window.location.hash=p; renderPage() }
 window.addEventListener('hashchange',()=>{cp=location.hash.slice(1)||'home';renderPage()})
 
 // ========================== RENDER ==========================
-function try{render()}catch(e){document.getElementById('app').innerHTML='Erreur: '+e.message} {
+function render() {
   if(!state.user) return renderAuth()
   const icons = {
     home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1"/></svg>',
@@ -300,9 +301,9 @@ function renderAuth() { var q=randomQuote(), h=randomHadith(); const q=randomQuo
 }
 function handleLogin() {
   const n=document.getElementById('auth-name')?.value.trim(); if(!n){toast('Entre ton prénom');return}
-  state.user={name:n}; SS('lastName',n); save(); toast('Bienvenue '+n+' ! 🤲'); try{render()}catch(e){document.getElementById('app').innerHTML='Erreur: '+e.message}
+  state.user={name:n}; SS('lastName',n); save(); toast('Bienvenue '+n+' ! 🤲'); render()
 }
-function logout(){state.user=null;save();try{render()}catch(e){document.getElementById('app').innerHTML='Erreur: '+e.message}}
+function logout(){state.user=null;save();render()}
 
 // ========================== HOME ==========================
 function renderHome() {
@@ -459,6 +460,5 @@ function renderReport() {
 
 // ========================== INIT ==========================
 state.scores=S('scores',null)
-try { try{render()}catch(e){document.getElementById('app').innerHTML='Erreur: '+e.message} } catch(e) { document.getElementById('app').innerHTML = '<div style="padding:2rem;color:#ef4444;font-size:.9rem">Erreur: '+e.message+'</div>' }
-</script>
+try{render()}catch(e){document.getElementById('app').innerHTML='<div style=padding:2rem;color:#ef4444;font-size:.9rem>Erreur: '+e.message+'</div>'}</script>
 </body></html>
