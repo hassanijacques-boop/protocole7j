@@ -46,75 +46,8 @@
 </head>
 <body><div id="app" style="min-height:100vh;display:flex;align-items:center;justify-content:center;color:#10b981;font-size:.95rem;font-weight:600">Chargement...</div>
 <script>
-console.log("SCRIPT_START");
 const S = (k,d) => { try { return JSON.parse(localStorage.getItem('p7j_'+k))||d } catch { return d } }
 const SS = (k,v) => localStorage.setItem('p7j_'+k, JSON.stringify(v))
-
-const QUOTES = [
-  { text:"Les actes les plus aimés d'Allah sont ceux qui sont constants.", author:"Prophète ﷺ (Bukhārī, Muslim)" },
-  { text:"Quiconque persévère sur un chemin cherchant la science, Allah lui facilite le chemin vers le Paradis.", author:"Prophète ﷺ (Muslim)" },
-  { text:"La patience est la clé de la délivrance.", author:"Ibn al-Qayyim" },
-  { text:"L'effort constant est meilleur qu'un grand effort suivi d'abandon.", author:"Ibn Taymiyyah" },
-  { text:"Prenez des oeuvres que vous pouvez supporter. Allah ne se lasse pas.", author:"Prophète ﷺ (Bukhārī, Muslim)" },
-  { text:"Les épreuves sont des cadeaux d'Allah déguisés.", author:"Ibn al-Qayyim" },
-];
-function randomQuote() { return QUOTES[Math.floor(Math.random()*QUOTES.length)] }
-
-const HADITHS = [
-  { text:"Les oeuvres les plus aimées d'Allah sont celles qui sont les plus constantes.", source:"Boukhari, Muslim" },
-  { text:"Le croyant fort et endurant est meilleur et plus aimé d'Allah.", source:"Muslim" },
-  { text:"Quiconque persévère dans la patience, Allah lui accorde la patience.", source:"Bukhārī, Muslim" },
-  { text:"La meilleure des oeuvres est celle qui est constante, même petite.", source:"Boukhari, Muslim" },
-];
-function randomHadith() { return HADITHS[Math.floor(Math.random()*HADITHS.length)] }
-
-const SOS_LIST = [
-  "Allah ne charge aucune âme au-delà de sa capacité. — Sourate al-Baqarah 2:286",
-  "Certes, la difficulté vient avec la facilité. — al-Inshirah 94:5-6",
-  "Dis: ne désespérez pas de la miséricorde d'Allah. — az-Zumar 39:53",
-  "Place ta confiance en Allah, Il te suffit. — at-Talaq 65:3",
-  "Sois conscient d'Allah ou que tu sois. — Tirmidhi",
-  "Le croyant fort est plus aimé d'Allah. — Muslim",
-  "Persévère dans la patience. — Bukhārī, Muslim",
-  "SubhānAllah, Al-hamdulillah, Allāhu Akbar — Dhikr",
-  "Hasbiyallāhu lā ilāha illā huwa. — at-Tawbah 9:129",
-  "Allahumma innī aʿūdhu bika min al-hammi. — Douā'",
-  "Allahumma innī as'aluka al-āfiyah. — Douā'",
-];
-function randomSos() { return SOS_LIST[Math.floor(Math.random()*SOS_LIST.length)] }
-
-const QUOTES = [
-  { text:"Les actes les plus aimés d'Allah sont ceux qui sont les plus constants, même s'ils sont peu nombreux.", author:"Le Prophète ﷺ — Bukhārī, Muslim" },
-  { text:"Quiconque persévère sur un chemin cherchant la science, Allah lui facilite le chemin vers le Paradis.", author:"Le Prophète ﷺ — Muslim" },
-  { text:"La patience est la clé de la délivrance. Celui qui persévère finit par réussir.", author:"Ibn al-Qayyim" },
-  { text:"L'effort constant, même minime, est meilleur qu'un grand effort suivi d'abandon.", author:"Ibn Taymiyyah" },
-  { text:"Prenez des oeuvres ce que vous pouvez supporter, car certes Allah ne Se lasse pas.", author:"Le Prophète ﷺ — Bukhārī, Muslim" },
-  { text:"Les épreuves sont des cadeaux d'Allah déguisés. Celui qui patiente gagne.", author:"Ibn al-Qayyim" },
-];
-function randomQuote() { return QUOTES[Math.floor(Math.random()*QUOTES.length)] }
-
-const HADITHS = [
-  { text:"Les oeuvres les plus aimées d'Allah sont celles qui sont les plus constantes, même si elles sont peu nombreuses.", source:"Boukhari, Muslim" },
-  { text:"Le croyant fort et endurant est meilleur et plus aimé d'Allah que le croyant faible.", source:"Muslim" },
-  { text:"Quiconque persévère dans la recherche de la science, Allah lui facilite le chemin vers le Paradis.", source:"Muslim" },
-  { text:"La meilleure des oeuvres est celle qui est constante, même si elle est petite.", source:"Boukhari, Muslim" },
-];
-function randomHadith() { return HADITHS[Math.floor(Math.random()*HADITHS.length)] }
-
-const SOS_LIST = [
-  "Allah ne charge aucune âme au-delà de sa capacité. — Sourate al-Baqarah 2:286",
-  "Certes, la difficulté vient avec la facilité. — Sourate al-Inshirah 94:5-6",
-  "Dis: « Ô Mes serviteurs, ne désespérez pas de la miséricorde d'Allah. » — Sourate az-Zumar 39:53",
-  "Et quiconque place sa confiance en Allah, Il lui suffit. — Sourate at-Talaq 65:3",
-  "Sois conscient d'Allah où que tu sois. » — Le Prophète ﷺ (At-Tirmidhi)",
-  "Le croyant fort est meilleur et plus aimé d'Allah que le croyant faible. » — Muslim",
-  "Quiconque persévère dans la patience, Allah lui accorde la patience. » — Bukhārī, Muslim",
-  "SubhānAllah, Al-hamdulillah, Allāhu Akbar — Dhikr",
-  "Hasbiyallāhu lā ilāha illā huwa. — Sourate at-Tawbah 9:129",
-  "Allahumma innī aʿūdhu bika min al-hammi wa al-ḥazani. — Douā'",
-  "Allahumma innī as'aluka al-āfiyah fī ad-dunyā wa al-ākhirah. — Douā'",
-];
-function randomSos() { return SOS_LIST[Math.floor(Math.random()*SOS_LIST.length)] }
 
 // ========================== BRIEFINGS ÉCRITS (30 jours) ==========================
 const BRIEFINGS = [
@@ -285,14 +218,14 @@ function renderPage() {
 }
 
 // ========================== AUTH ==========================
-function renderAuth() { var q=randomQuote(), h=randomHadith(); const q=randomQuote(), h=randomHadith()
+function renderAuth() {
   document.getElementById('app').innerHTML = `
     <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem">
       <div class="card" style="max-width:380px;width:100%;padding:2rem;text-align:center">
         <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:.25rem">▲</div>
         <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:.2rem">Protocole 30J</h1>
         <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix — Reprends le contrôle en 30 jours</p>
-        <div style="background:rgba(16,185,129,.06);border-radius:10px;padding:.75rem;margin-bottom:1.25rem;border:1px solid rgba(16,185,129,.15)"><p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">“${q.text}”${q.author?`<br><span style="font-size:.65rem;color:#4b5563;font-style:normal">— ${q.author}</span>`:''}</p><div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div><p style="font-size:.78rem;color:#93c5fd;line-height:1.5">ﷺ ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p></div><div style="background:rgba(16,185,129,.06);border-radius:10px;padding:.75rem;margin-bottom:1.25rem;border:1px solid rgba(16,185,129,.15)"><p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">"${q.text}"${q.author?'<br><span style=font-size:.65rem;color:#4b5563>\u2014 ' + '${q.author}' + '</span>':''}</p><div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div><p style="font-size:.78rem;color:#93c5fd;line-height:1.5">ﷺ ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p></div><div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
+        <div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
         <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleLogin()">Commencer</button>
         <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563">🔒 Données stockées uniquement sur cet appareil</p></div>
       </div>
@@ -310,17 +243,11 @@ function renderHome() {
   const el=document.getElementById('pc'); if(!el) return
   const s=state.scores, p=state.packActive
   let tm=0, td=0; for(let d=1;d<=30;d++){const g=state.progress[d];tm+=4;td+=g?.c?.length||0}
-  const q=randomQuote(), h=randomHadith()
   el.innerHTML = `
     <div style="text-align:center;padding:2rem 0">
       <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:1px">HUMAN MATRIX</h1>
       <p style="color:#6b7280;font-size:.85rem;margin-top:.3rem">Protocole 30 jours de restauration humaine</p>
       <div style="width:40px;height:3px;background:#10b981;margin:.75rem auto;border-radius:2px"></div>
-    </div>
-    <div style="background:rgba(16,185,129,.04);border-radius:10px;padding:.65rem .85rem;margin-bottom:1rem;border:1px solid rgba(16,185,129,.12)">
-      <p style="font-size:.78rem;color:#34d399;line-height:1.5;font-style:italic">“${q.text}”${q.author?`<br><span style="font-size:.65rem;color:#4b5563;font-style:normal">— ${q.author}</span>`:''}</p>
-      <div style="height:1px;background:rgba(16,185,129,.1);margin:.5rem 0"></div>
-      <p style="font-size:.75rem;color:#93c5fd;line-height:1.4">ﷺ ${h.text}</p>
     </div>
     ${p ? `<div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem"><span class="badge" style="background:rgba(16,185,129,.15);color:#34d399">Jour ${state.currentDay}/30</span><span class="badge" style="background:rgba(59,130,246,.15);color:#93c5fd">${td}/${tm} missions</span></div>` : ''}
     ${s ? `
@@ -329,7 +256,7 @@ function renderHome() {
         ${pCard('Nafs','🔥','#f59e0b',s.Nafs)}${pCard('Qalb','💚','#10b981',s.Qalb)}
       </div>
       ${!p ? `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">Démarrer le protocole 30 jours</button>` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">Continuer — Jour ${state.currentDay}/30</button>`}
-    ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('diag')">Faire le test diagnostic d'abord</button>`}
+    ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('diag')">Faire le test diagnostic</button>`}
     <div style="display:flex;gap:.5rem;justify-content:center;margin-top:1rem">
       <button class="btn btn-outline btn-sm" onclick="nav('manifest')">📖 Découvrir les 4 piliers</button>
       ${p ? `<button class="btn btn-outline btn-sm" onclick="nav('report')">📊 Mon rapport</button>` : ''}
@@ -384,8 +311,6 @@ function renderManifest() {
 // ========================== PROTOCOL ==========================
 function renderProto() {
   const el=document.getElementById('pc'); if(!el) return
-  if(!state.scores){ el.innerHTML='<div style="text-align:center;padding:3rem 1rem"><div style="font-size:3rem;margin-bottom:.5rem">📋</div><h2 style="font-size:1.2rem;font-weight:700;margin-bottom:.5rem">Test requis</h2><p style="color:#6b7280;font-size:.85rem;line-height:1.6;margin-bottom:1.5rem">Tu dois d'abord faire le test diagnostic.</p><button class="btn btn-primary" onclick="nav(\'diag\')">Faire le test</button></div>'; return }
-  if(!state.scores){ el.innerHTML='<div style="text-align:center;padding:3rem 1rem"><div style="font-size:3rem;margin-bottom:.5rem">📋</div><h2 style="font-size:1.2rem;font-weight:700;margin-bottom:.5rem">Test requis</h2><p style="color:#6b7280;font-size:.85rem;line-height:1.6;margin-bottom:1.5rem">Tu dois d'abord faire le test diagnostic.</p><button class="btn btn-primary" onclick="nav('diag')">Faire le test</button></div>'; return }
   if(!state.packActive){
     el.innerHTML=`<div style="text-align:center;padding:2rem 0"><h2 style="font-size:1.3rem;font-weight:700">Protocole 30 Jours</h2><p style="color:#6b7280;font-size:.85rem;margin:.5rem 0 1.5rem">Un mois pour transformer tes 4 piliers. Briefings quotidiens, missions ciblées, suivi pas à pas.</p>
       <div class="card" style="text-align:center;border:1px solid #10b98140"><ul style="list-style:none;font-size:.85rem;line-height:2;margin-bottom:1.25rem"><li>✅ 30 briefings écrits</li><li>✅ 120 missions ciblées</li><li>✅ 4 semaines progressives</li><li>✅ Bilan final</li></ul>
@@ -437,7 +362,7 @@ function compMission(d,t){
   state.currentDay=Math.max(state.currentDay,d);save();toast('✅ Mission accomplie ! 🎯');renderProto()
 }
 function markBrief(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].b=true;save();toast('✅ Briefing lu');renderProto()}
-function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('\U0001f932 '+randomSos());renderProto()}
+function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('SOS - Rappel');renderProto()}
 
 // ========================== REPORT ==========================
 function renderReport() {
@@ -460,5 +385,6 @@ function renderReport() {
 
 // ========================== INIT ==========================
 state.scores=S('scores',null)
-try{render()}catch(e){document.getElementById('app').innerHTML='<div style=padding:2rem;color:#ef4444;font-size:.9rem>Erreur: '+e.message+'</div>'}</script>
+render()
+</script>
 </body></html>
