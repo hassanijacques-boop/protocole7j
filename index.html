@@ -424,7 +424,10 @@ function renderReport() {
 }
 
 // ========================== INIT ==========================
+// Test: if this runs, Chargement disappears
+document.getElementById('app').innerHTML = '<div style="text-align:center;padding:3rem;color:#10b981"><h2 style="font-size:1.5rem">JS OK</h2><p style="color:#6b7280;font-size:.9rem;margin-top:.5rem">Le JavaScript s\'execute correctement.</p><p style="color:#f59e0b;font-size:.85rem;margin-top:1.5rem">Version avec SOS: '+randomSos()+'</p></div>'
 state.scores=S('scores',null)
-try { render() } catch(e) { document.getElementById('app').innerHTML = '<div style="padding:2rem;color:#ef4444;font-size:.9rem">Erreur: '+e.message+'</div>' }
+// try { render() } catch(e) { document.getElementById('app').innerHTML = '<div style="padding:2rem;color:#ef4444;font-size:.9rem">Erreur: '+e.message+'</div>' }
+
 </script>
 </body></html>
