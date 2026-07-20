@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Protocole 7J — Human Matrix</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            green: { 400:'#34d399',500:'#10b981',600:'#059669' },
+            navy: { 700:'#0f3d7a',800:'#0a2a54',900:'#061833' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a0a; color: #f3f4f6; min-height: 100vh; overflow-x: hidden; }
+    .hidden { display: none !important; }
+    .card { background: #141414; border-radius: 14px; padding: 1.25rem; border: 1px solid #1f2937; }
+    .btn { padding: .6rem 1.25rem; border-radius: 10px; font-weight: 600; font-size: .875rem; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: .5rem; transition: .15s; }
+    .btn-primary { background: #10b981; color: black; }
+    .btn-primary:hover { opacity: .9; }
+    .btn-outline { background: transparent; border: 1.5px solid #333; color: #f3f4f6; }
+    .btn-outline:hover { border-color: #10b981; color: #10b981; }
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-sm { padding: .4rem .85rem; font-size: .8rem; }
+    .btn-lg { padding: .75rem 1.75rem; font-size: 1rem; }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+    input { width: 100%; padding: .65rem .85rem; border-radius: 10px; border: 1px solid #333; background: #1a1a2e; color: white; font-size: .9rem; outline: none; }
+    input:focus { border-color: #10b981; }
+    label { display: block; font-size: .8rem; color: #9ca3af; margin-bottom: .3rem; }
+    .badge { display: inline-flex; padding: .15rem .6rem; border-radius: 999px; font-size: .7rem; font-weight: 600; }
+    .badge-green { background: rgba(16,185,129,.15); color: #34d399; }
+    .badge-red { background: rgba(239,68,68,.15); color: #fca5a5; }
+    .badge-yellow { background: rgba(245,158,11,.15); color: #fbbf24; }
+    .badge-blue { background: rgba(59,130,246,.15); color: #93c5fd; }
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: .75rem 1.25rem; border-radius: 12px; background: #141414; border: 1px solid #333; color: white; z-index: 9999; animation: slideIn .3s ease; max-width: 360px; font-size: .875rem; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .spinner { width: 20px; height: 20px; border: 2.5px solid #333; border-top-color: #10b981; border-radius: 50%; animation: spin .6s linear infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .page { display: none; max-width: 600px; margin: 0 auto; padding: 1rem 1rem 5rem; }
+    .page.active { display: block; }
+    .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #141414; border-top: 1px solid #1f2937; display: flex; justify-content: space-around; padding: .4rem 0; z-index: 50; }
+    .tab-btn { background: none; border: none; color: #6b7280; font-size: .7rem; cursor: pointer; padding: .3rem .6rem; display: flex; flex-direction: column; align-items: center; gap: .1rem; }
+    .tab-btn.active { color: #10b981; }
+    .progress-bar { height: 4px; background: #1f2937; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #10b981; border-radius: 2px; transition: width .5s; }
+    .pole-card { border-radius: 14px; padding: 1.25rem; text-align: center; border: 1px solid; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .modal { background: #1a1a2e; border-radius: 16px; padding: 1.5rem; max-width: 400px; width: 90%; border: 1px solid #333; }
+    .score-btn { width: 36px; height: 36px; border-radius: 50%; border: 2px solid #333; background: transparent; color: white; cursor: pointer; font-weight: 600; }
+    .score-btn.selected { border-color: #10b981; background: rgba(16,185,129,.2); }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ========================== CONFIG ==========================
+let API_URL = localStorage.getItem('p7j_api_url') || 'https://protocole7j-api.onrender.com'
+
+// ========================== STATE ==========================
+const S = (k, d) => { try { const v = localStorage.getItem('p7j_'+k); return v ? JSON.parse(v) : d } catch { return d } }
+const SS = (k, v) => localStorage.setItem('p7j_'+k, JSON.stringify(v))
+
+let state = {
+  token: S('token', ''),
+  user: S('user', null),
+  scores: null,
+  packActive: false,
+  currentDay: 1,
+  missions: [],
+  progress: {},
+  briefingUrl: ''
+}
+
+// ========================== TOAST ==========================
+function toast(msg, type='success') {
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg
+  document.body.appendChild(t)
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(() => t.remove(),300) }, 3000)
+}
+
+// ========================== API ==========================
+async function api(path, opts={}) {
+  const headers = { 'Content-Type': 'application/json' }
+  if (state.token) headers['Authorization'] = 'Bearer '+state.token
+  const url = API_URL + '/api' + path
+  try {
+    const r = await fetch(url, { ...opts, headers })
+    const d = await r.json()
+    if (!r.ok) throw new Error(d.detail || 'Erreur serveur')
+    return d
+  } catch(e) {
+    if (e.message.includes('Failed to fetch')) throw new Error('Serveur inaccessible')
+    throw e
+  }
+}
+
+// ========================== AUTH ==========================
+async function register(email, password, name) {
+  const d = await api('/auth/register', {
+    method: 'POST', body: JSON.stringify({ email, password, name })
+  })
+  state.token = d.token; state.user = d.user
+  SS('token', d.token); SS('user', d.user)
+  toast('Compte créé ! Bienvenue '+d.user.name)
+  await loadProfile()
+  navigate('home')
+}
+
+async function login(email, password) {
+  const d = await api('/auth/login', {
+    method: 'POST', body: JSON.stringify({ email, password })
+  })
+  state.token = d.token; state.user = d.user
+  SS('token', d.token); SS('user', d.user)
+  toast('Connecté !')
+  await loadProfile()
+  navigate('home')
+}
+
+function logout() {
+  state.token = ''; state.user = null; state.scores = null
+  SS('token', ''); SS('user', null)
+  toast('Déconnecté'); render()
+}
+
+async function loadProfile() {
+  try {
+    const d = await api('/auth/me')
+    state.user = d.user
+    state.packActive = d.user?.has_pack || false
+    state.currentDay = d.user?.current_day || 1
+    // Load latest diagnostic
+    const diag = await api('/diagnostic/latest')
+    if (diag && diag.djism_score !== undefined) state.scores = diag
+    // Load progress
+    const prog = await api('/progress')
+    if (prog.progress) {
+      prog.progress.forEach(p => { state.progress[p.day] = p })
+    }
+  } catch(e) { console.warn('Profile load issue:', e.message) }
+}
+
+// ========================== ROUTING ==========================
+let currentPage = 'home'
+function navigate(page) {
+  currentPage = page
+  window.location.hash = page
+  render()
+}
+
+// ========================== RENDER ==========================
+function render() {
+  if (!state.user) { renderAuth(); return }
+  renderApp()
+}
+
+function renderAuth() {
+  document.getElementById('app').innerHTML = `
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem">
+      <div class="card" style="max-width:380px;width:100%;padding:2rem;text-align:center">
+        <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:.25rem">▲</div>
+        <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:.2rem">Protocole 7J</h1>
+        <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix — Reprends le contrôle</p>
+        <div id="auth-forms">
+          <div id="login-form">
+            <div style="margin-bottom:.75rem"><label>Email</label><input type="email" id="login-email" placeholder="email@example.com"></div>
+            <div style="margin-bottom:1rem"><label>Mot de passe</label><input type="password" id="login-pwd" placeholder="••••••••"></div>
+            <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleLogin()">Connexion</button>
+            <p style="margin-top:.75rem;font-size:.8rem;color:#6b7280">Pas de compte ? <a href="#" onclick="showRegister()" style="color:#10b981">S'inscrire</a></p>
+          </div>
+          <div id="register-form" class="hidden">
+            <div style="margin-bottom:.75rem"><label>Prénom / Nom</label><input type="text" id="reg-name" placeholder="Votre nom"></div>
+            <div style="margin-bottom:.75rem"><label>Email</label><input type="email" id="reg-email" placeholder="email@example.com"></div>
+            <div style="margin-bottom:1rem"><label>Mot de passe (min 6 car.)</label><input type="password" id="reg-pwd" placeholder="••••••••"></div>
+            <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleRegister()">S'inscrire</button>
+            <p style="margin-top:.75rem;font-size:.8rem;color:#6b7280">Déjà un compte ? <a href="#" onclick="showLogin()" style="color:#10b981">Se connecter</a></p>
+          </div>
+        </div>
+      </div>
+    </div>`
+}
+
+function showRegister() {
+  document.getElementById('login-form').classList.add('hidden')
+  document.getElementById('register-form').classList.remove('hidden')
+}
+function showLogin() {
+  document.getElementById('register-form').classList.add('hidden')
+  document.getElementById('login-form').classList.remove('hidden')
+}
+
+async function handleLogin() {
+  const e = document.getElementById('login-email')?.value.trim()
+  const p = document.getElementById('login-pwd')?.value
+  if (!e || !p) { toast('Remplis tous les champs', 'error'); return }
+  try { await login(e, p) } catch(e) { toast(e.message, 'error') }
+}
+
+async function handleRegister() {
+  const n = document.getElementById('reg-name')?.value.trim()
+  const e = document.getElementById('reg-email')?.value.trim()
+  const p = document.getElementById('reg-pwd')?.value
+  if (!n || !e || !p || p.length < 6) { toast('Vérifie les champs (mdp: 6 car. min)', 'error'); return }
+  try { await register(e, p, n) } catch(e) { toast(e.message, 'error') }
+}
+
+// ========================== APP SHELL ==========================
+function renderApp() {
+  const icons = {
+    home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1"/></svg>',
+    test: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>',
+    missions: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+    report: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>',
+  }
+
+  const tabs = [
+    { id:'home', icon:icons.home, label:'Accueil' },
+    { id:'diagnostic', icon:icons.test, label: state.scores ? 'Mon profil' : 'Test' },
+    { id:'protocol', icon:icons.missions, label:'Protocole' },
+    { id:'report', icon:icons.report, label:'Rapport' },
+  ]
+
+  document.getElementById('app').innerHTML = `
+    <div style="max-width:600px;margin:0 auto;padding:0 0 5rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:#0a0a0a;border-bottom:1px solid #1f2937;position:sticky;top:0;z-index:10">
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span style="color:#10b981;font-weight:800;font-size:1.1rem">▲</span>
+          <span style="font-weight:600;font-size:.9rem">Protocole 7J</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:.75rem;color:#6b7280">${state.user?.name || ''}</span>
+          <button class="btn btn-outline btn-sm" onclick="logout()" style="padding:.2rem .5rem;font-size:.7rem">✕</button>
+        </div>
+      </div>
+      <div id="page-content" class="page active" style="padding:1rem"></div>
+      <div class="tab-bar">
+        ${tabs.map(t => `<button class="tab-btn ${currentPage === t.id ? 'active' : ''}" onclick="navigate('${t.id}')">${t.icon}<span>${t.label}</span></button>`).join('')}
+      </div>
+    </div>`
+  
+  navigate(currentPage)
+}
+
+// ========================== PAGES ==========================
+const P = { home: renderHome, diagnostic: renderDiagnostic, protocol: renderProtocol, report: renderReport }
+
+window.addEventListener('hashchange', () => {
+  const p = location.hash.slice(1) || 'home'
+  currentPage = p
+  if (P[p]) P[p]()
+})
+
+function showPage(name) {
+  currentPage = name
+  if (P[name]) P[name]()
+  // Update tab active
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick')?.includes("'"+name+"'")))
+}
+
+// ========================== HOME ==========================
+function renderHome() {
+  const el = document.getElementById('page-content')
+  if (!el) return
+  const hasDiag = !!state.scores
+  const hasPack = state.packActive
+  el.innerHTML = `
+    <div style="text-align:center;padding:2rem 0">
+      <h1 style="font-size:1.6rem;font-weight:700;letter-spacing:1px">MENTAL NATION</h1>
+      <p style="color:#6b7280;font-size:.85rem;margin-top:.3rem">Protocole 7 jours de restauration humaine</p>
+      <div style="width:40px;height:3px;background:#10b981;margin:.75rem auto;border-radius:2px"></div>
+    </div>
+    ${hasDiag ? `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem">
+        ${['Djism','💪','#ef4444',state.scores.djism_score,'Aql','🧠','#3b82f6',state.scores.aql_score,'Nafs','🔥','#f59e0b',state.scores.nafs_score,'Qalb','💚','#10b981',state.scores.qalb_score].reduce((acc,_,i,a) => i%4===0 ? acc+poleCard(a[i],a[i+1],a[i+2],a[i+3]||0) : acc, '')}
+      </div>
+      ${!hasPack ? `<button class="btn btn-primary btn-lg" style="width:100%" onclick="showPage('protocol')">Démarrer le protocole</button>` 
+        : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="showPage('protocol')">Jour ${state.currentDay}/7</button>`}
+    ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="showPage('diagnostic')">Faire le test diagnostic</button>`}
+    <p style="text-align:center;font-size:.75rem;color:#4b5563;margin-top:1rem">4 piliers : Corps · Esprit · Âme · Cœur</p>`
+}
+
+function poleCard(name, icon, color, score) {
+  const unstable = score < 50
+  return `<div class="pole-card" style="border-color:${color}20;background:${color}08">
+    <div style="font-size:1.5rem">${icon}</div>
+    <div style="font-size:.8rem;font-weight:600;margin:.2rem 0;color:${color}">${name}</div>
+    <div style="font-size:1.5rem;font-weight:700;color:${color}">${Math.round(score)}%</div>
+    <div style="font-size:.65rem;color:#6b7280">${unstable ? '⚠ Instable' : '✅ Stable'}</div>
+  </div>`
+}
+
+// ========================== DIAGNOSTIC ==========================
+let diagAnswers = {}
+function renderDiagnostic() {
+  const el = document.getElementById('page-content')
+  if (!el) return
+  if (state.scores) {
+    el.innerHTML = `
+      <h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">Ton profil</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+        ${['Djism','💪','#ef4444',state.scores.djism_score,'Aql','🧠','#3b82f6',state.scores.aql_score,'Nafs','🔥','#f59e0b',state.scores.nafs_score,'Qalb','💚','#10b981',state.scores.qalb_score].reduce((acc,_,i,a) => i%4===0 ? acc+poleCard(a[i],a[i+1],a[i+2],a[i+3]||0) : acc, '')}
+      </div>
+      <button class="btn btn-outline btn-sm" style="margin:1rem auto;display:block" onclick="retakeDiagnostic()">Refaire le test</button>`
+    return
+  }
+  // Questions
+  diagAnswers = {}
+  const QUESTIONS = [
+    {id:1,pole:'Djism',q:'Je me réveille avec une énergie suffisante.'},
+    {id:2,pole:'Djism',q:'Mon sommeil est réparateur.'},
+    {id:3,pole:'Djism',q:'Je maintiens un effort physique sans m\'épuiser.'},
+    {id:4,pole:'Djism',q:'Je prends soin de mon corps.'},
+    {id:5,pole:'Aql',q:'Je me concentre longtemps sans distraction.'},
+    {id:6,pole:'Aql',q:'Je prends des décisions rapidement.'},
+    {id:7,pole:'Aql',q:'Je contrôle mes pensées et évite les ruminations.'},
+    {id:8,pole:'Aql',q:'J\'apprends facilement de nouvelles choses.'},
+    {id:9,pole:'Nafs',q:'Je résiste aux tentations.'},
+    {id:10,pole:'Nafs',q:'Je reconnais mes erreurs.'},
+    {id:11,pole:'Nafs',q:'Je peux attendre pour une récompense.'},
+    {id:12,pole:'Nafs',q:'Je maîtrise ma colère.'},
+    {id:13,pole:'Qalb',q:'Je ressens une paix intérieure.'},
+    {id:14,pole:'Qalb',q:'Je me sens connecté à plus grand que moi.'},
+    {id:15,pole:'Qalb',q:'Je connais ma direction de vie.'}
+  ]
+  let html = `<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">Diagnostic</h2>
+    <p style="text-align:center;font-size:.85rem;color:#6b7280;margin-bottom:1rem">Note chaque question de 1 à 10</p>
+    <div style="font-size:.8rem;color:#6b7280;text-align:center;margin-bottom:1rem" id="diag-progress">0/15</div>`
+  QUESTIONS.forEach((q,i) => {
+    html += `<div class="card" style="margin-bottom:.6rem;${i===0?'':'display:none'}" data-q="${i}">
+      <p style="font-weight:500;margin-bottom:.75rem">${q.q}</p>
+      <div style="display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap">
+        ${Array.from({length:10},(_,s) => `<button class="score-btn" data-score="${s+1}" onclick="selectDiag(${i},${s+1})" style="${diagAnswers[i]===s+1?'border-color:#10b981;background:rgba(16,185,129,.2)':''}">${s+1}</button>`).join('')}
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.7rem;color:#4b5563;margin-top:.35rem"><span>Pas du tout</span><span>Totalement</span></div>
+      <div style="display:flex;justify-content:space-between;margin-top:.75rem">
+        ${i>0 ? `<button class="btn btn-outline btn-sm" onclick="prevDiag(${i})">←</button>` : '<span></span>'}
+        ${i<14 ? `<button class="btn btn-primary btn-sm" id="next-${i}" disabled onclick="nextDiag(${i})">→</button>`
+          : `<button class="btn btn-primary btn-sm" id="submit-diag" disabled onclick="submitDiag()">Résultats</button>`}
+      </div>
+    </div>`
+  })
+  el.innerHTML = html
+}
+
+function selectDiag(i, score) {
+  diagAnswers[i] = score
+  document.getElementById('next-'+i) && (document.getElementById('next-'+i).disabled = false)
+  document.getElementById('submit-diag') && (document.getElementById('submit-diag').disabled = Object.keys(diagAnswers).length < 15)
+  document.getElementById('diag-progress').textContent = Object.keys(diagAnswers).length+'/15'
+  // Show selected
+  const btns = document.querySelectorAll(`[data-q="${i}"] .score-btn`)
+  btns.forEach(b => b.style.cssText = parseInt(b.dataset.score) === score ? 'border-color:#10b981;background:rgba(16,185,129,.2)' : '')
+}
+
+function nextDiag(i) {
+  document.querySelector(`[data-q="${i}"]`).style.display = 'none'
+  document.querySelector(`[data-q="${i+1}"]`).style.display = 'block'
+}
+function prevDiag(i) {
+  document.querySelector(`[data-q="${i}"]`).style.display = 'none'
+  document.querySelector(`[data-q="${i-1}"]`).style.display = 'block'
+}
+
+async function submitDiag() {
+  const QUESTIONS = [
+    {id:1,pole:'Djism'}, {id:2,pole:'Djism'}, {id:3,pole:'Djism'}, {id:4,pole:'Djism'},
+    {id:5,pole:'Aql'}, {id:6,pole:'Aql'}, {id:7,pole:'Aql'}, {id:8,pole:'Aql'},
+    {id:9,pole:'Nafs'}, {id:10,pole:'Nafs'}, {id:11,pole:'Nafs'}, {id:12,pole:'Nafs'},
+    {id:13,pole:'Qalb'}, {id:14,pole:'Qalb'}, {id:15,pole:'Qalb'}
+  ]
+  const answers = QUESTIONS.map((q,i) => ({ question_id: q.id, score: diagAnswers[i] || 5 }))
+  
+  try {
+    const result = await api('/diagnostic/submit', {
+      method: 'POST', body: JSON.stringify({ answers })
+    })
+    state.scores = result
+    toast('✅ Diagnostic terminé !')
+    await loadProfile()
+    showPage('home')
+  } catch(e) { toast(e.message, 'error') }
+}
+
+function retakeDiagnostic() {
+  state.scores = null
+  showPage('diagnostic')
+}
+
+// ========================== PROTOCOL ==========================
+async function renderProtocol() {
+  const el = document.getElementById('page-content')
+  if (!el) return
+  
+  if (!state.packActive) {
+    el.innerHTML = `
+      <div style="text-align:center;padding:2rem 0">
+        <h2 style="font-size:1.3rem;font-weight:700">Pack 7 Jours</h2>
+        <p style="color:#6b7280;font-size:.85rem;margin:.5rem 0 1.5rem">Débloque le protocole complet pour transformer tes 4 piliers.</p>
+        <div class="card" style="text-align:center;border:1px solid #10b98140">
+          <ul style="list-style:none;font-size:.85rem;line-height:2;margin-bottom:1.25rem">
+            <li>✅ 7 briefings audio</li>
+            <li>✅ 28 missions ciblées</li>
+            <li>✅ Suivi de progression</li>
+            <li>✅ Rapport final</li>
+            <li>✅ Bouton SOS</li>
+          </ul>
+          <button class="btn btn-primary btn-lg" onclick="activatePack()">Activer le protocole</button>
+          <p style="font-size:.75rem;color:#4b5563;margin-top:.75rem">Activation gratuite — Soutiens le projet si tu le souhaites 🤲</p>
+        </div>
+      </div>`
+    return
+  }
+  
+  try {
+    const d = await api('/missions/'+state.currentDay)
+    const missions = d.missions || []
+    const progress = d.progress || {}
+    const briefingUrl = d.briefing_url || ''
+    const completed = progress.missions_completed || []
+    const briefingDone = progress.briefing_done || false
+    const sosCount = progress.sos_count || 0
+    const total = missions.length
+    const done = completed.length
+    const pct = total > 0 ? Math.round(done/total*100) : 0
+    
+    el.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0">
+        <h2 style="font-size:1.1rem;font-weight:700">Jour ${state.currentDay}/7</h2>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:.75rem;color:#6b7280">${done}/${total}</span>
+          <div class="progress-bar" style="width:60px"><div class="progress-fill" style="width:${pct}%"></div></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:.35rem;margin-bottom:1rem;overflow-x:auto;padding:.25rem 0">
+        ${Array.from({length:7},(_,i) => {
+          const day = i+1
+          const allDone = state.progress[day]?.missions_completed?.length >= 4
+          return `<button class="btn btn-sm ${day === state.currentDay ? 'btn-primary' : allDone ? 'btn-primary' : 'btn-outline'}" 
+            onclick="goToDay(${day})" style="min-width:36px;padding:.35rem">${day}</button>`
+        }).join('')}
+      </div>
+      ${briefingUrl ? `
+      <div class="card" style="margin-bottom:.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:600;font-size:.9rem">🎧 Briefing Jour ${state.currentDay}</span>
+          ${!briefingDone ? `<button class="btn btn-primary btn-sm" onclick="markBriefing(${state.currentDay})">✅ Écouté</button>`
+            : `<span style="color:#10b981;font-size:.8rem">✅ Briefing complété</span>`}
+        </div>
+        <audio controls preload="none" style="width:100%;margin-top:.5rem;border-radius:8px">
+          <source src="${briefingUrl}" type="audio/mpeg">
+        </audio>
+      </div>` : ''}
+      <h3 style="font-size:.95rem;font-weight:600;margin-bottom:.5rem">Missions du jour</h3>
+      ${missions.map(m => {
+        const isDone = completed.includes(m.title)
+        return `<div class="card" style="margin-bottom:.5rem;${isDone?'opacity:.5':''}">
+          <div style="display:flex;justify-content:space-between;align-items:start;gap:.5rem">
+            <div>
+              <span class="badge ${m.pole==='Djism'?'badge-red':m.pole==='Aql'?'badge-blue':m.pole==='Nafs'?'badge-yellow':'badge-green'}" style="font-size:.65rem">${m.pole}</span>
+              <div style="font-weight:600;font-size:.9rem;margin-top:.2rem">${m.title}</div>
+              <div style="font-size:.8rem;color:#6b7280">${m.desc}</div>
+            </div>
+            <button class="btn btn-sm ${isDone?'btn-outline':'btn-primary'}" style="white-space:nowrap" ${isDone?'disabled':''} onclick="completeMission(${state.currentDay},'${m.title}')">
+              ${isDone ? '✅' : '✓'}
+            </button>
+          </div>
+        </div>`
+      }).join('')}
+      <div style="text-align:center;margin-top:1rem;padding:.5rem">
+        <p style="font-size:.75rem;color:#6b7280;margin-bottom:.35rem">SOS — Appel à la force</p>
+        <button class="btn btn-danger btn-sm" onclick="triggerSos(${state.currentDay})" style="border-radius:50%;width:48px;height:48px;font-size:1.2rem;padding:0">${sosCount > 0 ? sosCount : 'SOS'}</button>
+        <p style="font-size:.7rem;color:#4b5563;margin-top:.35rem">Utilisé ${sosCount} fois aujourd'hui</p>
+      </div>`
+  } catch(e) { toast(e.message, 'error') }
+}
+
+async function goToDay(day) {
+  state.currentDay = day
+  try {
+    await api('/progress') // sync
+    showPage('protocol')
+  } catch(e) { showPage('protocol') }
+}
+
+async function activatePack() {
+  try {
+    await api('/pack/activate', { method: 'POST' })
+    state.packActive = true
+    state.currentDay = 1
+    toast('✅ Protocole activé !')
+    showPage('protocol')
+  } catch(e) { toast(e.message, 'error') }
+}
+
+async function completeMission(day, title) {
+  try {
+    await api('/missions/complete', {
+      method: 'POST', body: JSON.stringify({ day, mission_title: title })
+    })
+    if (!state.progress[day]) state.progress[day] = { missions_completed: [] }
+    if (!state.progress[day].missions_completed) state.progress[day].missions_completed = []
+    if (!state.progress[day].missions_completed.includes(title)) {
+      state.progress[day].missions_completed.push(title)
+    }
+    toast('✅ Mission accomplie ! 🎯')
+    showPage('protocol')
+  } catch(e) { toast(e.message, 'error') }
+}
+
+async function markBriefing(day) {
+  try {
+    await api('/missions/briefing', { method: 'POST', body: JSON.stringify({ day }) })
+    toast('✅ Briefing écouté !')
+    showPage('protocol')
+  } catch(e) { toast(e.message, 'error') }
+}
+
+async function triggerSos(day) {
+  try {
+    await api('/missions/sos', { method: 'POST', body: JSON.stringify({ day }) })
+    toast('🤲 Qu\'Allah te renforce. Tu es plus fort que tu ne le penses.')
+    showPage('protocol')
+  } catch(e) { toast(e.message, 'error') }
+}
+
+// ========================== REPORT ==========================
+async function renderReport() {
+  const el = document.getElementById('page-content')
+  if (!el) return
+  if (!state.scores || !state.packActive) {
+    el.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem">Fais d\'abord le diagnostic et active le protocole.</p>'
+    return
+  }
+  let totalMissions = 0, totalDone = 0, totalSos = 0
+  for (let d = 1; d <= 7; d++) {
+    const p = state.progress[d]
+    totalMissions += 4
+    totalDone += p?.missions_completed?.length || 0
+    totalSos += p?.sos_count || 0
+  }
+  const rate = totalMissions > 0 ? Math.round(totalDone/totalMissions*100) : 0
+  
+  el.innerHTML = `
+    <h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">Rapport</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
+      <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#10b981">${totalDone}</div><div style="font-size:.75rem;color:#6b7280">Missions faites</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#fbbf24">${rate}%</div><div style="font-size:.75rem;color:#6b7280">Complétion</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#fca5a5">${totalSos}</div><div style="font-size:.75rem;color:#6b7280">SOS utilisés</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#93c5fd">${totalMissions}</div><div style="font-size:.75rem;color:#6b7280">Total missions</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+      ${['Djism','💪','#ef4444',state.scores.djism_score,'Aql','🧠','#3b82f6',state.scores.aql_score,'Nafs','🔥','#f59e0b',state.scores.nafs_score,'Qalb','💚','#10b981',state.scores.qalb_score].reduce((acc,_,i,a) => i%4===0 ? acc+poleCard(a[i],a[i+1],a[i+2],a[i+3]||0) : acc, '')}
+    </div>
+    <p style="text-align:center;font-size:.85rem;color:#6b7280;margin:1.5rem 0;line-height:1.6">
+      "${state.user?.name}, ce protocole est un premier pas.<br>La véritable transformation est entre tes mains.<br>Qu'Allah bénisse ton chemin. 🤲"
+    </p>`
+}
+
+// ========================== INIT ==========================
+async function init() {
+  if (state.token && state.user) {
+    await loadProfile()
+  }
+  render()
+  window.addEventListener('hashchange', () => {
+    const p = location.hash.slice(1) || 'home'
+    showPage(p)
+  })
+}
+
+init()
+</script>
+</body>
+</html>
