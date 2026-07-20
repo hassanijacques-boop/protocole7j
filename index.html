@@ -648,6 +648,9 @@ function renderReport() {
 
 // ========================== INIT ==========================
 state.scores=S('scores',null)
-render()
+try { render() } catch(e) { 
+  document.getElementById('app').innerHTML = '<div style="padding:2rem;color:#ef4444;font-size:.9rem">Erreur: '+e.message+'<br><br><span style="font-size:.8rem;color:#6b7280">Rafraichis la page ou vide le cache.</span></div>'
+  console.error(e)
+}
 </script>
 </body></html>
