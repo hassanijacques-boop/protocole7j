@@ -86,6 +86,19 @@ const SOS_LIST = [
 ];
 function randomSos() { return SOS_LIST[Math.floor(Math.random()*SOS_LIST.length)] }
 
+// Icônes SVG modernes pour les 4 piliers
+function pillarIcon(name, color) {
+  const s = `stroke="${color}" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"`
+  const svg = (view, d) => `<svg viewBox="${view}" ${s} style="width:1.2em;height:1.2em;vertical-align:middle">${d}</svg>`
+  const icons = {
+    Djism: svg("0 0 24 24", '<circle cx="12" cy="7" r="3.5"/><path d="M4 22c0-4.5 3.6-8 8-8s8 3.5 8 8"/>'),
+    Aql: svg("0 0 24 24", '<path d="M12 3C7 3 3 7 3 12c0 3 1.5 5.5 4 7h10c2.5-1.5 4-4 4-7 0-5-4-9-9-9z"/><circle cx="12" cy="12" r="2.5"/>'),
+    Nafs: svg("0 0 24 24", '<path d="M12 22c-2.5-2-6-5.5-6-10 0-3.3 2.7-6 6-6s6 2.7 6 6c0 4.5-3.5 8-6 10z"/><circle cx="12" cy="9" r="2"/>'),
+    Qalb: svg("0 0 24 24", '<path d="M12 21c-1-1-9-5.5-9-11C3 7 5.5 4.5 8.5 4.5c1.5 0 3 .7 4 1.5 1-.8 2.5-1.5 4-1.5C19.5 4.5 22 7 22 10c0 5.5-8 10-9 11z"/>'),
+  }
+  return icons[name] || icons.Djism
+}
+
 // ========================== BRIEFINGS ÉCRITS (30 jours) ==========================
 const BRIEFINGS = [
   "", // jour 0 (inexistant)
@@ -183,13 +196,13 @@ MISSIONS[30] = [
 
 // ========================== MANIFESTE ==========================
 const MANIFEST = [
-  { id:'Djism', icon:'💪', name:'Djism', arabic:'جسم', sub:'Le Corps', color:'#ef4444',
+  { id:'Djism', icon:'body', name:'Djism', arabic:'جسم', sub:'Le Corps', color:'#ef4444',
     desc:"Le corps est le véhicule de l'âme. Sans lui, rien n'est possible.\n\nPrendre soin de son corps, c'est respecter le dépôt qu'Allah nous a confié. La nourriture, le sommeil, l'effort physique sont des actes d'adoration quand ils sont faits avec intention.\n\nUn corps fatigué affaiblit l'esprit. Un corps nourri sainement renforce la foi. Le Prophète ﷺ disait : 'Ton corps a un droit sur toi.'\n\nPilier instable ? Commence par des bases : dors 7h, bois de l'eau, bouge 15 min par jour." },
-  { id:'Aql', icon:'🧠', name:'Aql', arabic:'عقل', sub:'L\'Esprit', color:'#3b82f6',
+  { id:'Aql', icon:'mind', name:'Aql', arabic:'عقل', sub:'L\'Esprit', color:'#3b82f6',
     desc:"L'esprit est le pont entre le monde visible et l'invisible.\n\nLe contrôle de l'esprit est la clé de toute maîtrise de soi. Les pensées sont des graines : certaines donnent des fruits, d'autres des épines. Apprends à choisir où tu plantes ton attention.\n\nLa concentration, la clarté mentale et la prise de décision sont des muscles qui se renforcent avec l'entraînement. Lire, apprendre, réfléchir sont des actes spirituels.\n\nPilier instable ? Réduis les distractions, pratique la lecture quotidienne, prends 5 min de silence chaque jour." },
-  { id:'Nafs', icon:'🔥', name:'Nafs', arabic:'نفس', sub:'L\'Âme / L\'Égo', color:'#f59e0b',
+  { id:'Nafs', icon:'soul', name:'Nafs', arabic:'نفس', sub:'L\'Âme / L\'Égo', color:'#f59e0b',
     desc:"Le Nafs est à la fois ton plus grand adversaire et ton meilleur allié.\n\nC'est cette voix intérieure qui te pousse vers la facilité, l'immédiateté, l'ego. Mais c'est aussi cette énergie puissante qui, une fois domptée, te propulse vers les sommets.\n\nLa patience, la résistance aux tentations, la capacité à dire non à soi-même — voilà les clés de la libération. Chaque fois que tu résistes à un désir futile, tu renforces ton Nafs.\n\nPilier instable ? Identifie ta tentation principale, fixe-toi un petit défi quotidien, tiens un journal de bord." },
-  { id:'Qalb', icon:'💚', name:'Qalb', arabic:'قلب', sub:'Le Cœur', color:'#10b981',
+  { id:'Qalb', icon:'heart', name:'Qalb', arabic:'قلب', sub:'Le Cœur', color:'#10b981',
     desc:"Le cœur est le centre spirituel de l'être humain.\n\nDans la tradition islamique, le Qalb est le siège de la foi, de la sincérité et de la connexion avec Allah ﷻ. C'est par lui que tu ressens la paix, l'amour, la gratitude.\n\nUn cœur pur est comme un miroir : il reflète la lumière sans la déformer. La rancune, la jalousie, l'ingratitude le ternissent. Le pardon, la générosité, la gratitude le polissent.\n\nPilier instable ? Pratique la gratitude quotidienne, pardonne, donne sans attendre en retour." },
 ];
 
@@ -302,8 +315,8 @@ function renderHome() {
     ${p ? `<div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem"><span class="badge" style="background:rgba(16,185,129,.15);color:#34d399">Jour ${state.currentDay}/30</span><span class="badge" style="background:rgba(59,130,246,.15);color:#93c5fd">${td}/${tm} missions</span></div>` : ''}
     ${s ? `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
-        ${pCard('Djism','💪','#ef4444',s.Djism)}${pCard('Aql','🧠','#3b82f6',s.Aql)}
-        ${pCard('Nafs','🔥','#f59e0b',s.Nafs)}${pCard('Qalb','💚','#10b981',s.Qalb)}
+        ${pCard('Djism',pillarIcon('Djism','#ef4444'),'#ef4444',s.Djism)}${pCard('Aql',pillarIcon('Aql','#3b82f6'),'#3b82f6',s.Aql)}
+        ${pCard('Nafs',pillarIcon('Nafs','#f59e0b'),'#f59e0b',s.Nafs)}${pCard('Qalb',pillarIcon('Qalb','#10b981'),'#10b981',s.Qalb)}
       </div>
       ${!p ? `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">Démarrer le protocole 30 jours</button>` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">Continuer — Jour ${state.currentDay}/30</button>`}
     ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('diag')">Faire le test diagnostic d'abord</button>`}
@@ -312,13 +325,13 @@ function renderHome() {
       ${p ? `<button class="btn btn-outline btn-sm" onclick="nav('report')">📊 Mon rapport</button>` : ''}
     </div>`
 }
-function pCard(n,i,c,s) { const u=s<50; return `<div class="pole-card" onclick="nav('manifest')" style="border-color:${c}20;background:${c}08"><div style="font-size:1.5rem">${i}</div><div style="font-size:.8rem;font-weight:600;margin:.2rem 0;color:${c}">${n}</div><div style="font-size:1.5rem;font-weight:700;color:${c}">${Math.round(s)}%</div><div style="font-size:.65rem;color:#6b7280">${u?'⚠ Instable':'✅ Stable'}</div></div>` }
+function pCard(n,i,c,s) { const u=s<50; return `<div class="pole-card" onclick="nav('manifest')" style="border-color:${c}20;background:${c}08"><div style="font-size:1.8rem;line-height:1">${i}</div><div style="font-size:.8rem;font-weight:600;margin:.2rem 0;color:${c}">${n}</div><div style="font-size:1.5rem;font-weight:700;color:${c}">${Math.round(s)}%</div><div style="font-size:.65rem;color:#6b7280">${u?'⚠ Instable':'✅ Stable'}</div></div>` }
 
 // ========================== DIAGNOSTIC ==========================
 function renderDiag() {
   const el=document.getElementById('pc'); if(!el) return
   if(state.scores){
-    el.innerHTML=`<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">Ton profil</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">${pCard('Djism','💪','#ef4444',state.scores.Djism)}${pCard('Aql','🧠','#3b82f6',state.scores.Aql)}${pCard('Nafs','🔥','#f59e0b',state.scores.Nafs)}${pCard('Qalb','💚','#10b981',state.scores.Qalb)}</div>
+    el.innerHTML=`<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">Ton profil</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">${pCard('Djism',pillarIcon('Djism','#ef4444'),'#ef4444',state.scores.Djism)}${pCard('Aql',pillarIcon('Aql','#3b82f6'),'#3b82f6',state.scores.Aql)}${pCard('Nafs',pillarIcon('Nafs','#f59e0b'),'#f59e0b',state.scores.Nafs)}${pCard('Qalb',pillarIcon('Qalb','#10b981'),'#10b981',state.scores.Qalb)}</div>
     <p style="text-align:center;font-size:.8rem;color:#6b7280;margin:.75rem 0">Clique sur un pilier pour lire sa description.</p>
     <button class="btn btn-outline btn-sm" style="margin:0 auto;display:block" onclick="retakeDiag()">Refaire le test</button>`; return
   }
@@ -349,7 +362,7 @@ function renderManifest() {
     ${MANIFEST.map(p => `
       <div class="manifest-pillar" style="border-color:${p.color}30;background:${p.color}08">
         <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem">
-          <div class="pillar-icon">${p.icon}</div>
+          <div class="pillar-icon">${pillarIcon(p.id, p.color)}</div>
           <div><div class="pillar-name" style="color:${p.color}">${p.name}</div><div class="pillar-arabic">${p.arabic} — ${p.sub}</div></div>
         </div>
         <div class="pillar-desc">${p.desc.replace(/\n/g,'<br>')}</div>
@@ -422,7 +435,7 @@ function compMission(d,t){
   if(!state.progress[d])state.progress[d]={c:[]}
   if(!state.progress[d].c.includes(t))state.progress[d].c.push(t)
   state.currentDay=Math.max(state.currentDay,d);save()
-  if(state.progress[d].c.length>=4) toast('🌟 Jour '+d+' completé ! Magnifique travail ! 💪');
+  if(state.progress[d].c.length>=4) toast('🌟 Jour '+d+' completé ! Magnifique travail ! ★');
   else toast('✅ Mission accomplie ! 🎯');
   renderProto()
 }
@@ -448,7 +461,7 @@ function renderReport() {
       <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#fca5a5">${ts}</div><div style="font-size:.75rem;color:#6b7280">SOS utilisés</div></div>
       <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#93c5fd">${Math.floor(td/4)}</div><div style="font-size:.75rem;color:#6b7280">Jours complétés</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">${pCard('Djism','💪','#ef4444',state.scores.Djism)}${pCard('Aql','🧠','#3b82f6',state.scores.Aql)}${pCard('Nafs','🔥','#f59e0b',state.scores.Nafs)}${pCard('Qalb','💚','#10b981',state.scores.Qalb)}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">${pCard('Djism',pillarIcon('Djism','#ef4444'),'#ef4444',state.scores.Djism)}${pCard('Aql',pillarIcon('Aql','#3b82f6'),'#3b82f6',state.scores.Aql)}${pCard('Nafs',pillarIcon('Nafs','#f59e0b'),'#f59e0b',state.scores.Nafs)}${pCard('Qalb',pillarIcon('Qalb','#10b981'),'#10b981',state.scores.Qalb)}</div>
     <p style="text-align:center;font-size:.85rem;color:#6b7280;margin:1.5rem 0;line-height:1.6">"${state.user?.name}, 30 jours de travail sur toi-même.<br>Chaque pas comptait. Chaque effort avait du sens.<br>Qu'Allah bénisse ton chemin. 🤲"</p>
     <div style="text-align:center"><button class="btn btn-outline btn-sm" onclick="nav('home')">← Accueil</button></div>`
 }
