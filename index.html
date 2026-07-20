@@ -400,7 +400,7 @@ function goDay(d){state.currentDay=d;save();renderProto()}
 function activatePack(){
   if(!state.scores){ toast("Fais d'abord le test diagnostic !"); nav('diag'); return }
   const q=randomQuote(), h=randomHadith()
-  if(!confirm(`\u00ab ${q.text} \u00bb\n\n\uFDF2 \u2014 ${h.text}\n\nPr\u00eat(e) \u00e0 commencer ce voyage de 30 jours ?`)) return
+  if(!confirm('« '+q.text+' »\n\nﷺ — '+h.text+'\n\nPrêt(e) à commencer ce voyage de 30 jours ?')) return
   state.packActive=true;state.currentDay=1;state.progress={};save();toast('\u2705 Protocole 30J activ\u00e9 !');nav('proto')}
 function compMission(d,t){
   if(!state.progress[d])state.progress[d]={c:[]}
@@ -412,7 +412,7 @@ function compMission(d,t){
   renderProto()
 }
 function markBrief(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].b=true;save();toast('✅ Briefing lu');renderProto()}
-function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('🤲 Qu'Allah te renforce. Tu es plus fort que tu ne le penses.');renderProto()}
+function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast("🤲 Qu'Allah te renforce. Tu es plus fort que tu ne le penses.");renderProto()}
 
 // ========================== REPORT ==========================
 function renderReport() {
