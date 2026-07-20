@@ -277,11 +277,17 @@ function renderHome() {
   const el=document.getElementById('pc'); if(!el) return
   const s=state.scores, p=state.packActive
   let tm=0, td=0; for(let d=1;d<=30;d++){const g=state.progress[d];tm+=4;td+=g?.c?.length||0}
+  var q=randomQuote(), h=randomHadith()
   el.innerHTML = `
     <div style="text-align:center;padding:2rem 0">
       <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:1px">HUMAN MATRIX</h1>
       <p style="color:#6b7280;font-size:.85rem;margin-top:.3rem">Protocole 30 jours de restauration humaine</p>
       <div style="width:40px;height:3px;background:#10b981;margin:.75rem auto;border-radius:2px"></div>
+    </div>
+    <div style="background:rgba(16,185,129,.04);border-radius:10px;padding:.65rem .85rem;margin-bottom:1rem;border:1px solid rgba(16,185,129,.12)">
+      <p style="font-size:.78rem;color:#34d399;line-height:1.5;font-style:italic">"${q.text}"${q.author?'<br><span style=font-size:.65rem;color:#4b5563>\u2014 ' + '${q.author}' + '</span>':''}</p>
+      <div style="height:1px;background:rgba(16,185,129,.1);margin:.5rem 0"></div>
+      <p style="font-size:.75rem;color:#93c5fd;line-height:1.4">ﷺ ${h.text}</p>
     </div>
     ${p ? `<div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem"><span class="badge" style="background:rgba(16,185,129,.15);color:#34d399">Jour ${state.currentDay}/30</span><span class="badge" style="background:rgba(59,130,246,.15);color:#93c5fd">${td}/${tm} missions</span></div>` : ''}
     ${s ? `
@@ -345,6 +351,7 @@ function renderManifest() {
 // ========================== PROTOCOL ==========================
 function renderProto() {
   const el=document.getElementById('pc'); if(!el) return
+  if(!state.scores){ el.innerHTML='<div style="text-align:center;padding:3rem 1rem"><div style="font-size:3rem;margin-bottom:.5rem">📋</div><h2 style="font-size:1.2rem;font-weight:700;margin-bottom:.5rem">Test requis</h2><p style="color:#6b7280;font-size:.85rem;line-height:1.6;margin-bottom:1.5rem">Tu dois d'abord faire le test diagnostic.</p><button class="btn btn-primary" onclick="nav('diag')">Faire le test</button></div>'; return }
   if(!state.packActive){
     el.innerHTML=`<div style="text-align:center;padding:2rem 0"><h2 style="font-size:1.3rem;font-weight:700">Protocole 30 Jours</h2><p style="color:#6b7280;font-size:.85rem;margin:.5rem 0 1.5rem">Un mois pour transformer tes 4 piliers. Briefings quotidiens, missions ciblées, suivi pas à pas.</p>
       <div class="card" style="text-align:center;border:1px solid #10b98140"><ul style="list-style:none;font-size:.85rem;line-height:2;margin-bottom:1.25rem"><li>✅ 30 briefings écrits</li><li>✅ 120 missions ciblées</li><li>✅ 4 semaines progressives</li><li>✅ Bilan final</li></ul>
