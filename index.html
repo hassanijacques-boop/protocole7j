@@ -67,6 +67,21 @@ const HADITHS = [
 ];
 function randomHadith() { return HADITHS[Math.floor(Math.random()*HADITHS.length)] }
 
+const SOS_LIST = [
+  "Allah ne charge aucune ame au-dela de sa capacite. - Sourate al-Baqarah 2:286",
+  "Certes, la difficulte vient avec la facilite. - al-Inshirah 94:5-6",
+  "Ne desesperez pas de la misericorde d'Allah. - az-Zumar 39:53",
+  "Place ta confiance en Allah, Il te suffit. - at-Talaq 65:3",
+  "Sois conscient d'Allah ou que tu sois. - Tirmidhi",
+  "Le croyant fort est plus aime d'Allah. - Muslim",
+  "Persevere dans la patience. - Bukhari, Muslim",
+  "SubhanAllah, Al-hamdulillah, Allahu Akbar - Dhikr",
+  "Hasbiyallahu la ilaha illa huwa. - at-Tawbah 9:129",
+  "Allahumma inni a'udhu bika min al-hammi. - Doua'",
+  "Allahumma inni as'aluka al-afiyah. - Doua'",
+];
+function randomSos() { return SOS_LIST[Math.floor(Math.random()*SOS_LIST.length)] }
+
 // ========================== BRIEFINGS ÉCRITS (30 jours) ==========================
 const BRIEFINGS = [
   "", // jour 0 (inexistant)
@@ -381,7 +396,7 @@ function compMission(d,t){
   state.currentDay=Math.max(state.currentDay,d);save();toast('✅ Mission accomplie ! 🎯');renderProto()
 }
 function markBrief(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].b=true;save();toast('✅ Briefing lu');renderProto()}
-function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('SOS - Rappel');renderProto()}
+function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('🤲 '+randomSos());renderProto()}
 
 // ========================== REPORT ==========================
 function renderReport() {
