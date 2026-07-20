@@ -49,6 +49,24 @@
 const S = (k,d) => { try { return JSON.parse(localStorage.getItem('p7j_'+k))||d } catch { return d } }
 const SS = (k,v) => localStorage.setItem('p7j_'+k, JSON.stringify(v))
 
+const QUOTES = [
+  { text:"Les actes les plus aimés d'Allah sont ceux qui sont constants.", author:"Prophète ﷺ (Bukhārī, Muslim)" },
+  { text:"Quiconque persévère sur un chemin cherchant la science, Allah lui facilite le chemin vers le Paradis.", author:"Prophète ﷺ (Muslim)" },
+  { text:"La patience est la clé de la délivrance.", author:"Ibn al-Qayyim" },
+  { text:"L'effort constant est meilleur qu'un grand effort suivi d'abandon.", author:"Ibn Taymiyyah" },
+  { text:"Prenez des oeuvres que vous pouvez supporter. Allah ne se lasse pas.", author:"Prophète ﷺ (Bukhārī, Muslim)" },
+  { text:"Les épreuves sont des cadeaux d'Allah déguisés.", author:"Ibn al-Qayyim" },
+];
+function randomQuote() { return QUOTES[Math.floor(Math.random()*QUOTES.length)] }
+
+const HADITHS = [
+  { text:"Les oeuvres les plus aimées d'Allah sont celles qui sont les plus constantes.", source:"Boukhari, Muslim" },
+  { text:"Le croyant fort et endurant est meilleur et plus aimé d'Allah.", source:"Muslim" },
+  { text:"Quiconque persévère dans la patience, Allah lui accorde la patience.", source:"Bukhārī, Muslim" },
+  { text:"La meilleure des oeuvres est celle qui est constante, même petite.", source:"Boukhari, Muslim" },
+];
+function randomHadith() { return HADITHS[Math.floor(Math.random()*HADITHS.length)] }
+
 // ========================== BRIEFINGS ÉCRITS (30 jours) ==========================
 const BRIEFINGS = [
   "", // jour 0 (inexistant)
@@ -219,13 +237,14 @@ function renderPage() {
 
 // ========================== AUTH ==========================
 function renderAuth() {
+  var q=randomQuote(), h=randomHadith()
   document.getElementById('app').innerHTML = `
     <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem">
       <div class="card" style="max-width:380px;width:100%;padding:2rem;text-align:center">
         <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:.25rem">▲</div>
         <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:.2rem">Protocole 30J</h1>
         <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix — Reprends le contrôle en 30 jours</p>
-        <div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
+        <div style="background:rgba(16,185,129,.06);border-radius:10px;padding:.75rem;margin-bottom:1.25rem;border:1px solid rgba(16,185,129,.15)"><p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">"${q.text}"${q.author?'<br><span style=font-size:.65rem;color:#4b5563>\u2014 ' + '${q.author}' + '</span>':''}</p><div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div><p style="font-size:.78rem;color:#93c5fd;line-height:1.5">ﷺ ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p></div><div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
         <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleLogin()">Commencer</button>
         <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563">🔒 Données stockées uniquement sur cet appareil</p></div>
       </div>
