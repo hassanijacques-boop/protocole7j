@@ -7,9 +7,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a0a; color: #f3f4f6; min-height: 100vh; overflow-x: hidden; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #0d1117; color: #f3f4f6; background-image: radial-gradient(ellipse at 50% 0%, rgba(16,185,129,.04) 0%, transparent 60%); min-height: 100vh; overflow-x: hidden; }
     .hidden { display: none !important; }
-    .card { background: #141414; border-radius: 14px; padding: 1.25rem; border: 1px solid #1f2937; }
+    .card { background: #161b22; border-radius: 14px; padding: 1.25rem; border: 1px solid #21262d; }
     .btn { padding: .6rem 1.25rem; border-radius: 10px; font-weight: 600; font-size: .875rem; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: .5rem; transition: .15s; }
     .btn-primary { background: #10b981; color: black; }
     .btn-outline { background: transparent; border: 1.5px solid #333; color: #f3f4f6; }
@@ -26,7 +26,7 @@
     @keyframes slideIn { from { transform: translateX(100%) } to { transform: translateX(0) } }
     .page { display: none; max-width: 600px; margin: 0 auto; padding: 1rem 1rem 5rem; }
     .page.active { display: block; }
-    .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #141414; border-top: 1px solid #1f2937; display: flex; justify-content: space-around; padding: .4rem 0; z-index: 50; }
+    .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0d1117; border-top: 1px solid #21262d; display: flex; justify-content: space-around; padding: .4rem 0; z-index: 50; }
     .tab-btn { background: none; border: none; color: #6b7280; font-size: .7rem; cursor: pointer; padding: .3rem .6rem; display: flex; flex-direction: column; align-items: center; gap: .1rem; }
     .tab-btn.active { color: #10b981; }
     .progress-bar { height: 4px; background: #1f2937; border-radius: 2px; overflow: hidden; }
@@ -49,12 +49,12 @@
 <script>
 // ========================== CITATIONS & HADITHS ==========================
 const QUOTES = [
-  { text:"Le succès est la somme de petits efforts répétés jour après jour.", author:"Robert Collier" },
-  { text:"La discipline est le pont entre tes objectifs et tes accomplissements.", author:"Jim Rohn" },
-  { text:"Ce n'est pas parce que les choses sont difficiles que nous n'osons pas, c'est parce que nous n'osons pas qu'elles sont difficiles.", author:"Sénèque" },
-  { text:"Le secret du progrès, c'est de commencer. Puis de recommencer. Encore et encore.", author:"" },
-  { text:"Un petit pas chaque jour vaut mieux qu'un grand pas une fois par mois.", author:"" },
-  { text:"La patience n'est pas d'attendre, c'est la capacité de garder une bonne attitude en travaillant pour ce en quoi tu crois.", author:"" },
+  { text:"Les actes les plus aimés d'Allah sont ceux qui sont les plus constants, même s'ils sont peu nombreux.", author:"Le Prophète ﷺ (Bukhārī, Muslim)" },
+  { text:"Quiconque persévère sur un chemin cherchant la science, Allah lui facilite le chemin vers le Paradis.", author:"Le Prophète ﷺ (Muslim)" },
+  { text:"La patience est la clé de la délivrance. Celui qui persévère finit par réussir.", author:"Ibn al-Qayyim" },
+  { text:"L'effort constant, même minime, est meilleur qu'un grand effort suivi d'abandon.", author:"Ibn Taymiyyah" },
+  { text:"Prenez des œuvres ce que vous pouvez supporter, car certes Allah ne Se lasse pas jusqu'à ce que vous vous lassiez.", author:"Le Prophète ﷺ (Bukhārī, Muslim)" },
+  { text:"Les épreuves sont des cadeaux d'Allah déguisés. Celui qui patiente gagne, celui qui persévère triomphe.", author:"Ibn al-Qayyim" },
 ];
 const HADITHS = [
   { text:"Les œuvres les plus aimées d'Allah sont celles qui sont les plus constantes, même si elles sont peu nombreuses.", source:"Rapporté par Boukhari et Muslim" },
@@ -216,7 +216,7 @@ function render() {
   }
   document.getElementById('app').innerHTML = `
     <div style="max-width:600px;margin:0 auto;padding:0 0 5rem">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:#0a0a0a;border-bottom:1px solid #1f2937;position:sticky;top:0;z-index:10">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:#0a0a0a;border-bottom:1px solid #21262d;position:sticky;top:0;z-index:10">
         <div style="display:flex;align-items:center;gap:.5rem"><span style="color:#10b981;font-weight:800;font-size:1.1rem">▲</span><span style="font-weight:600;font-size:.9rem">Protocole 30J</span></div>
         <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.75rem;color:#6b7280">${state.user?.name||''}</span><button class="btn btn-outline btn-xs" onclick="logout()">✕</button></div>
       </div>
