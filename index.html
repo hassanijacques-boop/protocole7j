@@ -49,55 +49,38 @@
 const S = (k,d) => { try { return JSON.parse(localStorage.getItem('p7j_'+k))||d } catch { return d } }
 const SS = (k,v) => localStorage.setItem('p7j_'+k, JSON.stringify(v))
 
-// Citations islamiques
 const QUOTES = [
-  { text:"Les actes les plus aim\u00e9s d'Allah sont ceux qui sont les plus constants, m\u00eame s'ils sont peu nombreux.", author:"Le Proph\u00e8te \ufdfa (Bukh\u0101r\u012b, Muslim)" },
-  { text:"Quiconque pers\u00e9v\u00e8re sur un chemin cherchant la science, Allah lui facilite le chemin vers le Paradis.", author:"Le Proph\u00e8te \ufdfa (Muslim)" },
-  { text:"La patience est la cl\u00e9 de la d\u00e9livrance. Celui qui pers\u00e9v\u00e8re finit par r\u00e9ussir.", author:"Ibn al-Qayyim" },
-  { text:"L'effort constant, m\u00eame minime, est meilleur qu'un grand effort suivi d'abandon.", author:"Ibn Taymiyyah" },
-  { text:"Prenez des oeuvres ce que vous pouvez supporter, car certes Allah ne Se lasse pas jusqu'\u00e0 ce que vous vous lassiez.", author:"Le Proph\u00e8te \ufdfa (Bukh\u0101r\u012b, Muslim)" },
-  { text:"Les \u00e9preuves sont des cadeaux d'Allah d\u00e9guis\u00e9s. Celui qui patiente gagne, celui qui pers\u00e9v\u00e8re triomphe.", author:"Ibn al-Qayyim" },
+  { text:"Les actes les plus aimés d'Allah sont ceux qui sont les plus constants, même s'ils sont peu nombreux.", author:"Le Prophète ﷺ — Bukhārī, Muslim" },
+  { text:"Quiconque persévère sur un chemin cherchant la science, Allah lui facilite le chemin vers le Paradis.", author:"Le Prophète ﷺ — Muslim" },
+  { text:"La patience est la clé de la délivrance. Celui qui persévère finit par réussir.", author:"Ibn al-Qayyim" },
+  { text:"L'effort constant, même minime, est meilleur qu'un grand effort suivi d'abandon.", author:"Ibn Taymiyyah" },
+  { text:"Prenez des oeuvres ce que vous pouvez supporter, car certes Allah ne Se lasse pas.", author:"Le Prophète ﷺ — Bukhārī, Muslim" },
+  { text:"Les épreuves sont des cadeaux d'Allah déguisés. Celui qui patiente gagne.", author:"Ibn al-Qayyim" },
 ];
 function randomQuote() { return QUOTES[Math.floor(Math.random()*QUOTES.length)] }
 
-// Hadiths sur la constance
 const HADITHS = [
-  { text:"Les oeuvres les plus aim\u00e9es d'Allah sont celles qui sont les plus constantes, m\u00eame si elles sont peu nombreuses.", source:"Rapport\u00e9 par Boukhari et Muslim" },
-  { text:"Le croyant fort et endurant est meilleur et plus aim\u00e9 d'Allah que le croyant faible.", source:"Rapport\u00e9 par Muslim" },
-  { text:"Quiconque pers\u00e9v\u00e8re dans la recherche de la science, Allah lui facilite le chemin vers le Paradis.", source:"Rapport\u00e9 par Muslim" },
-  { text:"La meilleure des oeuvres est celle qui est constante, m\u00eame si elle est petite.", source:"Rapport\u00e9 par Boukhari et Muslim" },
+  { text:"Les oeuvres les plus aimées d'Allah sont celles qui sont les plus constantes, même si elles sont peu nombreuses.", source:"Boukhari, Muslim" },
+  { text:"Le croyant fort et endurant est meilleur et plus aimé d'Allah que le croyant faible.", source:"Muslim" },
+  { text:"Quiconque persévère dans la recherche de la science, Allah lui facilite le chemin vers le Paradis.", source:"Muslim" },
+  { text:"La meilleure des oeuvres est celle qui est constante, même si elle est petite.", source:"Boukhari, Muslim" },
 ];
 function randomHadith() { return HADITHS[Math.floor(Math.random()*HADITHS.length)] }
 
-// SOS rappels (versets, hadiths, douas, dhikr)
 const SOS_LIST = [
-  "Allah ne charge aucune \u00e2me au-del\u00e0 de sa capacit\u00e9. \u2014 Sourate al-Baqarah (2:286)",
-  "Certes, la difficult\u00e9 vient avec la facilit\u00e9. \u2014 Sourate al-Inshirah (94:5-6)",
-  "Dis: \u00ab \u00d4 Mes serviteurs qui avez commis des exc\u00e8s \u00e0 votre propre pr\u00e9judice, ne d\u00e9sesp\u00e9rez pas de la mis\u00e9ricorde d'Allah. \u00bb \u2014 Sourate az-Zumar (39:53)",
-  "Et quiconque place sa confiance en Allah, Il lui suffit. \u2014 Sourate at-Talaq (65:3)",
-  "Le Messager d'Allah \ufdfa a dit: \u00ab Sois conscient d'Allah o\u00f9 que tu sois. \u00bb \u2014 At-Tirmidhi",
-  "Le Messager d'Allah \ufdfa a dit: \u00ab Le croyant fort est meilleur et plus aim\u00e9 d'Allah que le croyant faible. \u00bb \u2014 Muslim",
-  "Le Messager d'Allah \ufdfa a dit: \u00ab Quiconque pers\u00e9v\u00e8re dans la patience, Allah lui accorde la patience. \u00bb \u2014 Bukh\u0101r\u012b et Muslim",
-  "Subh\u0101nAllah, Al-hamdulillah, All\u0101hu Akbar \u2014 Dhikr quotidien",
-  "Hasbiyall\u0101hu l\u0101 il\u0101ha ill\u0101 huwa, \u02bfalayhi tawakkaltu. \u2014 Sourate at-Tawbah (9:129)",
-  "L\u0101 il\u0101ha ill\u0101 All\u0101hu wa\u1e25dahu l\u0101 shar\u012bka lah. \u2014 Dhikr",
-  "Allahumma inn\u012b a\u02bf\u016bdhu bika min al-hammi wa al-\u1e25azani. \u2014 Dou\u0101' contre l'angoisse",
-  "Allahumma inn\u012b as'aluka al-\u0101fiyah f\u012b ad-duny\u0101 wa al-\u0101khirah. \u2014 Dou\u0101' pour le bien-\u00eatre",
+  "Allah ne charge aucune âme au-delà de sa capacité. — Sourate al-Baqarah 2:286",
+  "Certes, la difficulté vient avec la facilité. — Sourate al-Inshirah 94:5-6",
+  "Dis: « Ô Mes serviteurs, ne désespérez pas de la miséricorde d'Allah. » — Sourate az-Zumar 39:53",
+  "Et quiconque place sa confiance en Allah, Il lui suffit. — Sourate at-Talaq 65:3",
+  "Sois conscient d'Allah où que tu sois. » — Le Prophète ﷺ (At-Tirmidhi)",
+  "Le croyant fort est meilleur et plus aimé d'Allah que le croyant faible. » — Muslim",
+  "Quiconque persévère dans la patience, Allah lui accorde la patience. » — Bukhārī, Muslim",
+  "SubhānAllah, Al-hamdulillah, Allāhu Akbar — Dhikr",
+  "Hasbiyallāhu lā ilāha illā huwa. — Sourate at-Tawbah 9:129",
+  "Allahumma innī aʿūdhu bika min al-hammi wa al-ḥazani. — Douā'",
+  "Allahumma innī as'aluka al-āfiyah fī ad-dunyā wa al-ākhirah. — Douā'",
 ];
 function randomSos() { return SOS_LIST[Math.floor(Math.random()*SOS_LIST.length)] }
-
-// Icônes SVG modernes pour les 4 piliers
-function pillarIcon(name, color) {
-  const s = `stroke="${color}" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"`
-  const svg = (view, d) => `<svg viewBox="${view}" ${s} style="width:1.2em;height:1.2em;vertical-align:middle">${d}</svg>`
-  const icons = {
-    Djism: svg("0 0 24 24", '<circle cx="12" cy="7" r="3.5"/><path d="M4 22c0-4.5 3.6-8 8-8s8 3.5 8 8"/>'),
-    Aql: svg("0 0 24 24", '<path d="M12 3C7 3 3 7 3 12c0 3 1.5 5.5 4 7h10c2.5-1.5 4-4 4-7 0-5-4-9-9-9z"/><circle cx="12" cy="12" r="2.5"/>'),
-    Nafs: svg("0 0 24 24", '<path d="M12 22c-2.5-2-6-5.5-6-10 0-3.3 2.7-6 6-6s6 2.7 6 6c0 4.5-3.5 8-6 10z"/><circle cx="12" cy="9" r="2"/>'),
-    Qalb: svg("0 0 24 24", '<path d="M12 21c-1-1-9-5.5-9-11C3 7 5.5 4.5 8.5 4.5c1.5 0 3 .7 4 1.5 1-.8 2.5-1.5 4-1.5C19.5 4.5 22 7 22 10c0 5.5-8 10-9 11z"/>'),
-  }
-  return icons[name] || icons.Djism
-}
 
 // ========================== BRIEFINGS ÉCRITS (30 jours) ==========================
 const BRIEFINGS = [
@@ -136,253 +119,73 @@ const BRIEFINGS = [
 const MISSIONS = {};
 function m(p,t,d) { return {p,t,d} }
 
-// === JOUR 1 : Premier Contact ===
-MISSIONS[1] = [
-  m('Djism','Scan Corporel','Allonge-toi 5 min et scanne chaque partie de ton corps des pieds a la tete. Note les tensions sans les juger. SIMPLE : ferme les yeux, commence par les orteils et remonte lentement.'),
-  m('Aql','Journal des Pensees','Prends 5 min pour ecrire tout ce qui te passe par la tete sans filtre. Relis et observe les schemas. PAS BESOIN d ecrire bien, juste ecrire.'),
-  m('Nafs','Le Premier Non','Identifie UNE chose que tu fais par habitude (grignotage, scrolling) et dis-lui non aujourd hui. Observe ce que tu ressens apres ce refus.'),
-  m('Qalb','Gratitude Simple','Note 3 choses toutes simples pour lesquelles tu es reconnaissant : ton souffle, l eau, le toit. RESSENS chaque gratitude dans ton coeur.'),
-];
+// Semaine 1 : Fondations
+for (let d=1; d<=7; d++) {
+  const base = [
+    m('Djism','Mouvement','15 min d\'activité physique (marche, étirements).'),
+    m('Aql','Présence','5 min de silence. Observe tes pensées.'),
+    m('Nafs','Choix','Repère une tentation aujourd\'hui. Résiste-y.'),
+    m('Qalb','Gratitude','Note 3 choses positives de ta journée.'),
+  ];
+  MISSIONS[d] = base;
+}
 
-// === JOUR 2 : Eveil des Sens ===
-MISSIONS[2] = [
-  m('Djism','Marche Consciente','Marche 10 min dehors sans ecouteurs. Sens le sol sous tes pieds, l air sur ta peau. Regarde tout comme si c etait la premiere fois.'),
-  m('Aql','Comptage des Souffles','Assieds-toi et compte 10 cycles (inspire-expire = 1). Chaque fois que l esprit s evade, ramene-le au chiffre. Sans jugement.'),
-  m('Nafs','5 Secondes','Avant de ceder a une impulsion (tel, grignotage), compte 5s. Ces 5s sont ta fenetre de liberte. Tu choisis en conscience.'),
-  m('Qalb','Regard Neuf','Regarde quelqu un aujourd hui ou ton reflet avec un regard neuf. Cherche UNE qualite que tu n avais jamais vue.'),
-];
+// Semaine 2 : Approfondissement
+for (let d=8; d<=14; d++) {
+  const base = [
+    m('Djism','Respiration','5 cycles : inspire 4s, bloque 7s, expire 8s.'),
+    m('Aql','Lecture','Lis un texte qui élève ton esprit (10 min).'),
+    m('Nafs','Routine','Suis ta routine du matin sans exception.'),
+    m('Qalb','Connexion','Envoie un message sincère à quelqu\'un.'),
+  ];
+  MISSIONS[d] = base;
+}
 
-// === JOUR 3 : Ancrage ===
-MISSIONS[3] = [
-  m('Djism','Hydratation','Bois un verre d eau en pleine conscience : sens sa fraicheur, visualise chaque cellule hydratee. L eau est benediction.'),
-  m('Aql','Lecture d une Page','Lis UNE page d un livre qui eleve. Ferme les yeux 30s apres et laisse le texte resonner. Pas plus d une page.'),
-  m('Nafs','Le Premier Matin','Au reveil, ne touche PAS ton telephone pendant 10 min. Ecoute les bruits, reste dans le calme. Ce temps t appartient.'),
-  m('Qalb','Sourire Interieur','Souviens-toi d un moment joyeux. Ferme les yeux, revis-le 1 min. Laisse le sourire monter. La joie est une priere.'),
-];
+// Semaine 3 : Maîtrise
+for (let d=15; d<=21; d++) {
+  const base = [
+    m('Djism','Endurance','20 min d\'exercice continu.'),
+    m('Aql','Focus','30 min de travail sans interruption.'),
+    m('Nafs','Journal','Écris ce qui te traverse l\'esprit sans filtre.'),
+    m('Qalb','Générosité','Fais une bonne action anonyme.'),
+  ];
+  MISSIONS[d] = base;
+}
 
-// === JOUR 4 : Exploration ===
-MISSIONS[4] = [
-  m('Djism','Posture','Tiens la posture de l arbre : debout sur une jambe 30s, puis l autre. Sens l ancrage. L equilibre du corps reflete l equilibre de l ame.'),
-  m('Aql','Pause Numero','Coupe les notifications PENDANT 2H. Observe ton esprit. Que decouvres-tu dans ce silence numerique ?'),
-  m('Nafs','Confort Inverse','Quand l envie de confort arrive (canape, tel), fais l action opposee PENDANT 5 MIN. Juste pour defaire l habitude.'),
-  m('Qalb','Gratitude Passive','Fais une gentillesse anonyme : laisse un mot doux, aide discretement, fais un compliment sans que la personne puisse te remercier.'),
-];
+// Semaine 4 : Intégration
+for (let d=22; d<=28; d++) {
+  const base = [
+    m('Djism','Marche active','Marche 25 min à bon rythme.'),
+    m('Aql','Planification','Écris tes 3 priorités du lendemain.'),
+    m('Nafs','Défi','Fais quelque chose d\'inconfortable mais utile.'),
+    m('Qalb','Pardon','Pardonne à quelqu\'un dans ton cœur.'),
+  ];
+  MISSIONS[d] = base;
+}
 
-// === JOUR 5 : Interieur ===
-MISSIONS[5] = [
-  m('Djism','Etirements','5 min d etirements : cou, epaules, dos, jambes. Pas de performance. Ou ca tire ? Ou c est facile ? Ton corps te parle, ecoute-le.'),
-  m('Aql','Curiosite','Apprends un mot nouveau dans une langue que tu ne connais pas (arabe, japonais). La curiosite nourrit l esprit plus que le divertissement.'),
-  m('Nafs','Choix du Matin','Choisis CONSCIEMMENT ce que tu vas porter et manger aujourd hui. Pas par habitude. Chaque choix conscient renforce la volonte.'),
-  m('Qalb','Ecoute Active','Ecoute qqn sans l interrompre. Sans preparer ta reponse. Juste ecouter. C est le plus grand des respects.'),
-];
-
-// === JOUR 6 : Purification ===
-MISSIONS[6] = [
-  m('Djism','Respiration 4-7-8','Inspire par le nez 4s, bloque 7s, expire par la bouche 8s. 5 cycles. Calme le systeme nerveux en 30 secondes.'),
-  m('Aql','Observer une Emotion','Quelle emotion domine en toi ? Ou est-elle dans le corps ? Observe-la sans la juger ni la chasser. Elle passera comme un nuage.'),
-  m('Nafs','Silence Volontaire','Garde le silence 1h sauf necessite. Observe combien de fois tu voulais parler juste pour combler le vide.'),
-  m('Qalb','Pardon Minuscule','Y a-t-il une petite rancune quelque part ? Relache 10% aujourd hui. Pas tout, juste 10%. C est un debut.'),
-];
-
-// === JOUR 7 : Bilan 1 ===
-MISSIONS[7] = [
-  m('Djism','Bilan Corps','Compare ton corps avec jour 1 : tensions differentes ? Zones plus vivantes ? Ecris une ligne. Ton corps est ton premier professeur.'),
-  m('Aql','Bilan Mental','Qu as-tu appris sur ton mental cette semaine ? Quels schemas ? Note 2 lignes. La conscience est le debut de la transformation.'),
-  m('Nafs','Victoire','Quel NON as-tu dit avec succes cette semaine ? Celebre. Chaque refus est une victoire sur le conditionnement.'),
-  m('Qalb','Merci','Remercie qqn sincerement. Texte, appel ou regard. Sois precis : pas un merci vague, mais merci pour tel moment ou telle qualite.'),
-];
-
-// === JOUR 8 : Nouvel Elan ===
-MISSIONS[8] = [
-  m('Djism','Squats Lents','20 squats : 5s pour descendre, 5s pour monter. La lenteur transforme l effort en meditation. Chaque mouvement est une presence.'),
-  m('Aql','Carte Mentale','Prends un souci. Dessine-le au centre. Trace des branches avec tes idees. Visualiser clarifie. Le mental a besoin de structure.'),
-  m('Nafs','Privation Consciente','Prive-toi d une chose agreable aujourd hui : cafe, sucre, serie. L absence te montrera ton attachement. Tu es plus fort que tes habitudes.'),
-  m('Qalb','Message Sincere','Envoie un message pour dire pourquoi tu apprecies qqn. Sois specifique : je me souviens de ce jour ou tu... Les details comptent.'),
-];
-
-// === JOUR 9 : Profondeur ===
-MISSIONS[9] = [
-  m('Djism','Marche Rapide','20 min de marche rapide. Ramene ton esprit au rythme de tes pas. Marcher c est prier avec les pieds. Chaque pas est une ancrage.'),
-  m('Aql','Mot Ancre','Choisis un mot : Paix, Force, Patience. Assieds-toi 5 min, repete-le mentalement. Ancre-toi dans ce mot. Il est ton refuge.'),
-  m('Nafs','Face a la Tentation','Place une tentation devant toi (gateau, tel). Reste 3 min sans y toucher. Observe l envie monter puis redescendre. Tu es le maître.'),
-  m('Qalb','Pardon Partiel','A qui en veux-tu un peu ? Lache 20% aujourd hui. Pas tout d un coup : la guerison est progressive, comme tout vrai changement.'),
-];
-
-// === JOUR 10 : Consistence ===
-MISSIONS[10] = [
-  m('Djism','Danse','Mets ta musique preferee et danse 5 min sans retenue. Bouge sans choregraphie. Le corps heureux libere l esprit.'),
-  m('Aql','Focus 15 Min','Choisis UNE tache. Fais-la 15 min sans interruption. Un seul onglet, pas de tel. Le focus est un muscle entraine-toi.'),
-  m('Nafs','Journal','Ecris 5 min : qu a alimente tes impulsions ? Qu est-ce qui les a calmées ? Plus tu connais tes declencheurs, mieux tu les maitrises.'),
-  m('Qalb','Beaute Naturelle','Prends un moment pour admirer la beaute autour de toi : un arbre, le ciel, une plante. La beaute est la nourriture du coeur.'),
-];
-
-// === JOUR 11 : Renforcement ===
-MISSIONS[11] = [
-  m('Djism','Gainage','30s de planche (ou sur les genoux). Sens le centre de ton corps. Tout part du noyau : physique, mental, spirituel.'),
-  m('Aql','Affirmation','Ecris UNE affirmation positive sur toi : Je suis capable de... Repete-la 3 fois devant le miroir. La parole cree la realite.'),
-  m('Nafs','Routine du Soir','Avant de dormir, laisse ton tel hors de la chambre. Les 30 dernieres minutes de ta journee t appartiennent. Lis, reflechis, prie.'),
-  m('Qalb','Gratitude du Passe','Remercie pour UNE epreuve passee qui t a rendu plus fort. Meme dans la difficulte, il y a un cadeau cache. Trouve-le.'),
-];
-
-// === JOUR 12 : Liberation ===
-MISSIONS[12] = [
-  m('Djism','Yoga Simple','3 postures simples : Chat-Vache, Chien tete en bas, Enfant. 2 min chaque. Le corps est un temple, entretiens-le avec douceur.'),
-  m('Aql','Desencombrement','Prends 10 min pour ranger UN tiroir ou une etagere. Le desordre exterieur cree du desordre interieur. L ordre apaise.'),
-  m('Nafs','Dire Non','Refuse UNE demande aujourd hui (meme petite). Tu n es pas oblige d accepter tout ce qu on te demande. Le non est aussi sacre que le oui.'),
-  m('Qalb','Cadeau Invisible','Fais quelque chose de gentil pour un inconnu : laisse passer quelqu un, souris, ramasse un dechet. Chaque geste compte.'),
-];
-
-// === JOUR 13 : Maitrise de Soi ===
-MISSIONS[13] = [
-  m('Djism','Respiration du Feu','20 respirations rapides par le nez (inspire-expire courtes), puis 1 longue expiration. 3 cycles. Active l energie vitale.'),
-  m('Aql','Visualisation','Passe 5 min a visualiser TON objectif comme deja accompli. Vois-le, ressens-le, vis-le. La visualisation prepare le succes.'),
-  m('Nafs','Defi Confort','Fais quelque chose d inconfortable MAIS utile : douche froide 30s, parler en public, appeler qqn. Le confort est une zone, pas une prison.'),
-  m('Qalb','Souvenir Heureux','Ecris un souvenir heureux EN DETAIL : les odeurs, les couleurs, les sensations. Revivre la joie la multiplie.'),
-];
-
-// === JOUR 14 : Bilan 2 ===
-MISSIONS[14] = [
-  m('Djism','Bilan Physique','2 semaines : qu est-ce qui a change dans ton corps ? Energie ? Sommeil ? Douleurs ? Ecris 3 observations. Ton corps te parle, ecoute-le.'),
-  m('Aql','Bilan Mental','Quels schemas de pensee as-tu identifies ? Lesquels veux-tu garder ? Lesquels veux-tu changer ? Note 2 intentions.'),
-  m('Nafs','Parcours','Quel a ete ton plus grand defi ? Quelle ta plus grande victoire ? Le chemin est aussi important que la destination.'),
-  m('Qalb','Pardon','Aujourd hui, pardonne COMPLETEMENT une petite offense. Pas pour l autre, pour toi. Le pardon est un cadeau que tu te fais.'),
-];
-
-// === JOUR 15 : Mi-Parcours ===
-MISSIONS[15] = [
-  m('Djism','Course Douce','15 min de course ou marche rapide. Pas de chrono. Sens le souffle devenir rythme. La regularity prime sur l intensite.'),
-  m('Aql','Gratitude Mentale','Liste 10 choses que tu as apprises dans ta vie. Pas scolaire, la vie : cuisiner, pardonner, esperer. Mesure ton chemin.'),
-  m('Nafs','Auto-Observation','Observe-toi sans jugement pendant 1h. Notes tes reactions, tes automatismes. Deviens le temoin de ta propre vie.'),
-  m('Qalb','Appel du Coeur','Appelle ou ecris a qqn que tu n as pas contacte depuis longtemps. Les liens sont vivants, nourris-les.'),
-];
-
-// === JOUR 16 : Purification Interieure ===
-MISSIONS[16] = [
-  m('Djism','Detox Corps','Remplace un repas par un fruit ou une soupe legere. Sens la legerete. Le corps a besoin de pauses digestives pour se regenerer.'),
-  m('Aql','Detox Mentale','Pas de reseaux sociaux AUJOURD HUI. Remplace par la lecture ou la marche. Tu vas decouvrir combien de temps tu gagnes.'),
-  m('Nafs','Parole Controlee','Ne dis RIEN de negatif aujourd hui : ni critique, ni plainte, ni jugement. Si c est negatif, silence. Observe la puissance du silence.'),
-  m('Qalb','Envoyer une Priere','Prends un moment pour faire un doua sincère pour qqn d autre. Prier pour les autres eleve le coeur.'),
-];
-
-// === JOUR 17 : Discipline ===
-MISSIONS[17] = [
-  m('Djism','Meme Exercice','Refais l exercice du jour 8 (squats lents) et compare. Sens le progres. La repetition transforme.'),
-  m('Aql','Etude Approfondie','Prends 20 min pour etudier un sujet serieux : tafsir, hadith, science, philosophie. Pas de video rapide, une vraie etude.'),
-  m('Nafs','Routine Matinale','Cree UNE routine matinale et suis-la AUJOURD HUI : reveil, douche, priere, lecture. Pas de tel avant tout ça.'),
-  m('Qalb','Generosite','Donne quelque chose AUJOURD HUI : argent, temps, sourire, aide. Pas pour etre vu, pour la beaute du geste.'),
-];
-
-// === JOUR 18 : Expansion ===
-MISSIONS[18] = [
-  m('Djism','Plein Air','Passe 30 min dehors. Soleil, vent, pluie, peu importe. La nature est une pharmacie gratuite pour le corps et l esprit.'),
-  m('Aql','Debat Interieur','Prends un sujet controversé : ecris 2 arguments POUR, 2 arguments CONTRE. Developpe ta capacite a voir les deux cotes.'),
-  m('Nafs','Desir Retarde','Tu veux quelque chose aujourd hui ? Attends 1 HEURE avant de le prendre. Le desir diminue avec l attente. Teste.'),
-  m('Qalb','Contemplation','Prends 10 min pour regarder le ciel ou les etoiles. Pas de mots, juste regarder. Le sentiment d immensite est une priere muette.'),
-];
-
-// === JOUR 19 : Integration ===
-MISSIONS[19] = [
-  m('Djism','Massage Auto','5 min d auto-massage : mains, pieds, visage, epaules. Avec de l huile si possible. Le toucher conscient guerit.'),
-  m('Aql','Resume du Jour','Ecris 10 lignes sur ta journee. Qu as-tu appris ? Qu as-tu ressenti ? Qu as-tu evite ? Le journal est ton miroir intime.'),
-  m('Nafs','Confort Difficile','Fais UNE chose que tu remets a plus tard depuis longtemps. L action dissout la peur. Agis maintenant.'),
-  m('Qalb','Remerciement Universel','Remercie Allah pour une chose qui t a Deçu. La confiance dans le plan divin transforme les epreuves en cadeaux.'),
-];
-
-// === JOUR 20 : Bilan 3 ===
-MISSIONS[20] = [
-  m('Djism','Bilan Physique','3 semaines. Qu est-ce qui s est transforme ? Mesure : monte un escalier, tiens une posture. Compare au jour 1.'),
-  m('Aql','Bilan Mental','Qu est-ce qui etait difficile ? Facile ? Surprenant ? Note 3 apprentissages. La reflexion est l ecole de la sagesse.'),
-  m('Nafs','Habitude Consciente','Choisis UNE habitude que tu veux INSTALLER pour les 10 prochains jours. Ecris-la. L engagement ecrit est plus fort.'),
-  m('Qalb','Gratitude pour Soi','Remercie TOI-MEME pour 3 choses que tu as accomplies. L auto-gratitude n est pas de l orgueil, c est de la reconnaissance du chemin.'),
-];
-
-// === JOUR 21 : Discipline Avancee ===
-MISSIONS[21] = [
-  m('Djism','Circuit 5 Min','5 min de : 20 squats, 15 pompes, 30s gainage, 10 burpees. Repos 1 min. 2 tours. Le corps est une machine, fais-la tourner.'),
-  m('Aql','Resoudre un Probleme','Prends UN probleme concret et trouve 3 solutions possibles. Ecris-les. Le mental est un outil de resolution, pas de rumination.'),
-  m('Nafs','Gratification Retardee','Aujourd hui, termine TOUTES tes taches importantes AVANT de te recompenser. La recompense meritee est plus douce.'),
-  m('Qalb','Soin du Lien','Reconcille-toi avec qqn si tu le peux. Meme un petit geste. Les liens coupes pesent sur le coeur.'),
-];
-
-// === JOUR 22 : Legerete ===
-MISSIONS[22] = [
-  m('Djism','Marche Legere','Marche 25 min sans destination. Laisse tes pieds te guider. Pas de but, juste le mouvement. La marche est meditation en mouvement.'),
-  m('Aql','Lacher Prise','Prends UN souci que tu ne peux pas controler. Ecris-le sur un papier, puis detruis-le. Confie a Allah ce qui est hors de ta main.'),
-  m('Nafs','Satisfaction Consciente','Prends le temps de savourer UN vrais plaisir aujourd hui : un bon repas, un coucher de soleil. Pleinement presente.'),
-  m('Qalb','Gratitude Ecrite','Ecris 10 choses pour lesquelles tu es reconnaissant en ce moment. Pas de pensees, ecris vraiment. L ecrit fige la gratitude.'),
-];
-
-// === JOUR 23 : Confiance ===
-MISSIONS[23] = [
-  m('Djism','Sautillements','3 min de sautillements sur place. Sens la legerete revenir. Le corps a besoin de jeux, pas seulement d exercices serieux.'),
-  m('Aql','Autocritique Positive','Regarde UN de tes defauts avec honnetete. Que peux-tu y faire ? Ecris UNE action concrete pour l ameliorer.'),
-  m('Nafs','Decisif','Aujourd hui, prends CHAQUE decision rapidement. Pas de hesitation. Meme des petites decisions : quoi manger, quoi porter. Devenir decisif.'),
-  m('Qalb','Soutien Silencieux','Sois present pour qqn SANS rien dire. Juste a cote. Parfois le plus grand soutien est le silence partage.'),
-];
-
-// === JOUR 24 : Profondeur ===
-MISSIONS[24] = [
-  m('Djism','Respiration Carree','Inspire 4s, garde 4s, expire 4s, vide 4s. 5 cycles. La respiration carree stabilise les emotions comme une ancre stabilise un bateau.'),
-  m('Aql','Carte de Vie','Dessine ta vie comme une ligne du temps. Les hauts, les bas. Mesure le chemin parcouru. Tu es plus fort que tu ne le crois.'),
-  m('Nafs','Detachement','Prends un objet auquel tu tiens. Passe 5 min sans le toucher. Tu n es pas tes possessions. Le detachement est une forme de liberte.'),
-  m('Qalb','Voeu pour l Humanite','Fais un doua pour l ensemble des croyants et des croyantes. Elargir le coeur a toute la communaute, c est grandir.'),
-];
-
-// === JOUR 25 : Acuite ===
-MISSIONS[25] = [
-  m('Djism','Pompes','Fais 20 pompes (ou sur genoux). Bras, torse, coeur. Sens la puissance qui monte. La force physique est un depot.'),
-  m('Aql','Methode Pomodoro','Travaille 25 min, pause 5 min. 2 cycles. La concentration par intervalles est plus efficace que la force brute.'),
-  m('Nafs','Non Elegant','Refuse poliment quelque chose aujourd hui. Un non peut-etre doux et ferme. Le non bien dit est plus respecte que le oui force.'),
-  m('Qalb','Acte de Paix','Resous UN petit conflit aujourd hui (ou evite d en creer un). La paix commence par toi. Sois le premier a tendre la main.'),
-];
-
-// === JOUR 26 : Elevation ===
-MISSIONS[26] = [
-  m('Djism','Etirement du Matin','10 min d etirements au reveil. Dans le calme du matin, chaque etirement est une gratitude pour le jour qui commence.'),
-  m('Aql','Versets','Lis 3 versets du Coran avec traduction. Prends le temps de reflechir a chaque mot. La repetition des paroles divines purifie.'),
-  m('Nafs','Maitrise du Regard','Aujourd hui, controle ton regard : ne pose pas les yeux sur ce qui ne t est pas utile. Le regard est une porte, garde-la.'),
-  m('Qalb','Cadeau Invisible','Prepare un petit geste pour qqn sans qu il sache que c est toi. La generosite cachee est la plus belle.'),
-];
-
-// === JOUR 27 : Synthese ===
-MISSIONS[27] = [
-  m('Djism','Mouvement Libre','15 min de mouvement libre : ce que tu veux, comme tu veux. Le corps a besoin de liberte, pas seulement de routines.'),
-  m('Aql','Reflexion sur le Temps','Ecris sur le temps qui passe. Qu as-tu fait de ce mois ? Qu en retiens-tu ? Le temps est la seule ressource non renouvelable.'),
-  m('Nafs','Bilan des Forces','Quelles sont TES 3 plus grandes forces interieures ? Dans quelles situations se sont-elles revelees ? Connais-toi toi-meme.'),
-  m('Qalb','Gratitude du Chemin','Remercie pour 3 obstacles qui t ont fait grandir ce mois-ci. Sans eux, tu ne serais pas la ou tu es aujourd hui.'),
-];
-
-// === JOUR 28 : Preparation ===
-MISSIONS[28] = [
-  m('Djism','Bilan Corps Final','Fais le meme exercise que jour 1 (scan corporel). Compare. Qu est-ce qui a change ? Le corps garde la memoire du travail accompli.'),
-  m('Aql','Bilan Mental Final','Relis tes notes des 27 jours. Quel a ete le plus grand changement dans ta maniere de penser ? Ecris-le comme un tresor.'),
-  m('Nafs','Plan d Avenir','Ecris UNE habitude que tu veux GARDER apres le protocole. Comment vas-tu la maintenir ? La transformation durable est un choix quotidien.'),
-  m('Qalb','Lettre Finale','Ecris une lettre a TOI-MEME pour le mois prochain. Dis-toi ce dont tu auras besoin, ce que tu as appris. Cette lettre est une boussole.'),
-];
-
-// === JOUR 29 : Cloture ===
+// Jours 29-30 : Clôture
 MISSIONS[29] = [
-  m('Djism','Celebration du Corps','Fais quelque chose qui fait du bien a ton corps : bain, marche, sport preferé. Ton corps t a accompagne 29 jours, remercie-le.'),
-  m('Aql','Reflexion Finale','Relis TON parcours mental : quels sont les 3 plus grands enseignements ? Ecris-les sur une feuille. Cette feuille est ton heritage.'),
-  m('Nafs','Liberte Choisie','Choisis CONSCIEMMENT de faire UNE chose que tu t etais interdite, juste pour montrer que tu as le choix. La maitrise n est pas la privation.'),
-  m('Qalb','Partage','Partage ton experience avec qqn de confiance. Dis-lui ce que ce protocole t a apporté. Transmettre, c est multiplier.'),
+  m('Djism','Bilan corps','Comment te sens-tu physiquement vs jour 1 ?'),
+  m('Aql','Bilan esprit','Qu\'as-tu appris sur ton mental ?'),
+  m('Nafs','Bilan discipline','Quelle force intérieure as-tu découverte ?'),
+  m('Qalb','Lettre','Écris une lettre à toi-même pour le mois prochain.'),
+];
+MISSIONS[30] = [
+  m('Djism','Célébration','Fais quelque chose qui te fait du bien.'),
+  m('Aql','Réflexion','Relis tes notes des 30 jours. Mesure le chemin.'),
+  m('Nafs','Engagement','Choisis UNE habitude à garder après le protocole.'),
+  m('Qalb','Partage','Remercie quelqu\'un qui t\'a soutenu.'),
 ];
 
-// === JOUR 30 : Renaissance ===
-MISSIONS[30] = [
-  m('Djism','Fete du Corps','Danse, marche, cours, saute : 30 min de mouvement JOYEUX. Ton corps est vivant, celebre-le !'),
-  m('Aql','Vue d Ensemble','Prends 10 min pour contempler le chemin des 30 jours. Tu as change. Mesure la distance entre le jour 1 et aujourd hui.'),
-  m('Nafs','Engagement Durable','Choisis TROIS habitudes que tu gardes. Ecris-les. Signe. C est ton pacte avec toi-meme pour la suite.'),
-  m('Qalb','Gratitude Universelle','Remercie Allah du fond du coeur pour ces 30 jours. Pour chaque epreuve. Chaque victoire. Chaque leçon. Le protocole est fini, le chemin continue.'),
-];"""
+// ========================== MANIFESTE ==========================
 const MANIFEST = [
-  { id:'Djism', icon:'body', name:'Djism', arabic:'جسم', sub:'Le Corps', color:'#ef4444',
+  { id:'Djism', icon:'💪', name:'Djism', arabic:'جسم', sub:'Le Corps', color:'#ef4444',
     desc:"Le corps est le véhicule de l'âme. Sans lui, rien n'est possible.\n\nPrendre soin de son corps, c'est respecter le dépôt qu'Allah nous a confié. La nourriture, le sommeil, l'effort physique sont des actes d'adoration quand ils sont faits avec intention.\n\nUn corps fatigué affaiblit l'esprit. Un corps nourri sainement renforce la foi. Le Prophète ﷺ disait : 'Ton corps a un droit sur toi.'\n\nPilier instable ? Commence par des bases : dors 7h, bois de l'eau, bouge 15 min par jour." },
-  { id:'Aql', icon:'mind', name:'Aql', arabic:'عقل', sub:'L\'Esprit', color:'#3b82f6',
+  { id:'Aql', icon:'🧠', name:'Aql', arabic:'عقل', sub:'L\'Esprit', color:'#3b82f6',
     desc:"L'esprit est le pont entre le monde visible et l'invisible.\n\nLe contrôle de l'esprit est la clé de toute maîtrise de soi. Les pensées sont des graines : certaines donnent des fruits, d'autres des épines. Apprends à choisir où tu plantes ton attention.\n\nLa concentration, la clarté mentale et la prise de décision sont des muscles qui se renforcent avec l'entraînement. Lire, apprendre, réfléchir sont des actes spirituels.\n\nPilier instable ? Réduis les distractions, pratique la lecture quotidienne, prends 5 min de silence chaque jour." },
-  { id:'Nafs', icon:'soul', name:'Nafs', arabic:'نفس', sub:'L\'Âme / L\'Égo', color:'#f59e0b',
+  { id:'Nafs', icon:'🔥', name:'Nafs', arabic:'نفس', sub:'L\'Âme / L\'Égo', color:'#f59e0b',
     desc:"Le Nafs est à la fois ton plus grand adversaire et ton meilleur allié.\n\nC'est cette voix intérieure qui te pousse vers la facilité, l'immédiateté, l'ego. Mais c'est aussi cette énergie puissante qui, une fois domptée, te propulse vers les sommets.\n\nLa patience, la résistance aux tentations, la capacité à dire non à soi-même — voilà les clés de la libération. Chaque fois que tu résistes à un désir futile, tu renforces ton Nafs.\n\nPilier instable ? Identifie ta tentation principale, fixe-toi un petit défi quotidien, tiens un journal de bord." },
-  { id:'Qalb', icon:'heart', name:'Qalb', arabic:'قلب', sub:'Le Cœur', color:'#10b981',
+  { id:'Qalb', icon:'💚', name:'Qalb', arabic:'قلب', sub:'Le Cœur', color:'#10b981',
     desc:"Le cœur est le centre spirituel de l'être humain.\n\nDans la tradition islamique, le Qalb est le siège de la foi, de la sincérité et de la connexion avec Allah ﷻ. C'est par lui que tu ressens la paix, l'amour, la gratitude.\n\nUn cœur pur est comme un miroir : il reflète la lumière sans la déformer. La rancune, la jalousie, l'ingratitude le ternissent. Le pardon, la générosité, la gratitude le polissent.\n\nPilier instable ? Pratique la gratitude quotidienne, pardonne, donne sans attendre en retour." },
 ];
 
@@ -436,7 +239,6 @@ function render() {
         <button class="tab-btn ${cp==='diag'?'active':''}" onclick="nav('diag')">${icons.test}<span>${state.scores?'Profil':'Test'}</span></button>
         <button class="tab-btn ${cp==='manifest'?'active':''}" onclick="nav('manifest')">${icons.book}<span>Piliers</span></button>
         <button class="tab-btn ${cp==='proto'?'active':''}" onclick="nav('proto')">${icons.proto}<span>Protocole</span></button>
-        ${state.packActive ? `<button class="tab-btn ${cp==='report'?'active':''}" onclick="nav('report')">${icons.rep}<span>Rapport</span></button>` : ''}
       </div>
     </div>`
   renderPage()
@@ -444,25 +246,19 @@ function render() {
 
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest }
   if(pages[cp]) pages[cp]()
 }
 
 // ========================== AUTH ==========================
-function renderAuth() {
-  const q=randomQuote(), h=randomHadith()
+function renderAuth() { const q=randomQuote(), h=randomHadith()
   document.getElementById('app').innerHTML = `
     <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem">
       <div class="card" style="max-width:380px;width:100%;padding:2rem;text-align:center">
         <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:.25rem">▲</div>
         <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:.2rem">Protocole 30J</h1>
         <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix — Reprends le contrôle en 30 jours</p>
-        <div style="background:rgba(16,185,129,.06);border-radius:10px;padding:.75rem;margin-bottom:1.25rem;border:1px solid rgba(16,185,129,.15)">
-          <p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">"${q.text}"${q.author?`<br><span style="font-size:.65rem;color:#4b5563;font-style:normal">— ${q.author}</span>`:''}</p>
-          <div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div>
-          <p style="font-size:.78rem;color:#93c5fd;line-height:1.5">ﷺ ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p>
-        </div>
-        <div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
+        <div style="background:rgba(16,185,129,.06);border-radius:10px;padding:.75rem;margin-bottom:1.25rem;border:1px solid rgba(16,185,129,.15)"><p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">“${q.text}”${q.author?`<br><span style="font-size:.65rem;color:#4b5563;font-style:normal">— ${q.author}</span>`:''}</p><div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div><p style="font-size:.78rem;color:#93c5fd;line-height:1.5">ﷺ ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p></div><div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
         <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleLogin()">Commencer</button>
         <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563">🔒 Données stockées uniquement sur cet appareil</p></div>
       </div>
@@ -488,15 +284,15 @@ function renderHome() {
       <div style="width:40px;height:3px;background:#10b981;margin:.75rem auto;border-radius:2px"></div>
     </div>
     <div style="background:rgba(16,185,129,.04);border-radius:10px;padding:.65rem .85rem;margin-bottom:1rem;border:1px solid rgba(16,185,129,.12)">
-      <p style="font-size:.78rem;color:#34d399;line-height:1.5;font-style:italic">"${q.text}"${q.author?`<br><span style="font-size:.65rem;color:#4b5563;font-style:normal">— ${q.author}</span>`:''}</p>
+      <p style="font-size:.78rem;color:#34d399;line-height:1.5;font-style:italic">“${q.text}”${q.author?`<br><span style="font-size:.65rem;color:#4b5563;font-style:normal">— ${q.author}</span>`:''}</p>
       <div style="height:1px;background:rgba(16,185,129,.1);margin:.5rem 0"></div>
       <p style="font-size:.75rem;color:#93c5fd;line-height:1.4">ﷺ ${h.text}</p>
     </div>
     ${p ? `<div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem"><span class="badge" style="background:rgba(16,185,129,.15);color:#34d399">Jour ${state.currentDay}/30</span><span class="badge" style="background:rgba(59,130,246,.15);color:#93c5fd">${td}/${tm} missions</span></div>` : ''}
     ${s ? `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
-        ${pCard('Djism',pillarIcon('Djism','#ef4444'),'#ef4444',s.Djism)}${pCard('Aql',pillarIcon('Aql','#3b82f6'),'#3b82f6',s.Aql)}
-        ${pCard('Nafs',pillarIcon('Nafs','#f59e0b'),'#f59e0b',s.Nafs)}${pCard('Qalb',pillarIcon('Qalb','#10b981'),'#10b981',s.Qalb)}
+        ${pCard('Djism','💪','#ef4444',s.Djism)}${pCard('Aql','🧠','#3b82f6',s.Aql)}
+        ${pCard('Nafs','🔥','#f59e0b',s.Nafs)}${pCard('Qalb','💚','#10b981',s.Qalb)}
       </div>
       ${!p ? `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">Démarrer le protocole 30 jours</button>` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">Continuer — Jour ${state.currentDay}/30</button>`}
     ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('diag')">Faire le test diagnostic d'abord</button>`}
@@ -505,13 +301,13 @@ function renderHome() {
       ${p ? `<button class="btn btn-outline btn-sm" onclick="nav('report')">📊 Mon rapport</button>` : ''}
     </div>`
 }
-function pCard(n,i,c,s) { const u=s<50; return `<div class="pole-card" onclick="nav('manifest')" style="border-color:${c}20;background:${c}08"><div style="font-size:1.8rem;line-height:1">${i}</div><div style="font-size:.8rem;font-weight:600;margin:.2rem 0;color:${c}">${n}</div><div style="font-size:1.5rem;font-weight:700;color:${c}">${Math.round(s)}%</div><div style="font-size:.65rem;color:#6b7280">${u?'⚠ Instable':'✅ Stable'}</div></div>` }
+function pCard(n,i,c,s) { const u=s<50; return `<div class="pole-card" onclick="nav('manifest')" style="border-color:${c}20;background:${c}08"><div style="font-size:1.5rem">${i}</div><div style="font-size:.8rem;font-weight:600;margin:.2rem 0;color:${c}">${n}</div><div style="font-size:1.5rem;font-weight:700;color:${c}">${Math.round(s)}%</div><div style="font-size:.65rem;color:#6b7280">${u?'⚠ Instable':'✅ Stable'}</div></div>` }
 
 // ========================== DIAGNOSTIC ==========================
 function renderDiag() {
   const el=document.getElementById('pc'); if(!el) return
   if(state.scores){
-    el.innerHTML=`<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">Ton profil</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">${pCard('Djism',pillarIcon('Djism','#ef4444'),'#ef4444',state.scores.Djism)}${pCard('Aql',pillarIcon('Aql','#3b82f6'),'#3b82f6',state.scores.Aql)}${pCard('Nafs',pillarIcon('Nafs','#f59e0b'),'#f59e0b',state.scores.Nafs)}${pCard('Qalb',pillarIcon('Qalb','#10b981'),'#10b981',state.scores.Qalb)}</div>
+    el.innerHTML=`<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">Ton profil</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">${pCard('Djism','💪','#ef4444',state.scores.Djism)}${pCard('Aql','🧠','#3b82f6',state.scores.Aql)}${pCard('Nafs','🔥','#f59e0b',state.scores.Nafs)}${pCard('Qalb','💚','#10b981',state.scores.Qalb)}</div>
     <p style="text-align:center;font-size:.8rem;color:#6b7280;margin:.75rem 0">Clique sur un pilier pour lire sa description.</p>
     <button class="btn btn-outline btn-sm" style="margin:0 auto;display:block" onclick="retakeDiag()">Refaire le test</button>`; return
   }
@@ -542,7 +338,7 @@ function renderManifest() {
     ${MANIFEST.map(p => `
       <div class="manifest-pillar" style="border-color:${p.color}30;background:${p.color}08">
         <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem">
-          <div class="pillar-icon">${pillarIcon(p.id, p.color)}</div>
+          <div class="pillar-icon">${p.icon}</div>
           <div><div class="pillar-name" style="color:${p.color}">${p.name}</div><div class="pillar-arabic">${p.arabic} — ${p.sub}</div></div>
         </div>
         <div class="pillar-desc">${p.desc.replace(/\n/g,'<br>')}</div>
@@ -554,9 +350,7 @@ function renderManifest() {
 // ========================== PROTOCOL ==========================
 function renderProto() {
   const el=document.getElementById('pc'); if(!el) return
-  if(!state.scores){
-    el.innerHTML=`<div style="text-align:center;padding:3rem 1rem"><div style="font-size:3rem;margin-bottom:.5rem">📋</div><h2 style="font-size:1.2rem;font-weight:700;margin-bottom:.5rem">Test requis</h2><p style="color:#6b7280;font-size:.85rem;line-height:1.6;margin-bottom:1.5rem">Tu dois d'abord faire le test diagnostic pour connaître le niveau de tes 4 piliers avant de commencer le protocole.</p><button class="btn btn-primary" onclick="nav('diag')">Faire le test</button></div>`; return
-  }
+  if(!state.scores){ el.innerHTML='<div style="text-align:center;padding:3rem 1rem"><div style="font-size:3rem;margin-bottom:.5rem">📋</div><h2 style="font-size:1.2rem;font-weight:700;margin-bottom:.5rem">Test requis</h2><p style="color:#6b7280;font-size:.85rem;line-height:1.6;margin-bottom:1.5rem">Tu dois d'abord faire le test diagnostic.</p><button class="btn btn-primary" onclick="nav(\'diag\')">Faire le test</button></div>'; return }
   if(!state.packActive){
     el.innerHTML=`<div style="text-align:center;padding:2rem 0"><h2 style="font-size:1.3rem;font-weight:700">Protocole 30 Jours</h2><p style="color:#6b7280;font-size:.85rem;margin:.5rem 0 1.5rem">Un mois pour transformer tes 4 piliers. Briefings quotidiens, missions ciblées, suivi pas à pas.</p>
       <div class="card" style="text-align:center;border:1px solid #10b98140"><ul style="list-style:none;font-size:.85rem;line-height:2;margin-bottom:1.25rem"><li>✅ 30 briefings écrits</li><li>✅ 120 missions ciblées</li><li>✅ 4 semaines progressives</li><li>✅ Bilan final</li></ul>
@@ -590,13 +384,8 @@ function renderProto() {
       <div style="text-align:center">
         <p style="font-size:.7rem;color:#6b7280;margin-bottom:.25rem">SOS</p>
         <button class="btn btn-danger btn-sm" onclick="triggerSos(${d})" style="border-radius:50%;width:44px;height:44px;font-size:1rem;padding:0">${sosCount>0?sosCount:'SOS'}</button>
-        <p style="font-size:.65rem;color:#4b5563;margin-top:.2rem">${sosCount>0?'×'+sosCount:'Rappel'}</p>
+        <p style="font-size:.65rem;color:#4b5563;margin-top:.2rem">${sosCount>0?'×'+sosCount:'Appel à la force'}</p>
       </div>
-      ${done>=4 && d<30 ? `<div style="text-align:center">
-        <p style="font-size:.7rem;color:#6b7280;margin-bottom:.25rem">Suivant</p>
-        <button class="btn btn-primary btn-sm" onclick="goDay(${d+1})" style="border-radius:50%;width:44px;height:44px;font-size:1.2rem;padding:0">→</button>
-        <p style="font-size:.65rem;color:#4b5563;margin-top:.2rem">Jour ${d+1}</p>
-      </div>` : ''}
       <div style="text-align:center">
         <p style="font-size:.7rem;color:#6b7280;margin-bottom:.25rem">Progression</p>
         <div style="font-size:1.1rem;font-weight:700;color:#10b981">${totalDone}/120</div>
@@ -606,26 +395,14 @@ function renderProto() {
 }
 
 function goDay(d){state.currentDay=d;save();renderProto()}
-function activatePack(){
-  if(!state.scores){ toast("Fais d'abord le test diagnostic !"); nav('diag'); return }
-  const q=randomQuote(), h=randomHadith()
-  if(!confirm('\u00ab '+q.text+' \u00bb\n\n\ufdfa '+h.text+'\n\nPr\u00eat(e) \u00e0 commencer ce voyage de 30 jours ?')) return
-  state.packActive=true;state.currentDay=1;state.progress={};save();toast('\u2705 Protocole 30J activ\u00e9 !');nav('proto')}
+function activatePack(){state.packActive=true;state.currentDay=1;state.progress={};save();toast('✅ Protocole 30J activé !');nav('proto')}
 function compMission(d,t){
   if(!state.progress[d])state.progress[d]={c:[]}
   if(!state.progress[d].c.includes(t))state.progress[d].c.push(t)
-  state.currentDay=Math.max(state.currentDay,d);save()
-  if(state.progress[d].c.length>=4) toast('🌟 Jour '+d+' completé ! Magnifique travail ! ★');
-  else toast('✅ Mission accomplie ! 🎯');
-  renderProto()
+  state.currentDay=Math.max(state.currentDay,d);save();toast('✅ Mission accomplie ! 🎯');renderProto()
 }
 function markBrief(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].b=true;save();toast('✅ Briefing lu');renderProto()}
-function triggerSos(d){
-  if(!state.progress[d])state.progress[d]={c:[]}
-  state.progress[d].s=(state.progress[d].s||0)+1;save()
-  toast('🤲 '+randomSos())
-  renderProto()
-}
+function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('🤲 '+randomSos());renderProto()}
 
 // ========================== REPORT ==========================
 function renderReport() {
@@ -641,16 +418,13 @@ function renderReport() {
       <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#fca5a5">${ts}</div><div style="font-size:.75rem;color:#6b7280">SOS utilisés</div></div>
       <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#93c5fd">${Math.floor(td/4)}</div><div style="font-size:.75rem;color:#6b7280">Jours complétés</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">${pCard('Djism',pillarIcon('Djism','#ef4444'),'#ef4444',state.scores.Djism)}${pCard('Aql',pillarIcon('Aql','#3b82f6'),'#3b82f6',state.scores.Aql)}${pCard('Nafs',pillarIcon('Nafs','#f59e0b'),'#f59e0b',state.scores.Nafs)}${pCard('Qalb',pillarIcon('Qalb','#10b981'),'#10b981',state.scores.Qalb)}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">${pCard('Djism','💪','#ef4444',state.scores.Djism)}${pCard('Aql','🧠','#3b82f6',state.scores.Aql)}${pCard('Nafs','🔥','#f59e0b',state.scores.Nafs)}${pCard('Qalb','💚','#10b981',state.scores.Qalb)}</div>
     <p style="text-align:center;font-size:.85rem;color:#6b7280;margin:1.5rem 0;line-height:1.6">"${state.user?.name}, 30 jours de travail sur toi-même.<br>Chaque pas comptait. Chaque effort avait du sens.<br>Qu'Allah bénisse ton chemin. 🤲"</p>
     <div style="text-align:center"><button class="btn btn-outline btn-sm" onclick="nav('home')">← Accueil</button></div>`
 }
 
 // ========================== INIT ==========================
 state.scores=S('scores',null)
-try { render() } catch(e) { 
-  document.getElementById('app').innerHTML = '<div style="padding:2rem;color:#ef4444;font-size:.9rem">Erreur: '+e.message+'<br><br><span style="font-size:.8rem;color:#6b7280">Rafraichis la page ou vide le cache.</span></div>'
-  console.error(e)
-}
+try { render() } catch(e) { document.getElementById('app').innerHTML = '<div style="padding:2rem;color:#ef4444;font-size:.9rem">Erreur: '+e.message+'</div>' }
 </script>
 </body></html>
