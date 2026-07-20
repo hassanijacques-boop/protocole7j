@@ -345,7 +345,7 @@ function renderManifest() {
 // ========================== PROTOCOL ==========================
 function renderProto() {
   const el=document.getElementById('pc'); if(!el) return
-  if(!state.scores){ el.innerHTML='<div style="text-align:center;padding:3rem 1rem"><div style="font-size:3rem;margin-bottom:.5rem">📋</div><h2 style="font-size:1.2rem;font-weight:700;margin-bottom:.5rem">Test requis</h2><p style="color:#6b7280;font-size:.85rem;line-height:1.6;margin-bottom:1.5rem">Tu dois faire le test diagnostic d'abord.</p><button class="btn btn-primary" onclick="nav('diag')">Faire le test</button></div>'; return }
+  if(!state.scores){ el.innerHTML="<div style=text-align:center;padding:3rem 1rem><div style=font-size:3rem;margin-bottom:.5rem>\u{1f4cb}</div><h2 style=font-size:1.2rem;font-weight:700;margin-bottom:.5rem>Test requis</h2><p style=color:#6b7280;font-size:.85rem;line-height:1.6;margin-bottom:1.5rem>Tu dois d'abord faire le test diagnostic.</p><button class=btn btn-primary onclick=\"nav('diag')\">Faire le test</button></div>"; return }
   if(!state.packActive){
     el.innerHTML=`<div style="text-align:center;padding:2rem 0"><h2 style="font-size:1.3rem;font-weight:700">Protocole 30 Jours</h2><p style="color:#6b7280;font-size:.85rem;margin:.5rem 0 1.5rem">Un mois pour transformer tes 4 piliers. Briefings quotidiens, missions ciblées, suivi pas à pas.</p>
       <div class="card" style="text-align:center;border:1px solid #10b98140"><ul style="list-style:none;font-size:.85rem;line-height:2;margin-bottom:1.25rem"><li>✅ 30 briefings écrits</li><li>✅ 120 missions ciblées</li><li>✅ 4 semaines progressives</li><li>✅ Bilan final</li></ul>
