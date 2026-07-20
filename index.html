@@ -47,6 +47,25 @@
 </head>
 <body><div id="app"></div>
 <script>
+// ========================== CITATIONS & HADITHS ==========================
+const QUOTES = [
+  { text:"Le succès est la somme de petits efforts répétés jour après jour.", author:"Robert Collier" },
+  { text:"La discipline est le pont entre tes objectifs et tes accomplissements.", author:"Jim Rohn" },
+  { text:"Ce n'est pas parce que les choses sont difficiles que nous n'osons pas, c'est parce que nous n'osons pas qu'elles sont difficiles.", author:"Sénèque" },
+  { text:"Le secret du progrès, c'est de commencer. Puis de recommencer. Encore et encore.", author:"" },
+  { text:"Un petit pas chaque jour vaut mieux qu'un grand pas une fois par mois.", author:"" },
+  { text:"La patience n'est pas d'attendre, c'est la capacité de garder une bonne attitude en travaillant pour ce en quoi tu crois.", author:"" },
+];
+const HADITHS = [
+  { text:"Les œuvres les plus aimées d'Allah sont celles qui sont les plus constantes, même si elles sont peu nombreuses.", source:"Rapporté par Boukhari et Muslim" },
+  { text:"Le croyant fort et endurant est meilleur et plus aimé d'Allah que le croyant faible.", source:"Rapporté par Muslim" },
+  { text:"Quiconque persévère dans la recherche de la science, Allah lui facilite le chemin vers le Paradis.", source:"Rapporté par Muslim" },
+  { text:"La meilleure des œuvres est celle qui est constante, même si elle est petite.", source:"Rapporté par Boukhari et Muslim" },
+  { text:"Certes, Allah aime que lorsque l'un d'entre vous accomplit une œuvre, il la perfectionne.", source:"Rapporté par Al-Bayhaqi" },
+];
+function randomQuote() { return QUOTES[Math.floor(Math.random()*QUOTES.length)] }
+function randomHadith() { return HADITHS[Math.floor(Math.random()*HADITHS.length)] }
+
 const S = (k,d) => { try { return JSON.parse(localStorage.getItem('p7j_'+k))||d } catch { return d } }
 const SS = (k,v) => localStorage.setItem('p7j_'+k, JSON.stringify(v))
 
@@ -207,6 +226,7 @@ function render() {
         <button class="tab-btn ${cp==='diag'?'active':''}" onclick="nav('diag')">${icons.test}<span>${state.scores?'Profil':'Test'}</span></button>
         <button class="tab-btn ${cp==='manifest'?'active':''}" onclick="nav('manifest')">${icons.book}<span>Piliers</span></button>
         <button class="tab-btn ${cp==='proto'?'active':''}" onclick="nav('proto')">${icons.proto}<span>Protocole</span></button>
+        ${state.packActive ? `<button class="tab-btn ${cp==='report'?'active':''}" onclick="nav('report')">${icons.rep}<span>Rapport</span></button>` : ''}
       </div>
     </div>`
   renderPage()
@@ -214,18 +234,24 @@ function render() {
 
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport }
   if(pages[cp]) pages[cp]()
 }
 
 // ========================== AUTH ==========================
 function renderAuth() {
+  const q=randomQuote(), h=randomHadith()
   document.getElementById('app').innerHTML = `
     <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem">
       <div class="card" style="max-width:380px;width:100%;padding:2rem;text-align:center">
         <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:.25rem">▲</div>
         <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:.2rem">Protocole 30J</h1>
         <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix — Reprends le contrôle en 30 jours</p>
+        <div style="background:rgba(16,185,129,.06);border-radius:10px;padding:.75rem;margin-bottom:1.25rem;border:1px solid rgba(16,185,129,.15)">
+          <p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">"${q.text}"${q.author?`<br><span style="font-size:.65rem;color:#4b5563;font-style:normal">— ${q.author}</span>`:''}</p>
+          <div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div>
+          <p style="font-size:.78rem;color:#93c5fd;line-height:1.5">ﷺ — ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p>
+        </div>
         <div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
         <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleLogin()">Commencer</button>
         <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563">🔒 Données stockées uniquement sur cet appareil</p></div>
@@ -244,11 +270,17 @@ function renderHome() {
   const el=document.getElementById('pc'); if(!el) return
   const s=state.scores, p=state.packActive
   let tm=0, td=0; for(let d=1;d<=30;d++){const g=state.progress[d];tm+=4;td+=g?.c?.length||0}
+  const q=randomQuote(), h=randomHadith()
   el.innerHTML = `
     <div style="text-align:center;padding:2rem 0">
       <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:1px">MENTAL NATION</h1>
       <p style="color:#6b7280;font-size:.85rem;margin-top:.3rem">Protocole 30 jours de restauration humaine</p>
       <div style="width:40px;height:3px;background:#10b981;margin:.75rem auto;border-radius:2px"></div>
+    </div>
+    <div style="background:rgba(16,185,129,.04);border-radius:10px;padding:.65rem .85rem;margin-bottom:1rem;border:1px solid rgba(16,185,129,.12)">
+      <p style="font-size:.78rem;color:#34d399;line-height:1.5;font-style:italic">"${q.text}"${q.author?`<br><span style="font-size:.65rem;color:#4b5563;font-style:normal">— ${q.author}</span>`:''}</p>
+      <div style="height:1px;background:rgba(16,185,129,.1);margin:.5rem 0"></div>
+      <p style="font-size:.75rem;color:#93c5fd;line-height:1.4">ﷺ — ${h.text}</p>
     </div>
     ${p ? `<div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem"><span class="badge" style="background:rgba(16,185,129,.15);color:#34d399">Jour ${state.currentDay}/30</span><span class="badge" style="background:rgba(59,130,246,.15);color:#93c5fd">${td}/${tm} missions</span></div>` : ''}
     ${s ? `
@@ -257,7 +289,7 @@ function renderHome() {
         ${pCard('Nafs','🔥','#f59e0b',s.Nafs)}${pCard('Qalb','💚','#10b981',s.Qalb)}
       </div>
       ${!p ? `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">Démarrer le protocole 30 jours</button>` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">Continuer — Jour ${state.currentDay}/30</button>`}
-    ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('diag')">Faire le test diagnostic</button>`}
+    ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('diag')">Faire le test diagnostic d'abord</button>`}
     <div style="display:flex;gap:.5rem;justify-content:center;margin-top:1rem">
       <button class="btn btn-outline btn-sm" onclick="nav('manifest')">📖 Découvrir les 4 piliers</button>
       ${p ? `<button class="btn btn-outline btn-sm" onclick="nav('report')">📊 Mon rapport</button>` : ''}
@@ -312,6 +344,10 @@ function renderManifest() {
 // ========================== PROTOCOL ==========================
 function renderProto() {
   const el=document.getElementById('pc'); if(!el) return
+  // BLOCAGE : pas de protocole sans test diagnostic
+  if(!state.scores){
+    el.innerHTML=`<div style="text-align:center;padding:3rem 1rem"><div style="font-size:3rem;margin-bottom:.5rem">📋</div><h2 style="font-size:1.2rem;font-weight:700;margin-bottom:.5rem">Test requis</h2><p style="color:#6b7280;font-size:.85rem;line-height:1.6;margin-bottom:1.5rem">Tu dois d'abord faire le test diagnostic pour connaître le niveau de tes 4 piliers avant de commencer le protocole.</p><button class="btn btn-primary" onclick="nav('diag')">Faire le test</button></div>`; return
+  }
   if(!state.packActive){
     el.innerHTML=`<div style="text-align:center;padding:2rem 0"><h2 style="font-size:1.3rem;font-weight:700">Protocole 30 Jours</h2><p style="color:#6b7280;font-size:.85rem;margin:.5rem 0 1.5rem">Un mois pour transformer tes 4 piliers. Briefings quotidiens, missions ciblées, suivi pas à pas.</p>
       <div class="card" style="text-align:center;border:1px solid #10b98140"><ul style="list-style:none;font-size:.85rem;line-height:2;margin-bottom:1.25rem"><li>✅ 30 briefings écrits</li><li>✅ 120 missions ciblées</li><li>✅ 4 semaines progressives</li><li>✅ Bilan final</li></ul>
@@ -347,6 +383,11 @@ function renderProto() {
         <button class="btn btn-danger btn-sm" onclick="triggerSos(${d})" style="border-radius:50%;width:44px;height:44px;font-size:1rem;padding:0">${sosCount>0?sosCount:'SOS'}</button>
         <p style="font-size:.65rem;color:#4b5563;margin-top:.2rem">${sosCount>0?'×'+sosCount:'Appel à la force'}</p>
       </div>
+      ${done>=4 && d<30 ? `<div style="text-align:center">
+        <p style="font-size:.7rem;color:#6b7280;margin-bottom:.25rem">Suivant</p>
+        <button class="btn btn-primary btn-sm" onclick="goDay(${d+1})" style="border-radius:50%;width:44px;height:44px;font-size:1.2rem;padding:0">→</button>
+        <p style="font-size:.65rem;color:#4b5563;margin-top:.2rem">Jour ${d+1}</p>
+      </div>` : ''}
       <div style="text-align:center">
         <p style="font-size:.7rem;color:#6b7280;margin-bottom:.25rem">Progression</p>
         <div style="font-size:1.1rem;font-weight:700;color:#10b981">${totalDone}/120</div>
@@ -356,14 +397,22 @@ function renderProto() {
 }
 
 function goDay(d){state.currentDay=d;save();renderProto()}
-function activatePack(){state.packActive=true;state.currentDay=1;state.progress={};save();toast('✅ Protocole 30J activé !');nav('proto')}
+function activatePack(){
+  if(!state.scores){ toast("Fais d'abord le test diagnostic !"); nav('diag'); return }
+  const q=randomQuote(), h=randomHadith()
+  if(!confirm(`\u00ab ${q.text} \u00bb\n\n\uFDF2 \u2014 ${h.text}\n\nPr\u00eat(e) \u00e0 commencer ce voyage de 30 jours ?`)) return
+  state.packActive=true;state.currentDay=1;state.progress={};save();toast('\u2705 Protocole 30J activ\u00e9 !');nav('proto')}
 function compMission(d,t){
   if(!state.progress[d])state.progress[d]={c:[]}
   if(!state.progress[d].c.includes(t))state.progress[d].c.push(t)
-  state.currentDay=Math.max(state.currentDay,d);save();toast('✅ Mission accomplie ! 🎯');renderProto()
+  state.currentDay=Math.max(state.currentDay,d);save()
+  // Célébration si toutes les 4 missions du jour sont faites
+  if(state.progress[d].c.length>=4) toast('\uD83C\uDF1F Jour '+d+' complet\u00e9 ! Magnifique travail ! \uD83D\uDCAA');
+  else toast('\u2705 Mission accomplie ! \uD83C\uDFAF');
+  renderProto()
 }
 function markBrief(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].b=true;save();toast('✅ Briefing lu');renderProto()}
-function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('🤲 Qu\'Allah te renforce. Tu es plus fort que tu ne le penses.');renderProto()}
+function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('🤲 Qu'Allah te renforce. Tu es plus fort que tu ne le penses.');renderProto()}
 
 // ========================== REPORT ==========================
 function renderReport() {
