@@ -87,10 +87,29 @@
     /* === GLOW DOT === */
     .glow { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
     
+    /* === SOS OVERLAY === */
+    .sos-overlay { position: fixed; inset:0; z-index:9998; background:rgba(0,0,0,.92); backdrop-filter:blur(12px); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; animation:sosFade .3s ease; }
+    @keyframes sosFade { from { opacity:0 } to { opacity:1 } }
+    .sos-overlay .sos-text { font-size:1.15rem; line-height:1.8; text-align:center; max-width:480px; color:#d1d5db; margin-bottom:1.5rem; padding:1.5rem; background:rgba(16,185,129,.05); border-radius:20px; border:1px solid rgba(16,185,129,.12); }
+    .sos-overlay .sos-source { font-size:.8rem; color:#4b5563; margin-top:.5rem; }
+    .sos-overlay .sos-close { position:absolute; top:1.5rem; right:1.5rem; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); color:#6b7280; width:36px; height:36px; border-radius:50%; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .sos-overlay .sos-close:hover { background:rgba(255,255,255,.1); color:#f3f4f6; }
+    
+    /* === RESPIRATION ANIMATION === */
+    .breath-container { text-align:center; padding:.5rem 0; }
+    .breath-circle { width:120px; height:120px; border-radius:50%; margin:0 auto 1rem; background:conic-gradient(#10b981 0deg, #059669 180deg, #10b981 360deg); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(16,185,129,.2), 0 0 80px rgba(16,185,129,.1); animation:breathAnim 8s ease-in-out 1; }
+    .breath-circle-inner { width:50px; height:50px; border-radius:50%; background:#0a0a1a; display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#6b7280; font-weight:500; }
+    @keyframes breathAnim { 0%{transform:scale(.85);box-shadow:0 0 20px rgba(16,185,129,.1)} 25%{transform:scale(1.15);box-shadow:0 0 60px rgba(16,185,129,.3)} 50%{transform:scale(.85);box-shadow:0 0 20px rgba(16,185,129,.1)} 75%{transform:scale(1.15);box-shadow:0 0 60px rgba(16,185,129,.3)} 100%{transform:scale(.85);box-shadow:0 0 20px rgba(16,185,129,.1)} }
+    .breath-label { font-size:.9rem; font-weight:600; color:#10b981; margin-top:.5rem; animation:breathLabel 8s step-end 1; }
+    @keyframes breathLabel { 0%{opacity:0;content:'Inspire...'} 2%{opacity:1} 25%{opacity:1} 27%{opacity:0} 50%{opacity:0;content:'Expire...'} 52%{opacity:1} 75%{opacity:1} 77%{opacity:0} 100%{opacity:0} }
+    .breath-sub { font-size:.75rem; color:#4b5563; margin-top:.25rem; }
+    
     /* === RESPONSIVE === */
     @media (max-width: 480px) {
       .page { padding: .75rem .75rem 5.5rem; }
       .card { padding: 1rem; }
+      .sos-overlay .sos-text { font-size:1rem; padding:1.25rem; }
+      .breath-circle { width:100px; height:100px; }
     }
   </style>
 </head>
@@ -628,7 +647,46 @@ function compMission(d,t){
   state.currentDay=Math.max(state.currentDay,d);save();toast('✅ Mission accomplie ! 🎯');renderProto()
 }
 function markBrief(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].b=true;save();toast('✅ Briefing lu');renderProto()}
-function triggerSos(d){if(!state.progress[d])state.progress[d]={c:[]};state.progress[d].s=(state.progress[d].s||0)+1;save();toast('🤲 '+randomSos());renderProto()}
+function triggerSos(d){
+  if(!state.progress[d])state.progress[d]={c:[]};
+  state.progress[d].s=(state.progress[d].s||0)+1;
+  save();
+  showSosOverlay(randomSos());
+  renderProto()
+}
+function showSosOverlay(msg){
+  var old=document.querySelector('.sos-overlay'); if(old) old.remove()
+  var ov=document.createElement('div'); ov.className='sos-overlay'
+  var hasSource=msg.indexOf(' - ') > -1
+  var textPart = hasSource ? msg.split(' - ')[0] : msg
+  var sourcePart = hasSource ? msg.split(' - ')[1] : ''
+  ov.innerHTML='<button class="sos-close" onclick="document.querySelector(\'.sos-overlay\')?.remove()">✕</button><div style="text-align:center;margin-bottom:.5rem"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#ef4444"/></svg></div><div style="text-align:center;margin-bottom:1.5rem"><span style="font-size:.75rem;font-weight:600;letter-spacing:2px;color:#ef4444;text-transform:uppercase">SOS — Rappel de force</span></div><div id="sos-phase1" class="sos-text">'+textPart+(sourcePart?'<div class="sos-source">— '+sourcePart+'</div>':'')+'</div><div id="sos-phase2" style="display:none" class="breath-container"><div class="breath-circle"><div class="breath-circle-inner">﷽</div></div><div class="breath-label">Inspire...</div><div class="breath-sub">4 secondes</div><div style="display:flex;gap:1rem;justify-content:center;margin-top:1rem;font-size:.7rem;color:#4b5563"><span>⬆ Inspire 4s</span><span>⬇ Expire 6s</span></div></div>'
+  document.body.appendChild(ov)
+  // Phase 1 : citation visible 3.5s
+  setTimeout(function(){
+    var p1=document.getElementById('sos-phase1'); if(p1)p1.style.display='none'
+    var p2=document.getElementById('sos-phase2'); if(p2)p2.style.display='block'
+    // Animation respiration : le label change via JS
+    var label=p2?.querySelector('.breath-label')
+    if(label){
+      var steps=['Inspire...','Expire...']
+      var idx=0
+      var t1=setInterval(function(){
+        idx++
+        if(idx%2==1) { label.textContent='Expire...'; label.style.color='#93c5fd' }
+        else { label.textContent='Inspire...'; label.style.color='#10b981' }
+      }, 4000)
+      // Phase 2 : l'exercice dure 8s (2 cycles de 4s)
+      setTimeout(function(){
+        clearInterval(t1)
+        // Message de fin
+        if(p2) p2.innerHTML='<div style="text-align:center;padding:1rem"><div style="font-size:1.2rem;font-weight:700;color:#34d399;margin-bottom:.5rem">Calme retrouvé 🤲</div><p style="font-size:.85rem;color:#6b7280;line-height:1.6">Prends ce calme avec toi.<br>Tu es plus fort que tu ne le crois.</p><button class="btn btn-primary btn-sm" style="margin-top:1rem" onclick="document.querySelector(\'.sos-overlay\')?.remove()">Continuer</button></div>'
+      }, 8000)
+    }
+  }, 3500)
+  // Fermeture auto après 13s
+  setTimeout(function(){var e=document.querySelector('.sos-overlay'); if(e&&!e.querySelector('button[onclick*=\"Continuer\"]')) e.remove()}, 13000)
+}
 
 // ========================== REPORT ==========================
 function renderReport() {
