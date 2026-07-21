@@ -99,10 +99,13 @@
     .breath-container { text-align:center; padding:.5rem 0; }
     .breath-circle { width:120px; height:120px; border-radius:50%; margin:0 auto 1rem; background:conic-gradient(#10b981 0deg, #059669 180deg, #10b981 360deg); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(16,185,129,.2), 0 0 80px rgba(16,185,129,.1); animation:breathAnim 8s ease-in-out 1; }
     .breath-circle-inner { width:50px; height:50px; border-radius:50%; background:#0a0a1a; display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#6b7280; font-weight:500; }
-    @keyframes breathAnim { 0%{transform:scale(.85);box-shadow:0 0 20px rgba(16,185,129,.1)} 25%{transform:scale(1.15);box-shadow:0 0 60px rgba(16,185,129,.3)} 50%{transform:scale(.85);box-shadow:0 0 20px rgba(16,185,129,.1)} 75%{transform:scale(1.15);box-shadow:0 0 60px rgba(16,185,129,.3)} 100%{transform:scale(.85);box-shadow:0 0 20px rgba(16,185,129,.1)} }
-    .breath-label { font-size:.9rem; font-weight:600; color:#10b981; margin-top:.5rem; animation:breathLabel 8s step-end 1; }
-    @keyframes breathLabel { 0%{opacity:0;content:'Inspire...'} 2%{opacity:1} 25%{opacity:1} 27%{opacity:0} 50%{opacity:0;content:'Expire...'} 52%{opacity:1} 75%{opacity:1} 77%{opacity:0} 100%{opacity:0} }
+    @keyframes breathAnim { 0%{transform:scale(.82);box-shadow:0 0 20px rgba(16,185,129,.1)} 13%{transform:scale(1.2);box-shadow:0 0 60px rgba(16,185,129,.3)} 33%{transform:scale(.82);box-shadow:0 0 20px rgba(16,185,129,.1)} 46%{transform:scale(1.2);box-shadow:0 0 60px rgba(16,185,129,.3)} 66%{transform:scale(.82);box-shadow:0 0 20px rgba(16,185,129,.1)} 79%{transform:scale(1.2);box-shadow:0 0 60px rgba(16,185,129,.3)} 100%{transform:scale(.82);box-shadow:0 0 20px rgba(16,185,129,.1)} }
+    .breath-label { font-size:.9rem; font-weight:600; color:#10b981; margin-top:.5rem; }
     .breath-sub { font-size:.75rem; color:#4b5563; margin-top:.25rem; }
+    .breath-phase { display:flex; gap:1rem; justify-content:center; margin-top:1rem; font-size:.7rem; color:#4b5563; }
+    .breath-phase .on { color:#10b981; font-weight:600; }
+    .breath-timer { font-size:2rem; font-weight:700; color:rgba(255,255,255,.06); margin-top:.35rem; letter-spacing:.02em; }
+    .breath-count { font-size:.65rem; color:#4b5563; margin-top:.75rem; }
     
     /* === RESPONSIVE === */
     @media (max-width: 480px) {
@@ -660,32 +663,52 @@ function showSosOverlay(msg){
   var hasSource=msg.indexOf(' - ') > -1
   var textPart = hasSource ? msg.split(' - ')[0] : msg
   var sourcePart = hasSource ? msg.split(' - ')[1] : ''
-  ov.innerHTML='<button class="sos-close" onclick="document.querySelector(\'.sos-overlay\')?.remove()">✕</button><div style="text-align:center;margin-bottom:.5rem"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#ef4444"/></svg></div><div style="text-align:center;margin-bottom:1.5rem"><span style="font-size:.75rem;font-weight:600;letter-spacing:2px;color:#ef4444;text-transform:uppercase">SOS — Rappel de force</span></div><div id="sos-phase1" class="sos-text">'+textPart+(sourcePart?'<div class="sos-source">— '+sourcePart+'</div>':'')+'</div><div id="sos-phase2" style="display:none" class="breath-container"><div class="breath-circle"><div class="breath-circle-inner">﷽</div></div><div class="breath-label">Inspire...</div><div class="breath-sub">4 secondes</div><div style="display:flex;gap:1rem;justify-content:center;margin-top:1rem;font-size:.7rem;color:#4b5563"><span>⬆ Inspire 4s</span><span>⬇ Expire 6s</span></div></div>'
+  ov.innerHTML='<button class="sos-close" onclick="document.querySelector(\'.sos-overlay\')?.remove()">✕</button><div style="text-align:center;margin-bottom:.5rem"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#ef4444"/></svg></div><div style="text-align:center;margin-bottom:1.5rem"><span style="font-size:.75rem;font-weight:600;letter-spacing:2px;color:#ef4444;text-transform:uppercase">SOS — Rappel de force</span></div><div id="sos-phase1" class="sos-text">'+textPart+(sourcePart?'<div class="sos-source">— '+sourcePart+'</div>':'')+'</div><div id="sos-phase2" style="display:none" class="breath-container"><div class="breath-circle" style="animation-duration:30s"><div class="breath-circle-inner">﷽</div></div><div id="breath-label" class="breath-label">Inspire...</div><div class="breath-sub">5 secondes</div><div class="breath-phase"><span id="bp-in" class="on">⬆ Inspire 5s</span><span id="bp-out">⬇ Expire 5s</span></div><div id="breath-count" class="breath-count">Cycle 1/3</div></div>'
   document.body.appendChild(ov)
-  // Phase 1 : citation visible 3.5s
+  // Phase 1 : citation 4s, puis respiration
   setTimeout(function(){
     var p1=document.getElementById('sos-phase1'); if(p1)p1.style.display='none'
     var p2=document.getElementById('sos-phase2'); if(p2)p2.style.display='block'
-    // Animation respiration : le label change via JS
-    var label=p2?.querySelector('.breath-label')
-    if(label){
-      var steps=['Inspire...','Expire...']
-      var idx=0
-      var t1=setInterval(function(){
-        idx++
-        if(idx%2==1) { label.textContent='Expire...'; label.style.color='#93c5fd' }
-        else { label.textContent='Inspire...'; label.style.color='#10b981' }
-      }, 4000)
-      // Phase 2 : l'exercice dure 8s (2 cycles de 4s)
-      setTimeout(function(){
-        clearInterval(t1)
-        // Message de fin
-        if(p2) p2.innerHTML='<div style="text-align:center;padding:1rem"><div style="font-size:1.2rem;font-weight:700;color:#34d399;margin-bottom:.5rem">Calme retrouvé 🤲</div><p style="font-size:.85rem;color:#6b7280;line-height:1.6">Prends ce calme avec toi.<br>Tu es plus fort que tu ne le crois.</p><button class="btn btn-primary btn-sm" style="margin-top:1rem" onclick="document.querySelector(\'.sos-overlay\')?.remove()">Continuer</button></div>'
-      }, 8000)
-    }
-  }, 3500)
-  // Fermeture auto après 13s
-  setTimeout(function(){var e=document.querySelector('.sos-overlay'); if(e&&!e.querySelector('button[onclick*=\"Continuer\"]')) e.remove()}, 13000)
+    var label=document.getElementById('breath-label')
+    if(!label||!p2) return
+    var idx=0, cycle=0
+    // Alterne Inspire/Expire toutes les 5s
+    var breathTick=setInterval(function(){
+      idx++
+      if(idx%2==1){
+        label.textContent='Expire...'; label.style.color='#93c5fd'
+        document.getElementById('bp-in')?.classList.remove('on')
+        document.getElementById('bp-out')?.classList.add('on')
+        cycle++
+        var cc=document.getElementById('breath-count')
+        if(cc) cc.textContent='Cycle '+(cycle+1)+'/3'
+      } else {
+        label.textContent='Inspire...'; label.style.color='#10b981'
+        document.getElementById('bp-in')?.classList.add('on')
+        document.getElementById('bp-out')?.classList.remove('on')
+      }
+    }, 5000)
+    // Timer 1seconde pour le compte à rebours
+    var secLabel=label.nextElementSibling
+    var breathSec=setInterval(function(){
+      if(secLabel&&secLabel.className=='breath-sub'){
+        var s=parseInt(secLabel.textContent)
+        if(s>0) secLabel.textContent=s-1+' secondes'
+        else secLabel.textContent='5 secondes'
+      }
+    }, 1000)
+    // Fin après 30s
+    setTimeout(function(){
+      clearInterval(breathTick)
+      clearInterval(breathSec)
+      if(p2) p2.innerHTML='<div style="text-align:center;padding:1rem"><div style="font-size:1.2rem;font-weight:700;color:#34d399;margin-bottom:.5rem">Calme retrouvé 🤲</div><p style="font-size:.85rem;color:#6b7280;line-height:1.6">Prends ce calme avec toi.<br>Tu es plus fort que tu ne le crois.</p><button class="btn btn-primary btn-sm" style="margin-top:1rem" onclick="document.querySelector(\'.sos-overlay\')?.remove()">Continuer</button></div>'
+    }, 30000)
+  }, 4000)
+  // Fermeture auto après 38s
+  setTimeout(function(){
+    var e=document.querySelector('.sos-overlay')
+    if(e&&!e.querySelector('button[onclick*="Continuer"]')) e.remove()
+  }, 38000)
 }
 
 // ========================== REPORT ==========================
