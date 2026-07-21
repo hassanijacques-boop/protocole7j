@@ -98,24 +98,6 @@
 <script>
 const S = (k,d) => { try { return JSON.parse(localStorage.getItem('p7j_'+k))||d } catch { return d } }
 const SS = (k,v) => localStorage.setItem('p7j_'+k, JSON.stringify(v))
-// ========================== ICÔNES SVG STYLISÉES ==========================
-const ICON = {
-  logo: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 22,22 2,22"/></svg>',
-  home: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1"/></svg>',
-  test: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9,14 11,16 15,12"/></svg>',
-  proto: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg>',
-  book: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
-  report: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
-  briefing: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>',
-  sos: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor"/></svg>',
-  lock: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>',
-
-  // Icônes des 4 piliers
-  djism: '<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="8" r="4"/><path d="M8 28v-6a8 8 0 0116 0v6"/><path d="M12 22l-3 6"/><path d="M20 22l3 6"/></svg>',
-  aql: '<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="10" stroke-dasharray="2 2"/><circle cx="16" cy="16" r="5"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>',
-  nafs: '<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2c0 0-8 8-8 14a8 8 0 0016 0c0-6-8-14-8-14z"/><circle cx="16" cy="16" r="3" fill="currentColor"/></svg>',
-  qalb: '<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 28c0 0-12-6.5-12-14.5A6.5 6.5 0 0116 10.5a6.5 6.5 0 0112 3c0 8-12 14.5-12 14.5z"/></svg>',
-};
 
 
 const QUOTES = [
@@ -215,7 +197,7 @@ MISSIONS[2] = [
 
 MISSIONS[3] = [
   m('Djism','Marche Japonaise — Shinrin-yoku','Pratique le \'bain de forêt\' japonais : marche 15 min DANS LA NATURE sans but. Regarde les arbres, écoute les oiseaux, respire. Les Japonais appellent ça Shinrin-yoku — la thérapie par la forêt.'),
-  m('Aql','Lecture d'une Page','Lis UNE page d\'un livre qui élève. Ferme les yeux 30s après et laisse le texte résonner.'),
+  m('Aql','Lecture d\'une Page','Lis UNE page d\'un livre qui élève. Ferme les yeux 30s après et laisse le texte résonner.'),
   m('Nafs','Le Premier Matin','Au réveil, ne touche PAS ton téléphone pendant 10 min. Écoute les bruits.'),
   m('Qalb','Sourire Intérieur','Souviens-toi d\'un moment joyeux. Ferme les yeux, revis-le 1 min. Laisse le sourire monter.'),
 ];
@@ -364,7 +346,7 @@ MISSIONS[24] = [
   m('Djism','Marche avec Intention','Avant de partir, formule UNE intention claire : \'Je marche pour me libérer du stress\' ou \'Je marche pour trouver la clarté\'. Garde cette intention dans ton coeur pendant toute la marche.'),
   m('Aql','Carte de Vie','Dessine ta vie comme une ligne du temps. Les hauts, les bas. Mesure le chemin parcouru.'),
   m('Nafs','Détachement','Prends un objet auquel tu tiens. Passe 5 min sans le toucher. Tu n\'es pas tes possessions.'),
-  m('Qalb','Voeu pour l'Humanité','Fais un doua pour l\'ensemble des croyants. Élargir le coeur à toute la communauté.'),
+  m('Qalb','Voeu pour l\'Humanité','Fais un doua pour l\'ensemble des croyants. Élargir le coeur à toute la communauté.'),
 ];
 
 MISSIONS[25] = [
@@ -391,7 +373,7 @@ MISSIONS[27] = [
 MISSIONS[28] = [
   m('Djism','Marche avec Visualisation','Marche 15 min en VISUALISANT ton objectif comme déjà accompli. Vois-le, ressens-le. Chaque pas te rapproche de ta réalité désirée.'),
   m('Aql','Bilan Mental Final','Relis tes notes des 27 jours. Quel a été le plus grand changement dans ta manière de penser ?'),
-  m('Nafs','Plan d'Avenir','Écris UNE habitude que tu veux GARDER après le protocole. Comment vas-tu la maintenir ?'),
+  m('Nafs','Plan d\'Avenir','Écris UNE habitude que tu veux GARDER après le protocole. Comment vas-tu la maintenir ?'),
   m('Qalb','Lettre Finale','Écris une lettre à TOI-MÊME pour le mois prochain. Cette lettre est une boussole.'),
 ];
 
@@ -404,20 +386,20 @@ MISSIONS[29] = [
 
 MISSIONS[30] = [
   m('Djism','Marche de Célébration','Marche 30 min — pas pour t\'entraîner, mais pour CÉLÉBRER. 30 jours de mouvement, de conscience, de transformation. Mets ta musique préférée, danse en marchant, souris au ciel. Le protocole s\'achève, la marche continue.'),
-  m('Aql','Vue d'Ensemble','Prends 10 min pour contempler le chemin des 30 jours. Tu as changé. Mesure la distance.'),
+  m('Aql','Vue d\'Ensemble','Prends 10 min pour contempler le chemin des 30 jours. Tu as changé. Mesure la distance.'),
   m('Nafs','Engagement Durable','Choisis TROIS habitudes que tu gardes. Écris-les. Signe. C\'est ton pacte.'),
   m('Qalb','Gratitude Universelle','Remercie Allah du fond du coeur pour ces 30 jours. Le protocole est fini, le chemin continue.'),
 ];
 
 // ========================== MANIFESTE ==========================
 const MANIFEST = [
-  { id:'Djism', icon:ICON.djism, name:'Djism', arabic:'جسم', sub:'Le Corps', color:'#ef4444',
+  { id:'Djism', icon:'💪', name:'Djism', arabic:'جسم', sub:'Le Corps', color:'#ef4444',
     desc:"Le corps est le véhicule de l'âme. Sans lui, rien n'est possible.\n\nPrendre soin de son corps, c'est respecter le dépôt qu'Allah nous a confié. La nourriture, le sommeil, l'effort physique sont des actes d'adoration quand ils sont faits avec intention.\n\nUn corps fatigué affaiblit l'esprit. Un corps nourri sainement renforce la foi. Le Prophète ﷺ disait : 'Ton corps a un droit sur toi.'\n\nPilier instable ? Commence par des bases : dors 7h, bois de l'eau, bouge 15 min par jour." },
-  { id:'Aql', icon:ICON.aql, name:'Aql', arabic:'عقل', sub:'L\'Esprit', color:'#3b82f6',
+  { id:'Aql', icon:'🧠', name:'Aql', arabic:'عقل', sub:'L\'Esprit', color:'#3b82f6',
     desc:"L'esprit est le pont entre le monde visible et l'invisible.\n\nLe contrôle de l'esprit est la clé de toute maîtrise de soi. Les pensées sont des graines : certaines donnent des fruits, d'autres des épines. Apprends à choisir où tu plantes ton attention.\n\nLa concentration, la clarté mentale et la prise de décision sont des muscles qui se renforcent avec l'entraînement. Lire, apprendre, réfléchir sont des actes spirituels.\n\nPilier instable ? Réduis les distractions, pratique la lecture quotidienne, prends 5 min de silence chaque jour." },
-  { id:'Nafs', icon:ICON.nafs, name:'Nafs', arabic:'نفس', sub:'L\'Âme / L\'Égo', color:'#f59e0b',
+  { id:'Nafs', icon:'🔥', name:'Nafs', arabic:'نفس', sub:'L\'Âme / L\'Égo', color:'#f59e0b',
     desc:"Le Nafs est à la fois ton plus grand adversaire et ton meilleur allié.\n\nC'est cette voix intérieure qui te pousse vers la facilité, l'immédiateté, l'ego. Mais c'est aussi cette énergie puissante qui, une fois domptée, te propulse vers les sommets.\n\nLa patience, la résistance aux tentations, la capacité à dire non à soi-même — voilà les clés de la libération. Chaque fois que tu résistes à un désir futile, tu renforces ton Nafs.\n\nPilier instable ? Identifie ta tentation principale, fixe-toi un petit défi quotidien, tiens un journal de bord." },
-  { id:'Qalb', icon:ICON.qalb, name:'Qalb', arabic:'قلب', sub:'Le Cœur', color:'#10b981',
+  { id:'Qalb', icon:'💚', name:'Qalb', arabic:'قلب', sub:'Le Cœur', color:'#10b981',
     desc:"Le cœur est le centre spirituel de l'être humain.\n\nDans la tradition islamique, le Qalb est le siège de la foi, de la sincérité et de la connexion avec Allah ﷻ. C'est par lui que tu ressens la paix, l'amour, la gratitude.\n\nUn cœur pur est comme un miroir : il reflète la lumière sans la déformer. La rancune, la jalousie, l'ingratitude le ternissent. Le pardon, la générosité, la gratitude le polissent.\n\nPilier instable ? Pratique la gratitude quotidienne, pardonne, donne sans attendre en retour." },
 ];
 
@@ -452,19 +434,26 @@ window.addEventListener('hashchange',()=>{cp=location.hash.slice(1)||'home';rend
 // ========================== RENDER ==========================
 function render() {
   if(!state.user) return renderAuth()
-  // Icônes définies dans ICON (global)
+  const icons = {
+    logo:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 22,22 2,22"/></svg>',
+    home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1"/></svg>',
+    test:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>',
+    proto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+    rep:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>',
+    book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>'
+  }
   document.getElementById('app').innerHTML = `
     <div style="max-width:600px;margin:0 auto;padding:0 0 5rem">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:rgba(10,10,20,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:10">
-        <div style="display:flex;align-items:center;gap:.5rem">${ICON.logo}<span style="font-weight:600;font-size:.9rem;margin-left:.35rem">Protocole 30J</span></div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="font-weight:600;font-size:.9rem">▲ Protocole 30J</span></div>
         <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.75rem;color:#6b7280">${state.user?.name||''}</span><button class="btn btn-outline btn-xs" onclick="logout()">✕</button></div>
       </div>
       <div id="pc" class="page active" style="padding:1rem"></div>
       <div class="tab-bar">
-        <button class="tab-btn ${cp==='home'?'active':''}" onclick="nav('home')">${ICON.home}<span>Accueil</span></button>
-        <button class="tab-btn ${cp==='diag'?'active':''}" onclick="nav('diag')">${ICON.test}<span>${state.scores?'Profil':'Test'}</span></button>
-        <button class="tab-btn ${cp==='manifest'?'active':''}" onclick="nav('manifest')">${ICON.book}<span>Piliers</span></button>
-        <button class="tab-btn ${cp==='proto'?'active':''}" onclick="nav('proto')">${ICON.proto}<span>Protocole</span></button>
+        <button class="tab-btn ${cp==='home'?'active':''}" onclick="nav('home')">${icons.home}<span>Accueil</span></button>
+        <button class="tab-btn ${cp==='diag'?'active':''}" onclick="nav('diag')">${icons.test}<span>${state.scores?'Profil':'Test'}</span></button>
+        <button class="tab-btn ${cp==='manifest'?'active':''}" onclick="nav('manifest')">${icons.book}<span>Piliers</span></button>
+        <button class="tab-btn ${cp==='proto'?'active':''}" onclick="nav('proto')">${icons.proto}<span>Protocole</span></button>
       </div>
     </div>`
   renderPage()
@@ -487,7 +476,7 @@ function renderAuth() {
         <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix — Reprends le contrôle en 30 jours</p>
         <div class="cite-card"><p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">"${q.text}"${q.author?'<br><span style=font-size:.65rem;color:#4b5563>\u2014 ' + '${q.author}' + '</span>':''}</p><div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div><p style="font-size:.78rem;color:#93c5fd;line-height:1.5">ﷺ ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p></div><div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
         <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleLogin()">Commencer</button>
-        <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563;display:flex;align-items:center;justify-content:center;gap:.35rem">${ICON.lock}Données stockées uniquement sur cet appareil</p></div>
+        <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563;display:flex;align-items:center;justify-content:center;gap:.35rem">🔒 Données stockées uniquement sur cet appareil</p></div>
       </div>
     </div>`
   document.getElementById('auth-name')?.addEventListener('keydown', e => { if(e.key==='Enter') handleLogin() })
@@ -513,14 +502,14 @@ function renderHome() {
     ${p ? `<div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem"><span class="badge" style="background:rgba(16,185,129,.15);color:#34d399">Jour ${state.currentDay}/30</span><span class="badge" style="background:rgba(59,130,246,.15);color:#93c5fd">${td}/${tm} missions</span></div>` : ''}
     ${s ? `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
-        ${pCard('Djism',ICON.djism,'#ef4444',s.Djism)}${pCard('Aql',ICON.aql,'#3b82f6',s.Aql)}
-        ${pCard('Nafs',ICON.nafs,'#f59e0b',s.Nafs)}${pCard('Qalb',ICON.qalb,'#10b981',s.Qalb)}
+        ${pCard('Djism','💪','#ef4444',s.Djism)}${pCard('Aql','🧠','#3b82f6',s.Aql)}
+        ${pCard('Nafs','🔥','#f59e0b',s.Nafs)}${pCard('Qalb','💚','#10b981',s.Qalb)}
       </div>
-      ${!p ? `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">${ICON.proto} Démarrer le protocole 30 jours</button>` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">${ICON.proto} Continuer — Jour ${state.currentDay}/30</button>`}
-    ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('diag')">${ICON.test} Faire le test diagnostic</button>`}
+      ${!p ? `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">🚀 Démarrer le protocole 30 jours</button>` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('proto')">🚀 Continuer — Jour ${state.currentDay}/30</button>`}
+    ` : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="nav('diag')">📝 Faire le test diagnostic</button>`}
     <div style="display:flex;gap:.5rem;justify-content:center;margin-top:1rem">
-      <button class="btn btn-outline btn-sm" onclick="nav('manifest')">${ICON.book} Découvrir les 4 piliers</button>
-      ${p ? `<button class="btn btn-outline btn-sm" onclick="nav('report')">${ICON.report} Mon rapport</button>` : ''}
+      <button class="btn btn-outline btn-sm" onclick="nav('manifest')">📖 Découvrir les 4 piliers</button>
+      ${p ? `<button class="btn btn-outline btn-sm" onclick="nav('report')">📊 Mon rapport</button>` : ''}
     </div>`
 }
 function pCard(n,i,c,s) { const u=s<50; return `<div class="pole-card" onclick="nav('manifest')" style="border-color:${c}30;background:rgba(255,255,255,.02);box-shadow:0 0 20px ${c}08"><div style="width:36px;height:36px;margin:0 auto .3rem;color:${c}">${i}</div><div style="font-size:.85rem;font-weight:700;margin-bottom:.15rem;color:${c}">${n}</div><div style="font-size:1.6rem;font-weight:800;color:${c};letter-spacing:-.02em">${Math.round(s)}%</div><div style="font-size:.65rem;color:#6b7280;margin-top:.15rem;padding:.1rem .5rem;border-radius:99px;background:rgba(255,255,255,.04);display:inline-block">${u?'&#9888; Instable':'&#10003; Stable'}</div></div>` }
@@ -555,7 +544,7 @@ function retakeDiag(){state.scores=null;SS('scores',null);nav('diag')}
 // ========================== MANIFESTE ==========================
 function renderManifest() {
   const el=document.getElementById('pc'); if(!el) return
-  el.innerHTML = `<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">${ICON.book}<span style="margin-left:.35rem">Les 4 Piliers</span></h2>
+  el.innerHTML = `<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0">📖 Les 4 Piliers</h2>
     <p style="text-align:center;font-size:.85rem;color:#6b7280;margin-bottom:1rem">Le manifeste de l'humain — Corps, Esprit, Âme, Cœur</p>
     ${MANIFEST.map(p => `
       <div class="manifest-pillar" style="border-color:${p.color}30;background:${p.color}08">
@@ -595,7 +584,7 @@ function renderProto() {
     </div>
     ${BRIEFINGS[d]?`<div class="card" style="margin-bottom:.75rem;background:rgba(16,185,129,.04);border-color:rgba(16,185,129,.15)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
-        <span style="font-weight:600;font-size:.85rem;color:#34d399;display:flex;align-items:center;gap:.35rem">${ICON.briefing} Briefing — Jour ${d}</span>
+        <span style="font-weight:600;font-size:.85rem;color:#34d399;display:flex;align-items:center;gap:.35rem">📖 Briefing — Jour ${d}</span>
         ${!briefingDone?`<button class="btn btn-primary btn-sm" onclick="markBrief(${d})">✅ Lu</button>`:`<span style="color:#10b981;font-size:.8rem">✅ Lu</span>`}
       </div>
       <p style="font-size:.85rem;line-height:1.7;color:#d1d5db">${BRIEFINGS[d]}</p>
@@ -633,7 +622,7 @@ function renderReport() {
   let tm=0,td=0,ts=0
   for(let d=1;d<=30;d++){const g=state.progress[d];tm+=4;td+=g?.c?.length||0;ts+=g?.s||0}
   const r=tm>0?Math.round(td/tm*100):0
-  el.innerHTML=`<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0;display:flex;align-items:center;justify-content:center;gap:.35rem">${ICON.report}Rapport 30 jours</h2>
+  el.innerHTML=`<h2 style="font-size:1.2rem;font-weight:700;text-align:center;margin:1rem 0;display:flex;align-items:center;justify-content:center;gap:.35rem">📊 Rapport 30 jours</h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
       <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#10b981">${td}</div><div style="font-size:.75rem;color:#6b7280">Missions sur ${tm}</div></div>
       <div class="card" style="text-align:center"><div style="font-size:1.5rem;font-weight:700;color:#fbbf24">${r}%</div><div style="font-size:.75rem;color:#6b7280">Complétion</div></div>
