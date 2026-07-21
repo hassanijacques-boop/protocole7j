@@ -522,10 +522,12 @@ const QUESTIONS = [
 let state = { user:S('user',null), accessCode:S('code',null), scores:S('scores',null), packActive:S('pack',false), currentDay:S('day',1), progress:S('progress',{}), diagAnswers:{} }
 
 // ========================== ACCÈS PAR CODE ==========================
-const VALID_CODES = [
-  "P30J-DEMO-2025",  // Code de démonstration
-  "HUMAN-MATRIX-30", // Code永久
-];
+var VALID_CODES = ["P30J-DEMO-2025","HUMAN-MATRIX-30"];
+function loadCodes(){
+  fetch('https://raw.githubusercontent.com/hassanijacques-boop/protocole7j/main/codes.json')
+    .then(r=>r.json()).then(d=>{if(d&&d.codes)VALID_CODES=d.codes}).catch(()=>{})
+}
+loadCodes();
 function checkAccess(code) { return VALID_CODES.includes(code.trim().toUpperCase()) }
 
 function save() { SS('user',state.user); SS('pack',state.packActive); SS('day',state.currentDay); SS('progress',state.progress) }
