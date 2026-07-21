@@ -94,6 +94,9 @@
     .sos-overlay .sos-source { font-size:.8rem; color:#4b5563; margin-top:.5rem; }
     .sos-overlay .sos-close { position:absolute; top:1.5rem; right:1.5rem; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); color:#6b7280; width:36px; height:36px; border-radius:50%; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
     .sos-overlay .sos-close:hover { background:rgba(255,255,255,.1); color:#f3f4f6; }
+    .sos-overlay .sos-arabic { background:rgba(255,255,255,.03); border-radius:16px; padding:1rem 1.25rem; margin-bottom:.5rem; border:1px solid rgba(255,255,255,.06); direction:rtl; }
+    .sos-overlay .sos-arabic p { font-size:1.35rem; line-height:2; color:#d4e5ff; font-family:'Traditional Arabic','Scheherazade New',serif; text-align:center; }
+    .sos-overlay .sos-arabic .sos-fr { font-size:.8rem; color:#6b7280; text-align:center; margin-top:.5rem; direction:ltr; }
     
     /* === RESPIRATION ANIMATION === */
     .breath-container { text-align:center; padding:.5rem 0; }
@@ -168,6 +171,30 @@ const SOS_LIST = [
   "Allahumma inni a'udhu bika min al-hammi. - Doua'",
   "Allahumma inni as'aluka al-afiyah. - Doua'",
 ];
+
+// ========================== VERSETS EN ARABE ==========================
+const VERSET_AR = {
+  "Sourate al-Baqarah 2:286": {
+    ar:"لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+    fr:"Allah n'impose à aucune âme une charge supérieure à sa capacité."
+  },
+  "al-Inshirah 94:5-6": {
+    ar:"فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۚ إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+    fr:"Certes, avec la difficulté vient la facilité. Oui, avec la difficulté vient la facilité."
+  },
+  "az-Zumar 39:53": {
+    ar:"قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
+    fr:"Dis : Ô Mes serviteurs qui avez commis des excès, ne désespérez pas de la miséricorde d'Allah."
+  },
+  "at-Talaq 65:3": {
+    ar:"وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ",
+    fr:"Et quiconque place sa confiance en Allah, Il lui suffit."
+  },
+  "at-Tawbah 9:129": {
+    ar:"حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+    fr:"Allah me suffit : il n'y a de divinité que Lui. En Lui je place ma confiance ; et Il est le Seigneur du Trône immense."
+  },
+};
 function randomSos() { return SOS_LIST[Math.floor(Math.random()*SOS_LIST.length)] }
 
 function citeCard() {
@@ -663,7 +690,7 @@ function showSosOverlay(msg){
   var hasSource=msg.indexOf(' - ') > -1
   var textPart = hasSource ? msg.split(' - ')[0] : msg
   var sourcePart = hasSource ? msg.split(' - ')[1] : ''
-  ov.innerHTML='<button class="sos-close" onclick="document.querySelector(\'.sos-overlay\')?.remove()">✕</button><div style="text-align:center;margin-bottom:.5rem"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#ef4444"/></svg></div><div style="text-align:center;margin-bottom:1.5rem"><span style="font-size:.75rem;font-weight:600;letter-spacing:2px;color:#ef4444;text-transform:uppercase">SOS — Rappel de force</span></div><div id="sos-phase1" class="sos-text">'+textPart+(sourcePart?'<div class="sos-source">— '+sourcePart+'</div>':'')+'</div><div id="sos-phase2" style="display:none" class="breath-container"><div class="breath-circle" style="animation-duration:30s"><div class="breath-circle-inner">﷽</div></div><div id="breath-label" class="breath-label">Inspire...</div><div class="breath-sub">5 secondes</div><div class="breath-phase"><span id="bp-in" class="on">⬆ Inspire 5s</span><span id="bp-out">⬇ Expire 5s</span></div><div id="breath-count" class="breath-count">Cycle 1/3</div></div>'
+  ov.innerHTML='<button class="sos-close" onclick="document.querySelector(\'.sos-overlay\')?.remove()">✕</button><div style="text-align:center;margin-bottom:.5rem"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#ef4444"/></svg></div><div style="text-align:center;margin-bottom:1.5rem"><span style="font-size:.75rem;font-weight:600;letter-spacing:2px;color:#ef4444;text-transform:uppercase">SOS — Rappel de force</span></div><div id="sos-phase1"><div class="sos-text">'+textPart+'</div>'+(sourcePart?'<div style="text-align:center;max-width:480px;margin:0 auto">'+(VERSET_AR[sourcePart]?'<div style="background:rgba(255,255,255,.03);border-radius:16px;padding:1rem 1.25rem;margin-bottom:.5rem;border:1px solid rgba(255,255,255,.06);direction:rtl"><p style="font-size:1.3rem;line-height:2;color:#d4e5ff;font-family:'Traditional Arabic',serif;text-align:center">'+VERSET_AR[sourcePart].ar+'</p><p style="font-size:.8rem;color:#6b7280;text-align:center;margin-top:.5rem;direction:ltr">'+VERSET_AR[sourcePart].fr+'</p></div>':'')+'<div class="sos-source" style="text-align:center">— '+sourcePart+'</div></div>':'')+'</div><div id="sos-phase2" style="display:none" class="breath-container"><div class="breath-circle" style="animation-duration:30s"><div class="breath-circle-inner">﷽</div></div><div id="breath-label" class="breath-label">Inspire...</div><div class="breath-sub">5 secondes</div><div class="breath-phase"><span id="bp-in" class="on">⬆ Inspire 5s</span><span id="bp-out">⬇ Expire 5s</span></div><div id="breath-count" class="breath-count">Cycle 1/3</div></div>'
   document.body.appendChild(ov)
   // Phase 1 : citation 4s, puis respiration
   setTimeout(function(){
@@ -703,12 +730,12 @@ function showSosOverlay(msg){
       clearInterval(breathSec)
       if(p2) p2.innerHTML='<div style="text-align:center;padding:1rem"><div style="font-size:1.2rem;font-weight:700;color:#34d399;margin-bottom:.5rem">Calme retrouvé 🤲</div><p style="font-size:.85rem;color:#6b7280;line-height:1.6">Prends ce calme avec toi.<br>Tu es plus fort que tu ne le crois.</p><button class="btn btn-primary btn-sm" style="margin-top:1rem" onclick="document.querySelector(\'.sos-overlay\')?.remove()">Continuer</button></div>'
     }, 30000)
-  }, 4000)
+  }, 12000)
   // Fermeture auto après 38s
   setTimeout(function(){
     var e=document.querySelector('.sos-overlay')
     if(e&&!e.querySelector('button[onclick*="Continuer"]')) e.remove()
-  }, 38000)
+  }, 46000)
 }
 
 // ========================== REPORT ==========================
