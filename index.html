@@ -519,7 +519,15 @@ const QUESTIONS = [
   {id:15,pole:'Qalb',q:"Je connais ma direction de vie."},
 ];
 
-let state = { user:S('user',null), scores:S('scores',null), packActive:S('pack',false), currentDay:S('day',1), progress:S('progress',{}), diagAnswers:{} }
+let state = { user:S('user',null), accessCode:S('code',null), scores:S('scores',null), packActive:S('pack',false), currentDay:S('day',1), progress:S('progress',{}), diagAnswers:{} }
+
+// ========================== ACCÈS PAR CODE ==========================
+const VALID_CODES = [
+  "P30J-DEMO-2025",  // Code de démonstration
+  "HUMAN-MATRIX-30", // Code永久
+];
+function checkAccess(code) { return VALID_CODES.includes(code.trim().toUpperCase()) }
+
 function save() { SS('user',state.user); SS('pack',state.packActive); SS('day',state.currentDay); SS('progress',state.progress) }
 function toast(m) { const t=document.createElement('div'); t.className='toast'; t.textContent=m; document.body.appendChild(t); setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},2500) }
 
@@ -530,6 +538,7 @@ window.addEventListener('hashchange',()=>{cp=location.hash.slice(1)||'home';rend
 
 // ========================== RENDER ==========================
 function render() {
+  if(!state.accessCode) return renderAccess()
   if(!state.user) return renderAuth()
   const icons = {
     logo:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 22,22 2,22"/></svg>',
@@ -543,7 +552,7 @@ function render() {
     <div style="max-width:600px;margin:0 auto;padding:0 0 5rem">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:rgba(10,10,20,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:10">
         <div style="display:flex;align-items:center;gap:.5rem"><span style="font-weight:600;font-size:.9rem">▲ Protocole 30J</span></div>
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.75rem;color:#6b7280">${state.user?.name||''}</span><button class="btn btn-outline btn-xs" onclick="logout()">✕</button></div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.75rem;color:#6b7280">${state.user?.name||''}</span><button class="btn btn-outline btn-xs" onclick="logoutAccess()">✕</button></div>
       </div>
       <div id="pc" class="page active" style="padding:1rem"></div>
       <div class="tab-bar">
@@ -564,6 +573,51 @@ function renderPage() {
 }
 
 // ========================== AUTH ==========================
+
+// ========================== ACCÈS ==========================
+function renderAccess() {
+  document.getElementById('app').innerHTML = `
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(135deg,#050505 0%,#0a0a1a 50%,#050510 100%)">
+      <div class="card" style="max-width:380px;width:100%;padding:2.5rem 2rem;text-align:center">
+        <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:.25rem">▲</div>
+        <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:.3rem">Protocole 30J</h1>
+        <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix</p>
+        <div style="text-align:left;margin-bottom:1.25rem">
+          <label>Code d'accès</label>
+          <input type="text" id="access-code" placeholder="Entrez votre code" value="P30J-DEMO-2025" maxlength="30" style="text-transform:uppercase;letter-spacing:1px;text-align:center;font-weight:600">
+        </div>
+        <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleAccess()">Débloquer</button>
+        <p style="margin-top:.75rem;font-size:.7rem;color:#4b5563">Code démo : P30J-DEMO-2025</p>
+        <div id="access-error" style="margin-top:.75rem;font-size:.8rem;color:#ef4444;display:none"></div>
+      </div>
+    </div>`
+  document.getElementById('access-code')?.addEventListener('keydown', e => { if(e.key==='Enter') handleAccess() })
+}
+function handleAccess() {
+  var code=document.getElementById('access-code')?.value.trim();
+  if(!code){ showAccessError('Entre un code'); return }
+  if(!checkAccess(code)){ showAccessError('Code invalide. Verifie ton email.'); return }
+  state.accessCode=code.toUpperCase();
+  SS('code',state.accessCode);
+  render()
+}
+function showAccessError(m) {
+  var el=document.getElementById('access-error');
+  if(el){ el.textContent=m; el.style.display='block' }
+}
+function logoutAccess() {
+  state.accessCode=null;
+  state.user=null;
+  state.scores=null;
+  state.packActive=false;
+  state.currentDay=1;
+  state.progress={};
+  SS('code',null);
+  SS('scores',null);
+  render()
+}
+
+
 function renderAuth() {
   var q=randomQuote(), h=randomHadith()
   document.getElementById('app').innerHTML = `
