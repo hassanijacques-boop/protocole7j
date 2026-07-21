@@ -550,6 +550,7 @@ function render() {
         <button class="tab-btn ${cp==='home'?'active':''}" onclick="nav('home')">${icons.home}<span>Accueil</span></button>
         <button class="tab-btn ${cp==='diag'?'active':''}" onclick="nav('diag')">${icons.test}<span>${state.scores?'Profil':'Test'}</span></button>
         <button class="tab-btn ${cp==='manifest'?'active':''}" onclick="nav('manifest')">${icons.book}<span>Piliers</span></button>
+        <button class="tab-btn ${cp==='report'?'active':''}" onclick="nav('report')" style="${state.packActive?'':'display:none'}">${icons.rep}<span>Rapport</span></button>
         <button class="tab-btn ${cp==='proto'?'active':''}" onclick="nav('proto')">${icons.proto}<span>Protocole</span></button>
       </div>
     </div>`
@@ -558,7 +559,7 @@ function render() {
 
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport }
   if(pages[cp]) pages[cp]()
 }
 
@@ -688,6 +689,11 @@ function renderProto() {
     </div>`:''}
     <h3 style="font-size:.95rem;font-weight:600;margin-bottom:.5rem">Missions du jour</h3>
     ${missions.map(m=>{const is=completed.includes(m.t);return `<div class="card" style="margin-bottom:.5rem;${is?'opacity:.5':''}"><div style="display:flex;justify-content:space-between;align-items:start;gap:.5rem"><div><span class="badge" style="font-size:.65rem;background:${m.p==='Djism'?'rgba(239,68,68,.15)':m.p==='Aql'?'rgba(59,130,246,.15)':m.p==='Nafs'?'rgba(245,158,11,.15)':'rgba(16,185,129,.15)'};color:${m.p==='Djism'?'#fca5a5':m.p==='Aql'?'#93c5fd':m.p==='Nafs'?'#fbbf24':'#34d399'}">${m.p}</span><div style="font-weight:600;font-size:.9rem;margin-top:.2rem">${m.t}</div><div style="font-size:.8rem;color:#6b7280">${m.d}</div></div><button class="btn btn-sm ${is?'btn-outline':'btn-primary'}" ${is?'disabled':''} onclick="compMission(${d},'${m.t}')">${is?'✅':'✓'}</button></div></div>`}).join('')}
+    ${d===30 && done===4 ? `<div style="text-align:center;padding:1rem;margin:1rem 0;background:rgba(16,185,129,.06);border-radius:16px;border:1px solid rgba(16,185,129,.15)">
+      <div style="font-size:1.5rem;font-weight:800;color:#34d399;margin-bottom:.25rem">🎉 Protocole terminé !</div>
+      <p style="font-size:.85rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">Félicitations ! 30 jours de transformation.<br>Mesure ta progression avec un nouveau diagnostic.</p>
+      <button class="btn btn-primary btn-sm" onclick="retakeDiag()">📊 Re-test diagnostic</button>
+    </div>` : ''}
     <div style="display:flex;justify-content:center;gap:.75rem;margin-top:1rem;padding:.5rem">
       <div style="text-align:center">
         <p style="font-size:.7rem;color:#6b7280;margin-bottom:.25rem">SOS</p>
