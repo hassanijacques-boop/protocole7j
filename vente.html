@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocole 30J — Reprends le contrôle en 30 jours</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:#0a0a0a; color:#f3f4f6; overflow-x:hidden; }
+    .container { max-width:800px; margin:0 auto; padding:0 1.25rem; }
+    
+    /* HERO */
+    .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:6rem 1.25rem 4rem; background:linear-gradient(135deg,#050505 0%,#0a0a1a 40%,#050510 80%); position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 30% 40%,rgba(16,185,129,.08) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(16,185,129,.04) 0%,transparent 50%); pointer-events:none; }
+    .hero-content { position:relative; z-index:1; }
+    .hero-badge { display:inline-block; padding:.35rem 1rem; border-radius:99px; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.2); font-size:.75rem; color:#34d399; font-weight:600; margin-bottom:1.5rem; letter-spacing:.05em; text-transform:uppercase; }
+    .hero h1 { font-size:clamp(2rem,5vw,3.2rem); font-weight:900; line-height:1.15; margin-bottom:1rem; letter-spacing:-.02em; }
+    .hero h1 span { background:linear-gradient(135deg,#10b981,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero p { font-size:clamp(1rem,2vw,1.15rem); color:#9ca3af; line-height:1.7; max-width:560px; margin:0 auto 2rem; }
+    .hero-stats { display:flex; gap:2rem; justify-content:center; margin-bottom:2.5rem; flex-wrap:wrap; }
+    .hero-stat { text-align:center; }
+    .hero-stat .num { font-size:1.8rem; font-weight:800; color:#10b981; line-height:1; }
+    .hero-stat .label { font-size:.75rem; color:#4b5563; margin-top:.25rem; }
+    .btn { display:inline-flex; align-items:center; gap:.5rem; padding:.85rem 2rem; border-radius:12px; font-weight:700; font-size:.95rem; cursor:pointer; border:none; text-decoration:none; transition:all .2s; }
+    .btn-primary { background:linear-gradient(135deg,#10b981,#059669); color:#000; box-shadow:0 4px 24px rgba(16,185,129,.3); }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(16,185,129,.4); }
+    .btn-outline { background:transparent; border:1.5px solid rgba(255,255,255,.1); color:#f3f4f6; }
+    .btn-outline:hover { border-color:#10b981; color:#10b981; }
+    
+    /* SECTIONS */
+    section { padding:5rem 0; }
+    .section-title { font-size:clamp(1.3rem,3vw,1.8rem); font-weight:800; text-align:center; margin-bottom:.75rem; letter-spacing:-.02em; }
+    .section-sub { font-size:.95rem; color:#6b7280; text-align:center; max-width:480px; margin:0 auto 3rem; line-height:1.6; }
+    
+    /* PROBLEM */
+    #probleme { background:linear-gradient(180deg,#0a0a1a 0%,transparent 100%); }
+    .problem-grid { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+    .problem-item { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:1.25rem; text-align:center; transition:.2s; }
+    .problem-item:hover { border-color:rgba(239,68,68,.3); background:rgba(239,68,68,.04); }
+    .problem-item .icon { font-size:1.5rem; margin-bottom:.5rem; }
+    .problem-item p { font-size:.85rem; color:#9ca3af; line-height:1.5; }
+    
+    /* SOLUTION (4 PILIERS) */
+    #solution { background:linear-gradient(0deg,#0a0a1a 0%,transparent 100%); }
+    .pillars-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .pillar-card { border-radius:16px; padding:1.5rem; border:1px solid; transition:.3s; cursor:default; }
+    .pillar-card:hover { transform:translateY(-3px); }
+    .pillar-card .icon { width:44px; height:44px; margin-bottom:.75rem; }
+    .pillar-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:.25rem; }
+    .pillar-card .arabic { font-size:.8rem; opacity:.5; font-style:italic; margin-bottom:.5rem; }
+    .pillar-card p { font-size:.85rem; line-height:1.6; opacity:.75; }
+    
+    /* STRUCTURE */
+    .phases { display:flex; flex-direction:column; gap:.75rem; }
+    .phase { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:1.25rem 1.5rem; display:flex; align-items:center; gap:1rem; }
+    .phase-num { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; flex-shrink:0; }
+    .phase-info { flex:1; }
+    .phase-info h4 { font-size:.95rem; font-weight:700; }
+    .phase-info p { font-size:.8rem; color:#6b7280; margin-top:.15rem; }
+    .phase-days { font-size:.7rem; color:#4b5563; font-weight:600; white-space:nowrap; }
+    
+    /* FEATURES */
+    .features-grid { display:grid; gap:.75rem; }
+    .feature { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:1.25rem 1.5rem; display:flex; gap:1rem; align-items:start; }
+    .feature .icon { font-size:1.5rem; flex-shrink:0; }
+    .feature h4 { font-size:.9rem; font-weight:700; margin-bottom:.15rem; }
+    .feature p { font-size:.8rem; color:#6b7280; line-height:1.5; }
+    
+    /* SOS */
+    .sos-demo { background:rgba(239,68,68,.05); border:1px solid rgba(239,68,68,.12); border-radius:16px; padding:1.5rem; text-align:center; }
+    .sos-demo h4 { font-size:1rem; font-weight:700; color:#fca5a5; }
+    .sos-demo p { font-size:.85rem; color:#6b7280; margin:.5rem 0 1rem; line-height:1.5; }
+    .sos-demo .steps { display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; }
+    .sos-demo .step { background:rgba(255,255,255,.04); border-radius:8px; padding:.35rem .75rem; font-size:.7rem; color:#9ca3af; }
+    .sos-demo .step strong { color:#f3f4f6; }
+    
+    /* SCIENTIFIC */
+    .sci-block { background:rgba(59,130,246,.04); border:1px solid rgba(59,130,246,.1); border-radius:16px; padding:1.5rem; }
+    .sci-block h4 { font-size:.95rem; font-weight:700; color:#93c5fd; }
+    .sci-block p { font-size:.85rem; color:#6b7280; line-height:1.6; margin-top:.35rem; }
+    
+    /* TARIF */
+    #prix { background:linear-gradient(180deg,transparent 0%,#0a0a1a 100%); }
+    .pricing-card { background:rgba(255,255,255,.03); border:1px solid rgba(16,185,129,.15); border-radius:20px; padding:2.5rem 2rem; text-align:center; max-width:400px; margin:0 auto; }
+    .pricing-card .price { font-size:3rem; font-weight:900; color:#10b981; letter-spacing:-.03em; }
+    .pricing-card .price sub { font-size:1rem; font-weight:500; color:#4b5563; }
+    .pricing-card .period { font-size:.8rem; color:#4b5563; margin-bottom:1.5rem; }
+    .pricing-card ul { list-style:none; text-align:left; margin-bottom:2rem; }
+    .pricing-card ul li { padding:.45rem 0; font-size:.85rem; color:#9ca3af; display:flex; align-items:center; gap:.5rem; }
+    .pricing-card ul li::before { content:'✓'; color:#10b981; font-weight:700; }
+    
+    /* FAQ */
+    .faq-item { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:12px; padding:1rem 1.25rem; margin-bottom:.5rem; cursor:pointer; }
+    .faq-item h4 { font-size:.85rem; font-weight:600; color:#d1d5db; }
+    .faq-item p { font-size:.8rem; color:#6b7280; line-height:1.5; margin-top:.5rem; display:none; }
+    .faq-item.open p { display:block; }
+    
+    /* FOOTER */
+    footer { text-align:center; padding:2rem; border-top:1px solid rgba(255,255,255,.05); }
+    footer p { font-size:.75rem; color:#4b5563; }
+    
+    .img-responsive { max-width:100%; height:auto; border-radius:16px; margin:2rem auto; display:block; box-shadow:0 8px 40px rgba(0,0,0,.4); }
+    
+    @media(max-width:640px){
+      .problem-grid { grid-template-columns:1fr; }
+      .pillars-grid { grid-template-columns:1fr; }
+      .phase { flex-wrap:wrap; }
+      .hero { padding:4rem 1rem 3rem; }
+      section { padding:3rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🔥 Programme certifié — 30 jours</div>
+    <h1>Reprends le contrôle<br>de <span>toi-même</span> en 30 jours</h1>
+    <p>Un programme digital structuré qui agit sur les 4 dimensions de l'être humain : le Corps, l'Esprit, l'Âme et le Cœur. 120 missions progressives, 100% référencé dans l'Islam.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">30</div><div class="label">Jours</div></div>
+      <div class="hero-stat"><div class="num">120</div><div class="label">Missions</div></div>
+      <div class="hero-stat"><div class="num">4</div><div class="label">Piliers</div></div>
+    </div>
+    <a href="#prix" class="btn btn-primary">💰 J'y vais !</a>
+    <div style="margin-top:2rem">
+      <img src="https://raw.githubusercontent.com/hassanijacques-boop/protocole7j/main/images/p30j_pdv.png" alt="Aperçu Protocole 30J" class="img-responsive" style="max-width:280px;border-radius:20px;box-shadow:0 20px 60px rgba(16,185,129,.15)">
+    </div>
+  </div>
+</section>
+
+<!-- PROBLÈME -->
+<section id="probleme">
+  <div class="container">
+    <h2 class="section-title">Tu te reconnais ?</h2>
+    <p class="section-sub">Ces signes montrent que tu as besoin de recentrer les 4 dimensions de ton être.</p>
+    <div class="problem-grid">
+      <div class="problem-item"><div class="icon">😴</div><p>Tu te réveilles fatigué, sans énergie</p></div>
+      <div class="problem-item"><div class="icon">📱</div><p>Tu passes des heures à scroller sans but</p></div>
+      <div class="problem-item"><div class="icon">😤</div><p>Tu craques face à tes tentations</p></div>
+      <div class="problem-item"><div class="icon">💔</div><p>Tu sens un vide intérieur que rien ne comble</p></div>
+      <div class="problem-item"><div class="icon">🧠</div><p>Tu n'arrives pas à te concentrer</p></div>
+      <div class="problem-item"><div class="icon">🔄</div><p>Tu commences et tu abandonnes toujours</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION : LES 4 PILIERS -->
+<section id="solution">
+  <div class="container">
+    <h2 class="section-title">La solution : Human Matrix</h2>
+    <p class="section-sub">4 piliers interconnectés. 1 mission par pilier chaque jour. Une transformation holistique.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card" style="border-color:#ef444430;background:rgba(239,68,68,.04)">
+        <div class="icon" style="color:#ef4444">
+          <svg viewBox="0 0 32 32" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="16" cy="8" r="4.5"/><path d="M8 28v-6a8 8 0 0116 0v6"/><path d="M12 22l-3 6M20 22l3 6"/></svg>
+        </div>
+        <h3 style="color:#ef4444">Djism — Le Corps</h3>
+        <div class="arabic">جسم</div>
+        <p>Alimentation, sommeil, mouvement, respiration. Le corps est le véhicule de l'âme.</p>
+      </div>
+      <div class="pillar-card" style="border-color:#3b82f630;background:rgba(59,130,246,.04)">
+        <div class="icon" style="color:#3b82f6">
+          <svg viewBox="0 0 32 32" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="16" cy="16" r="11" stroke-dasharray="2 2"/><circle cx="16" cy="16" r="5.5"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>
+        </div>
+        <h3 style="color:#3b82f6">Aql — L'Esprit</h3>
+        <div class="arabic">عقل</div>
+        <p>Concentration, apprentissage, réflexion, silence. L'esprit est le pont vers l'invisible.</p>
+      </div>
+      <div class="pillar-card" style="border-color:#f59e0b30;background:rgba(245,158,11,.04)">
+        <div class="icon" style="color:#f59e0b">
+          <svg viewBox="0 0 32 32" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 2C16 2 6 10 6 17a10 10 0 0020 0c0-7-10-15-10-15z"/><circle cx="16" cy="17" r="3" fill="currentColor"/></svg>
+        </div>
+        <h3 style="color:#f59e0b">Nafs — L'Âme</h3>
+        <div class="arabic">نفس</div>
+        <p>Patience, discipline, maîtrise des impulsions. Dompte ton Nafs, il devient ton allié.</p>
+      </div>
+      <div class="pillar-card" style="border-color:#10b98130;background:rgba(16,185,129,.04)">
+        <div class="icon" style="color:#10b981">
+          <svg viewBox="0 0 32 32" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 28C16 28 4 21 4 13a6.5 6.5 0 0112-2.5A6.5 6.5 0 0128 13c0 8-12 15-12 15z"/></svg>
+        </div>
+        <h3 style="color:#10b981">Qalb — Le Cœur</h3>
+        <div class="arabic">قلب</div>
+        <p>Foi, gratitude, pardon, connexion. Le cœur pur reflète la lumière sans la déformer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APERÇU APP -->
+<section style="text-align:center;padding:2rem 0">
+  <div class="container">
+    <img src="https://raw.githubusercontent.com/hassanijacques-boop/protocole7j/main/images/pic_1.png" alt="Aperçu application" class="img-responsive" style="max-width:300px">
+  </div>
+</section>
+
+<!-- STRUCTURE -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Le programme en 4 phases</h2>
+    <p class="section-sub">30 jours progressifs, de la prise de conscience à la maîtrise.</p>
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num" style="background:rgba(16,185,129,.1);color:#34d399">1</div>
+        <div class="phase-info"><h4>Fondations</h4><p>Prise de conscience, observation, premiers non, gratitude</p></div>
+        <div class="phase-days">Jours 1-7</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num" style="background:rgba(59,130,246,.1);color:#93c5fd">2</div>
+        <div class="phase-info"><h4>Construction</h4><p>Renforcement, concentration, privation consciente</p></div>
+        <div class="phase-days">Jours 8-14</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num" style="background:rgba(245,158,11,.1);color:#fbbf24">3</div>
+        <div class="phase-info"><h4>Approfondissement</h4><p>Purification intérieure, discipline, mi-parcours</p></div>
+        <div class="phase-days">Jours 15-21</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num" style="background:rgba(16,185,129,.1);color:#34d399">4</div>
+        <div class="phase-info"><h4>Maîtrise</h4><p>Lâcher-prise, synthèse, célébration, engagement durable</p></div>
+        <div class="phase-days">Jours 22-30</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FONCTIONNALITÉS -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Tout est inclus</h2>
+    <p class="section-sub">Une application complète, pas un simple PDF.</p>
+    <div class="features-grid">
+      <div class="feature"><div class="icon">📋</div><div><h4>Test diagnostique</h4><p>15 questions pour évaluer tes 4 piliers avant de commencer</p></div></div>
+      <div class="feature"><div class="icon">📅</div><div><h4>30 briefings quotidiens</h4><p>Un texte motivant chaque jour pour te guider</p></div></div>
+      <div class="feature"><div class="icon">🎯</div><div><h4>120 missions progressives</h4><p>4 missions par jour, une par pilier, avec descriptions détaillées</p></div></div>
+      <div class="feature"><div class="icon">📖</div><div><h4>Manifeste des 4 piliers</h4><p>Dimensions, signes de déséquilibre, pratiques clés pour chaque pilier</p></div></div>
+      <div class="feature"><div class="icon">🆘</div><div><h4>SOS Urgence</h4><p>Versets du Coran, invocations et exercice de respiration guidée</p></div></div>
+      <div class="feature"><div class="icon">📊</div><div><h4>Rapport de progression</h4><p>Suis ta transformation jour après jour</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- APERÇU APP 2 -->
+<section style="text-align:center;padding:2rem 0">
+  <div class="container">
+    <img src="https://raw.githubusercontent.com/hassanijacques-boop/protocole7j/main/images/pic2.png" alt="Fonctionnalités application" class="img-responsive" style="max-width:300px">
+  </div>
+</section>
+
+<!-- SOS -->
+<section>
+  <div class="container">
+    <h2 class="section-title">L'outil SOS : ton filet de sécurité</h2>
+    <p class="section-sub">Un bouton d'urgence accessible à tout moment dans l'application.</p>
+    <div class="sos-demo">
+      <h4>🆘 Appel à la force</h4>
+      <p>Quand tu sens que tu vas craquer, un clic et c'est là.</p>
+      <div class="steps">
+        <div class="step"><strong>📜 1</strong> Verset ou hadith aléatoire</div>
+        <div class="step"><strong>🌙 2</strong> Texte arabe + traduction</div>
+        <div class="step"><strong>🌬️ 3</strong> Respiration guidée 30s</div>
+        <div class="step"><strong>🤲 4</strong> Message de réconfort</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCIENTIFIQUE -->
+<section>
+  <div class="container">
+    <div class="sci-block">
+      <h4>🧪 Pourquoi 30 jours ?</h4>
+      <p>Des études en neurosciences montrent qu'il faut en moyenne 21 à 66 jours pour installer une nouvelle habitude. Le cycle de 30 jours du Protocole 30J est le minimum physiologique pour créer des changements durables dans le cerveau. Associé à la dimension spirituelle islamique, il agit sur TOUS les plans de l'être.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TARIF -->
+<section id="prix">
+  <div class="container">
+    <h2 class="section-title">Investis en toi-même</h2>
+    <p class="section-sub">Un paiement unique. Un accès à vie. Sans abonnement.</p>
+    <div class="pricing-card">
+      <div class="price">19,99<sub>€</sub></div>
+      <div class="period">Paiement unique — Accès à vie</div>
+      <ul>
+        <li>30 jours de programme structuré</li>
+        <li>120 missions détaillées</li>
+        <li>Test diagnostique complet</li>
+        <li>Manifeste des 4 piliers</li>
+        <li>SOS urgence avec respiration</li>
+        <li>Rapport de progression</li>
+        <li>Citations et versets islamiques</li>
+        <li>Mise à jour gratuites à vie</li>
+      </ul>
+      <a href="https://jacquescafipemf976.systeme.io/8d262619" class="btn btn-primary" style="width:100%;justify-content:center">🚀 Accéder au Protocole 30J</a>
+      <p style="margin-top:.75rem;font-size:.7rem;color:#4b5563">🔒 Paiement sécurisé — Accès immédiat</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Questions fréquentes</h2>
+    <p class="section-sub">Tout ce que tu dois savoir.</p>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h4>❓ C'est quoi exactement ?</h4>
+      <p>Une application web progressive (PWA) qui te guide pendant 30 jours avec 4 missions quotidiennes pour transformer Corps, Esprit, Âme et Cœur.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h4>❓ Est-ce que ça marche sur téléphone ?</h4>
+      <p>Oui ! L'application est 100% mobile-first. Elle marche sur tous les smartphones, tablettes et ordinateurs.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h4>❓ Y a-t-il un abonnement ?</h4>
+      <p>Non, c'est un paiement unique de 19,99€. Accès à vie, sans abonnement ni frais cachés.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h4>❓ Est-ce adapté aux débutants ?</h4>
+      <p>Absolument. Le programme commence doucement (semaine 1 : fondations) et augmente progressivement en intensité.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h4>❓ Y a-tous des références islamiques ?</h4>
+      <p>Toutes les citations, hadiths et versets sont tirés du Coran, de la Sunna et des savants de Ahl al-Sunnah. Aucune référence au développement personnel occidental.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h4>❓ J'ai besoin de Internet ?</h4>
+      <p>Une fois la page chargée, l'application fonctionne en grande partie hors-ligne. Idéal pour Mayotte où la connexion est limitée.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Protocole 30J — Human Matrix. Tous droits réservés.</p>
+</footer>
+
+</body>
+</html>
