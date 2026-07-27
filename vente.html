@@ -11,7 +11,6 @@
     .container { max-width:720px; margin:0 auto; padding:0 1.25rem; }
     
     .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:6rem 1rem 4rem; background:radial-gradient(ellipse at 50% 0%, rgba(16,185,129,.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(16,185,129,.04) 0%, transparent 50%); position:relative; overflow:hidden; }
-    .hero::after { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:1px; height:30%; background:linear-gradient(180deg,transparent,rgba(16,185,129,.2),transparent); }
     .hero-content { position:relative; z-index:1; max-width:600px; }
     .hero-badge { display:inline-block; padding:.35rem 1.1rem; border-radius:99px; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.2); font-size:.7rem; color:#34d399; font-weight:600; margin-bottom:1.5rem; letter-spacing:.08em; text-transform:uppercase; }
     .hero h1 { font-size:clamp(2rem,5.5vw,3.4rem); font-weight:900; line-height:1.1; margin-bottom:1rem; letter-spacing:-.03em; }
@@ -31,8 +30,13 @@
     .section-title { font-size:clamp(1.4rem,3vw,1.9rem); font-weight:800; text-align:center; margin-bottom:.75rem; letter-spacing:-.02em; }
     .section-sub { font-size:.9rem; color:#6b7280; text-align:center; max-width:520px; margin:0 auto 3rem; line-height:1.7; }
     
-    .pain-item { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:1.25rem 1.5rem; margin-bottom:.6rem; transition:.2s; cursor:default; }
-    .pain-item:hover { border-color:rgba(239,68,68,.2); background:rgba(239,68,68,.04); }
+    .q-block { margin-bottom:1.5rem; }
+    .q-num { display:inline-block; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.15); border-radius:99px; padding:.15rem .65rem; font-size:.65rem; color:#34d399; font-weight:600; letter-spacing:.05em; margin-bottom:.5rem; }
+    .q-question { font-size:1.15rem; font-weight:700; margin-bottom:.75rem; line-height:1.4; }
+    .q-answer { font-size:.9rem; color:#9ca3af; line-height:1.7; }
+    .q-answer strong { color:#f3f4f6; }
+    
+    .pain-item { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:1.25rem 1.5rem; margin-bottom:.6rem; }
     .pain-item h4 { font-size:.85rem; font-weight:600; color:#fca5a5; margin-bottom:.25rem; }
     .pain-item p { font-size:.8rem; color:#6b7280; line-height:1.5; }
     
@@ -45,18 +49,12 @@
     .pillar-card p { font-size:.8rem; line-height:1.6; opacity:.7; }
     
     .trust-badge { display:inline-flex; align-items:center; gap:.35rem; background:rgba(16,185,129,.06); border:1px solid rgba(16,185,129,.1); border-radius:99px; padding:.3rem .85rem; font-size:.7rem; color:#34d399; font-weight:600; margin:0 auto 2rem; width:fit-content; }
-    .badge-red { background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.15); color:#fca5a5; }
     
     .garantie { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:16px; padding:1.5rem; text-align:center; margin-top:2rem; }
-    .garantie .seal { font-size:2.5rem; margin-bottom:.5rem; }
     .garantie h4 { font-size:1rem; font-weight:700; color:#34d399; margin-bottom:.35rem; }
     .garantie p { font-size:.8rem; color:#6b7280; line-height:1.6; max-width:400px; margin:0 auto; }
     
-    .img-rounded { max-width:260px; height:auto; border-radius:20px; margin:2rem auto; display:block; box-shadow:0 20px 60px rgba(0,0,0,.4); }
-    
-    blockquote { border-left:2px solid rgba(16,185,129,.3); padding:1rem 1.5rem; margin:2rem 0; background:rgba(16,185,129,.03); border-radius:0 14px 14px 0; }
-    blockquote p { font-size:.9rem; color:#9ca3af; line-height:1.7; font-style:italic; }
-    blockquote cite { display:block; margin-top:.5rem; font-size:.8rem; color:#4b5563; font-style:normal; }
+    .img-rounded { max-width:260px; border-radius:20px; margin:2rem auto; display:block; box-shadow:0 20px 60px rgba(0,0,0,.4); }
     
     @media(max-width:640px){
       .pillars { grid-template-columns:1fr; }
@@ -67,10 +65,10 @@
 </head>
 <body>
 
-<!-- HERO – 16 Word Sales Letter : titre en 14 mots -->
+<!-- === HÉRO : Titre 16 mots max === -->
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-badge">🎯 ÉDITION LIMITÉE — 47€ AU LIEU DE 97€</div>
+    <div class="hero-badge">🎯 OFFRE DE LANCEMENT — 47€ AU LIEU DE 97€</div>
     <h1>Transforme ton corps, ton esprit,<br>ton âme et ton cœur<br>en <span class="g2">30 jours</span></h1>
     <p class="sub">120 missions progressives pour rééquilibrer tes 4 dimensions. Sans abonnement. Sans matériel. Sans connexion Internet.</p>
     <div class="hero-stats">
@@ -84,157 +82,185 @@
   </div>
 </section>
 
-<!-- QUESTION #1 : Ce que tu as déjà essayé (fausses solutions) — Ch.3 du 16WSL -->
+<!-- === QUESTION #1 : Les fausses solutions === -->
 <section style="background:linear-gradient(180deg,transparent 0%,rgba(239,68,68,.02) 100%)">
   <div class="container">
-    <div class="trust-badge badge-red">⚠️ QUESTION N°1</div>
-    <h2 class="section-title">Tu as déjà tout essayé.<br>Pourquoi ça n'a pas marché ?</h2>
-    <p class="section-sub">Avant d'arriver ici, tu as probablement cherché des solutions ailleurs. Et tu sais quoi ? Ce n'est pas ta faute si elles ont échoué.</p>
-    
-    <div class="pain-item">
-      <h4>📱 Les applis de productivité</h4>
-      <p>Tu t'es inscrit sur 3 applis. Tu les as utilisées 4 jours. Puis tu les as oubliées. Pourquoi ? Parce qu'elles ne travaillent que sur une seule dimension : l'organisation. Ton cœur et ton âme restaient vides.</p>
-    </div>
-    <div class="pain-item">
-      <h4>🥗 Les régimes et challenges fitness</h4>
-      <p>Tu as tenu 2 semaines, peut-être 3. Puis tu as craqué. Et tu t'es détesté après. Mais le problème n'était pas toi : le problème, c'est que tu négligeais ton Nafs et ton Qalb pendant que tu forçais sur ton corps.</p>
-    </div>
-    <div class="pain-item">
-      <h4>📚 Les livres de développement personnel</h4>
-      <p>Tu en as lu plusieurs. Tu étais motivé pendant 3 jours. Puis la vie a repris le dessus. Parce que la motivation seule ne suffit pas. Il faut une structure qui agit sur TOI, pas sur UNE PARTIE de toi.</p>
-    </div>
-    <div class="pain-item">
-      <h4>🎧 Les coachs et les formations</h4>
-      <p>Tu as dépensé du temps et de l'argent. Les bons conseils étaient là. Mais sans un plan progressif sur 30 jours qui coordonne toutes tes dimensions, ça ne pouvait pas tenir.</p>
+    <div class="q-block">
+      <div class="q-num">QUESTION N°1</div>
+      <div class="q-question">Dis-moi si tu t'es déjà reconnu dans ces situations...</div>
+      <div class="q-answer">Je vais te montrer 4 choses que tu as probablement déjà essayées. Et surtout, pourquoi elles n'ont pas marché.</div>
     </div>
 
-    <!-- LE VRAI PROBLÈME — Ch.6 du 16WSL -->
-    <div style="margin-top:2.5rem;text-align:center">
-      <div class="trust-badge badge-red">🎯 LE VRAI PROBLÈME</div>
-      <h2 style="font-size:clamp(1.2rem,2.5vw,1.5rem);font-weight:800;text-align:center;margin-bottom:1rem">Ce n'est pas <em>toi</em> le problème.</h2>
-      <blockquote>
-        <p>« Tu n'as pas un problème de discipline. Tu n'as pas un problème de motivation. Tu as un problème de <strong>structure intégrale</strong>. Tu travailles toujours 1 dimension sur 4. Et les 3 autres s'effondrent pendant ce temps-là. »</p>
-      </blockquote>
-      <p style="font-size:.85rem;color:#6b7280;line-height:1.7;max-width:480px;margin:1.5rem auto">Ce n'est pas ta faute. Personne ne t'a appris qu'il faut travailler le Corps, l'Esprit, l'Âme et le Cœur EN MÊME TEMPS. C'est exactement ce que fait le Protocole 30J.</p>
+    <div class="pain-item">
+      <h4>📱 Les applis et méthodes de productivité</h4>
+      <p>Tu les as installées, utilisées 3-4 jours, puis laissées tomber. Pas parce que tu manques de discipline. Parce qu'elles n'agissent que sur une seule dimension : l'organisation. Et ton cœur, lui, restait vide.</p>
+    </div>
+    <div class="pain-item">
+      <h4>🥗 Les régimes et challenges sportifs</h4>
+      <p>Tu as tenu 2 semaines. Puis tu as craqué. Tu t'es détesté après. Mais ce n'est pas toi le problème : tu forçais ton corps sans renforcer ton Nafs (ta force intérieure). Résultat : l'ego a repris le dessus.</p>
+    </div>
+    <div class="pain-item">
+      <h4>📚 Les livres et coachs de développement</h4>
+      <p>Tu as lu, été motivé 3 jours, puis la routine a repris ses droits. Parce que la motivation sans structure intégrale ne tient pas. Tu travaillais l'esprit, mais le corps et l'âme restaient en friche.</p>
+    </div>
+    <div class="pain-item">
+      <h4>🎧 Les séances de méditation et spirituelles seules</h4>
+      <p>Tu as essayé de « lâcher prise », de prier plus, de méditer. Mais sans un corps sain et un esprit discipliné, la connexion spirituelle reste fragile.</p>
     </div>
   </div>
 </section>
 
-<!-- LA SOLUTION – les 4 piliers -->
+<!-- === QUESTION #2 : Le coût des fausses solutions === -->
 <section>
   <div class="container">
-    <div class="trust-badge">🧬 LA SOLUTION</div>
-    <h2 class="section-title">4 dimensions. 1 mission par jour chacune.<br>30 jours pour tout transformer.</h2>
-    <p class="section-sub">1 mission par pilier, chaque jour. Quand les 4 avancent ensemble, la transformation devient inarrêtable.</p>
+    <div class="q-block">
+      <div class="q-num">QUESTION N°2</div>
+      <div class="q-question">Combien tout ça t'a coûté ?</div>
+      <div class="q-answer">En temps, en énergie, en argent. Et surtout — en <strong>espoir déçu</strong>. À chaque nouvel essai, tu y as cru. Et à chaque échec, une partie de toi s'est dit : « Je n'y arriverai jamais. Je suis trop faible. »<br><br>Mais la vérité est ailleurs.</div>
+    </div>
+  </div>
+</section>
+
+<!-- === QUESTION #3 : Ce n'est pas ta faute === -->
+<section style="background:linear-gradient(0deg,transparent 0%,rgba(16,185,129,.02) 100%)">
+  <div class="container">
+    <div class="q-block">
+      <div class="q-num">QUESTION N°3</div>
+      <div class="q-question">Et si le problème n'était pas TOI,<br>mais l'approche qu'on t'a vendue ?</div>
+      <div class="q-answer">On t'a fait croire que pour changer, il suffisait de « travailler sur soi ». Mais personne ne t'a dit qu'il faut travailler sur <strong>4 dimensions en même temps</strong>.<br><br>Le corps, l'esprit, l'âme et le cœur ne sont pas séparés. Quand l'un va mal, les trois autres suivent. Et si tu n'en entraînes qu'un, les trois autres s'affaiblissent.<br><br><strong style="color:#34d399;font-size:1rem">Ce n'est pas ta faute. Personne ne t'avait donné la structure complète.</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- === QUESTION #4 : Le vrai problème === -->
+<section>
+  <div class="container">
+    <div class="q-block">
+      <div class="q-num">QUESTION N°4</div>
+      <div class="q-question">Alors quel est le VRAI problème ?</div>
+      <div class="q-answer">Le voici, en une phrase :<br><br>
+      <strong style="font-size:1.1rem;color:#fbbf24;display:block;text-align:center;padding:1rem;border:1px solid rgba(245,158,11,.2);border-radius:12px;background:rgba(245,158,11,.04);margin:1rem 0">
+        « Tu travailles toujours 1 dimension sur 4. Et les 3 autres s'effondrent pendant ce temps-là. »
+      </strong><br>
+      Tu vas à la salle (corps), mais ton esprit est dispersé et ton cœur est vide. Tu lis des livres (esprit), mais ton corps est négligé et ton âme est en conflit. Tu pries et médites (cœur), mais ton corps est fatigué et ton nafs incontrôlé.<br><br>
+      Le résultat ? Tu tournes en rond depuis des années. Et tu avances en zigzag au lieu d'avancer droit.</div>
+    </div>
+  </div>
+</section>
+
+<!-- === QUESTION #5 : Nous vs Eux : La solution === -->
+<section style="background:radial-gradient(ellipse at 50% 0%,rgba(16,185,129,.04) 0%,transparent 60%)">
+  <div class="container">
+    <div class="q-block">
+      <div class="q-num">QUESTION N°5 — LA SOLUTION</div>
+      <div class="q-question">Et si on arrêtait de travailler 1 dimension<br>pour travailler les 4 EN MÊME TEMPS ?</div>
+      <div class="q-answer">C'est exactement ce que fait le <strong>Protocole 30J</strong>. Tous les jours, pendant 30 jours, tu fais 1 mission pour chaque pilier. Pas une de plus, pas une de moins.<br><br>
+      <strong>Résultat : les 4 avancent ensemble. Et quand les 4 avancent ensemble, rien ne peut t'arrêter.</strong></div>
+    </div>
+    
     <div class="pillars">
       <div class="pillar-card" style="border-color:#ef444430;background:rgba(239,68,68,.04)">
         <div class="icon" style="color:#ef4444"><svg viewBox="0 0 32 32" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="16" cy="8" r="4.5"/><path d="M8 28v-6a8 8 0 0116 0v6"/><path d="M12 22l-3 6M20 22l3 6"/></svg></div>
-        <h3 style="color:#ef4444">Djism — Le Corps</h3>
+        <h3 style="color:#ef4444">Djism — Corps</h3>
         <div class="ar">جسم</div>
-        <p>Sommeil, hydratation, mouvement, respiration. Chaque jour une mission pour réveiller ton corps.</p>
+        <p>Sommeil, mouvement, respiration, hydratation. Le corps devient ton allié.</p>
       </div>
       <div class="pillar-card" style="border-color:#3b82f630;background:rgba(59,130,246,.04)">
         <div class="icon" style="color:#3b82f6"><svg viewBox="0 0 32 32" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="16" cy="16" r="11" stroke-dasharray="2 2"/><circle cx="16" cy="16" r="5.5"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg></div>
-        <h3 style="color:#3b82f6">Aql — L'Esprit</h3>
+        <h3 style="color:#3b82f6">Aql — Esprit</h3>
         <div class="ar">عقل</div>
-        <p>Concentration, lecture, silence, apprentissage. Ton esprit devient clair et tranchant.</p>
+        <p>Concentration, lecture, décision. L'esprit devient clair et puissant.</p>
       </div>
       <div class="pillar-card" style="border-color:#f59e0b30;background:rgba(245,158,11,.04)">
         <div class="icon" style="color:#f59e0b"><svg viewBox="0 0 32 32" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 2C16 2 6 10 6 17a10 10 0 0020 0c0-7-10-15-10-15z"/><circle cx="16" cy="17" r="3" fill="currentColor"/></svg></div>
-        <h3 style="color:#f59e0b">Nafs — L'Âme</h3>
+        <h3 style="color:#f59e0b">Nafs — Âme</h3>
         <div class="ar">نفس</div>
-        <p>Patience, discipline, maîtrise des impulsions. Tu passes de victime à vainqueur.</p>
+        <p>Patience, discipline, maîtrise de soi. Tu passes de victime à vainqueur.</p>
       </div>
       <div class="pillar-card" style="border-color:#10b98130;background:rgba(16,185,129,.04)">
         <div class="icon" style="color:#10b981"><svg viewBox="0 0 32 32" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 28C16 28 4 21 4 13a6.5 6.5 0 0112-2.5A6.5 6.5 0 0128 13c0 8-12 15-12 15z"/></svg></div>
-        <h3 style="color:#10b981">Qalb — Le Cœur</h3>
+        <h3 style="color:#10b981">Qalb — Cœur</h3>
         <div class="ar">قلب</div>
-        <p>Gratitude, pardon, foi, connexion spirituelle. Le cœur s'apaise et trouve la paix.</p>
+        <p>Gratitude, pardon, foi. Le cœur trouve la paix intérieure.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PREUVE (Ch.5 du 16WSL) : Structure concrète -->
-<section style="background:linear-gradient(180deg,transparent 0%,rgba(16,185,129,.02) 100%)">
+<!-- === PREUVE (Ch.5) : Le plan concret === -->
+<section>
   <div class="container">
     <div class="trust-badge">📅 PREUVE : LE PLAN DE BATAILLE</div>
-    <h2 class="section-title">Voici exactement ce que tu vas faire<br>pendant 30 jours</h2>
-    <p class="section-sub">Pas de théorie. Pas de bla-bla. Chaque jour, tu as 4 missions concrètes.</p>
-    
+    <h2 class="section-title">Voici exactement ce que tu vas faire<br>chaque semaine</h2>
+    <p class="section-sub">Pas de théorie. 120 missions concrètes. 4 phases progressives.</p>
     <div style="display:flex;flex-direction:column;gap:.5rem">
       <div style="display:flex;align-items:center;gap:1rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:1rem 1.25rem">
         <div style="width:36px;height:36px;border-radius:10px;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#34d399;flex-shrink:0">1</div>
-        <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Fondations</div><div style="font-size:.8rem;color:#6b7280">Observation, prise de conscience, premiers pas</div></div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Installation</div><div style="font-size:.8rem;color:#6b7280">Observation, prise de conscience, premiers pas</div></div>
         <div style="font-size:.65rem;color:#4b5563;font-weight:600;white-space:nowrap">J1-J7</div>
       </div>
       <div style="display:flex;align-items:center;gap:1rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:1rem 1.25rem">
         <div style="width:36px;height:36px;border-radius:10px;background:rgba(59,130,246,.1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#93c5fd;flex-shrink:0">2</div>
-        <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Construction</div><div style="font-size:.8rem;color:#6b7280">Renforcement, concentration, privation consciente</div></div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Renforcement</div><div style="font-size:.8rem;color:#6b7280">Concentration, marche quotidienne, privation consciente</div></div>
         <div style="font-size:.65rem;color:#4b5563;font-weight:600;white-space:nowrap">J8-J14</div>
       </div>
       <div style="display:flex;align-items:center;gap:1rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:1rem 1.25rem">
         <div style="width:36px;height:36px;border-radius:10px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#fbbf24;flex-shrink:0">3</div>
-        <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Approfondissement</div><div style="font-size:.8rem;color:#6b7280">Purification, pardon, discipline avancée</div></div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Purification</div><div style="font-size:.8rem;color:#6b7280">Pardon, jeûne, discipline spirituelle avancée</div></div>
         <div style="font-size:.65rem;color:#4b5563;font-weight:600;white-space:nowrap">J15-J21</div>
       </div>
       <div style="display:flex;align-items:center;gap:1rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:1rem 1.25rem">
         <div style="width:36px;height:36px;border-radius:10px;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#34d399;flex-shrink:0">4</div>
-        <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Maîtrise</div><div style="font-size:.8rem;color:#6b7280">Lâcher-prise, célébration, ancrage durable</div></div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Ancrage</div><div style="font-size:.8rem;color:#6b7280">Lâcher-prise, célébration, engagement pour la vie</div></div>
         <div style="font-size:.65rem;color:#4b5563;font-weight:600;white-space:nowrap">J22-J30</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- OFFRE + GARANTIE -->
-<section id="offre" style="background:radial-gradient(ellipse at 50% 0%,rgba(16,185,129,.06) 0%,transparent 60%)">
-  <div class="container" style="text-align:center">
+<!-- === OFFRE + GARANTIE (Ch.11-12) === -->
+<section id="offre" style="background:radial-gradient(ellipse at 50% 0%,rgba(16,185,129,.06) 0%,transparent 60%);text-align:center">
+  <div class="container">
     <div class="trust-badge">💎 OFFRE DE LANCEMENT</div>
-    <h2 class="section-title">47€. Une fois. Pour une vie.<br>C'est peu pour retrouver la paix intérieure.</h2>
+    <h2 class="section-title">47€. Une fois. Pour une vie.<br>Le meilleur investissement que tu puisses faire.</h2>
     <div style="max-width:420px;margin:0 auto;background:rgba(255,255,255,.03);border-radius:24px;padding:2.5rem 2rem;border:1px solid rgba(16,185,129,.15)">
       <div style="font-size:.75rem;color:#6b7280;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem">Prix normal : 97€</div>
       <div style="font-size:.7rem;color:#4b5563;margin-bottom:1.5rem">Offre de lancement — Prix actuel :</div>
       <div style="font-size:4rem;font-weight:900;color:#10b981;letter-spacing:-.04em;line-height:1">47€</div>
-      <div style="font-size:.8rem;color:#6b7280;margin-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:2rem">Paiement unique. Accès à vie. Sans abonnement.</div>
+      <div style="font-size:.8rem;color:#6b7280;margin-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:2rem">Paiement unique. Accès à vie.</div>
       <ul style="list-style:none;text-align:left;margin-bottom:2rem;font-size:.85rem">
         <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> 30 briefings quotidiens</li>
         <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> 120 missions progressives</li>
-        <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> Test diagnostique 15 questions</li>
+        <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> Test diagnostique avancé</li>
         <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> SOS urgence + respiration guidée</li>
         <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> Citations et versets islamiques</li>
         <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> Rapport de progression</li>
         <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> Fonctionne hors-ligne</li>
         <li style="padding:.4rem 0;display:flex;align-items:center;gap:.6rem"><span style="color:#10b981;font-weight:700">✓</span> Mises à jour gratuites à vie</li>
       </ul>
-      <a href="https://jacquescafipemf976.systeme.io/8d262619" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;font-size:1.05rem">🔥 OUI, JE COMMENCE MA TRANSFORMATION</a>
+      <a href="https://jacquescafipemf976.systeme.io/8d262619" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;font-size:1.05rem">🔥 OUI, JE VEUX ME TRANSFORMER</a>
       <p style="margin-top:.75rem;font-size:.7rem;color:#4b5563;line-height:1.5">🔒 Paiement sécurisé • 📧 Code reçu par email</p>
     </div>
     
     <div class="garantie">
-      <div class="seal">🛡️</div>
-      <h4>30 jours satisfait ou remboursé</h4>
-      <p>Tu suis le protocole pendant les 7 premiers jours. Si tu ne vois aucun changement concret dans ton énergie, ta concentration ou ta paix intérieure, je te rembourse intégralement. Sans question. Sans condition.</p>
+      <div class="seal" style="font-size:2.5rem;margin-bottom:.5rem">🛡️</div>
+      <h4>Garantie 7 jours « Je ne risque rien »</h4>
+      <p>Tu suis le protocole pendant 7 jours. Si tu ne constates aucun changement dans ton énergie, ta concentration ou ta paix intérieure, je te rembourse intégralement. Sans discussion. Sans condition.</p>
     </div>
     
-    <p style="margin-top:2rem;font-size:.75rem;color:#4b5563;line-height:1.6">⏳ Cette offre à 47€ est un prix de lancement.<br>Il remontera à 97€ définitivement.</p>
+    <p style="margin-top:2rem;font-size:.75rem;color:#4b5563;line-height:1.6">⏳ Offre de lancement à 47€ — Prix définitif à venir : 97€</p>
   </div>
 </section>
 
-<!-- CLÔTURE : hadith -->
+<!-- === CLÔTURE (Ch.12) : La phrase qui conclut === -->
 <section style="text-align:center;padding:3rem 0">
   <div class="container">
-    <div style="font-size:3rem;margin-bottom:.5rem">"</div>
-    <blockquote style="border:none;text-align:center;background:transparent;padding:0;margin:0 0 1.5rem">
-      <p style="font-size:1rem;color:#9ca3af;font-style:italic;max-width:500px;margin:0 auto">Les actes les plus aimés d'Allah sont ceux qui sont constants, même petits.</p>
-      <cite style="font-size:.8rem;color:#4b5563;margin-top:.5rem">— Prophète ﷺ (Bukhārī, Muslim)</cite>
-    </blockquote>
+    <div style="font-size:2.5rem;margin-bottom:.75rem">"</div>
+    <p style="font-size:1rem;color:#9ca3af;line-height:1.7;font-style:italic;max-width:500px;margin:0 auto 1.5rem">Les actes les plus aimés d'Allah sont ceux qui sont constants, même petits.</p>
+    <p style="font-size:.8rem;color:#4b5563">— Prophète ﷺ (Bukhārī, Muslim)</p>
+    <p style="font-size:.75rem;color:#4b5563;margin-top:2rem;border-top:1px solid rgba(255,255,255,.05);padding-top:2rem">© 2026 Protocole 30J — Human Matrix. Conçu à Mayotte 🇾🇹</p>
   </div>
 </section>
-
-<footer style="text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,.05)">
-  <p style="font-size:.7rem;color:#4b5563">© 2026 Protocole 30J — Human Matrix. Conçu à Mayotte 🇾🇹</p>
-</footer>
 
 </body>
 </html>
