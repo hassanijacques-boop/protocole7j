@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocole 30J — Paiement sécurisé</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:linear-gradient(135deg,#07070a 0%,#0a0a1a 50%,#07070a 100%); color:#f3f4f6; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:1.5rem; }
+    
+    .checkout { max-width:460px; width:100%; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-radius:24px; padding:2rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+    
+    .header { text-align:center; margin-bottom:1.5rem; }
+    .header .logo { font-size:1.5rem; font-weight:900; color:#10b981; letter-spacing:-.02em; }
+    .header p { font-size:.75rem; color:#4b5563; margin-top:.25rem; text-transform:uppercase; letter-spacing:.08em; }
+    
+    .summary { background:rgba(16,185,129,.04); border:1px solid rgba(16,185,129,.1); border-radius:16px; padding:1.25rem; margin-bottom:1.5rem; }
+    .summary .product { display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
+    .summary .product .icon { width:44px; height:44px; border-radius:12px; background:rgba(16,185,129,.1); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+    .summary .product .name { font-size:.9rem; font-weight:700; }
+    .summary .product .sub { font-size:.75rem; color:#6b7280; }
+    .summary .line { display:flex; justify-content:space-between; font-size:.8rem; padding:.35rem 0; color:#9ca3af; }
+    .summary .line.total { font-size:1.1rem; font-weight:800; color:#f3f4f6; border-top:1px solid rgba(255,255,255,.06); padding-top:.75rem; margin-top:.35rem; }
+    .summary .line.total .amount { color:#10b981; font-size:1.4rem; font-weight:900; }
+    .summary .line.total .amount small { font-size:.9rem; color:#4b5563; font-weight:500; }
+    .summary .badge { display:inline-block; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.15); border-radius:99px; padding:.15rem .6rem; font-size:.65rem; color:#34d399; font-weight:600; margin-top:.25rem; }
+    
+    .included { margin-bottom:1.5rem; }
+    .included h4 { font-size:.75rem; color:#6b7280; text-transform:uppercase; letter-spacing:.08em; margin-bottom:.75rem; }
+    .included .item { display:flex; align-items:center; gap:.5rem; font-size:.8rem; color:#9ca3af; padding:.3rem 0; }
+    .included .item span { color:#10b981; font-weight:700; }
+    
+    .btn { display:flex; align-items:center; justify-content:center; gap:.5rem; width:100%; padding:1rem; border-radius:12px; font-weight:800; font-size:1.05rem; cursor:pointer; border:none; text-decoration:none; transition:all .25s; }
+    .btn-primary { background:linear-gradient(135deg,#10b981,#059669); color:#000; box-shadow:0 4px 24px rgba(16,185,129,.3); }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(16,185,129,.45); }
+    .btn-primary:disabled { opacity:.6; cursor:wait; transform:none; }
+    
+    .secure { text-align:center; margin-top:1rem; }
+    .secure p { font-size:.7rem; color:#4b5563; line-height:1.6; }
+    .secure .icons { font-size:1.1rem; margin-bottom:.35rem; }
+    
+    .card-demo { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:12px; padding:.85rem; margin-bottom:1rem; }
+    .card-demo label { display:block; font-size:.7rem; color:#6b7280; margin-bottom:.25rem; }
+    .card-demo input { width:100%; padding:.6rem .75rem; border-radius:8px; border:1px solid rgba(255,255,255,.08); background:rgba(0,0,0,.3); color:white; font-size:.9rem; outline:none; }
+    .card-demo input:focus { border-color:#10b981; }
+    
+    @media(max-width:480px){
+      .checkout { padding:1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="checkout">
+  <div class="header">
+    <div class="logo">▲ Protocole 30J</div>
+    <p>Paiement sécurisé</p>
+  </div>
+
+  <!-- Récapitulatif -->
+  <div class="summary">
+    <div class="product">
+      <div class="icon">📋</div>
+      <div>
+        <div class="name">Protocole 30J — Human Matrix</div>
+        <div class="sub">Accès à vie • 30 jours • 120 missions</div>
+      </div>
+    </div>
+    <div class="line"><span>Programme 30 jours</span><span>47,00€</span></div>
+    <div class="line"><span>Frais</span><span style="color:#10b981">Gratuit</span></div>
+    <div class="line total"><span>Total</span><span class="amount">47€<small>,00</small></span></div>
+    <div style="text-align:center"><span class="badge">💎 Offre de lancement — économise 50€</span></div>
+  </div>
+
+  <!-- Inclus -->
+  <div class="included">
+    <h4>Ce que tu reçois</h4>
+    <div class="item"><span>✓</span> 30 briefings quotidiens</div>
+    <div class="item"><span>✓</span> 120 missions progressives (4/jour)</div>
+    <div class="item"><span>✓</span> Test diagnostique + rapport</div>
+    <div class="item"><span>✓</span> SOS urgence + respiration guidée</div>
+    <div class="item"><span>✓</span> Citations et versets islamiques</div>
+    <div class="item"><span>✓</span> Mises à jour gratuites à vie</div>
+  </div>
+
+  <!-- Bouton paiement Stripe (redirige vers Systeme.io checkout) -->
+  <a href="https://jacquescafipemf976.systeme.io/offre-p30j" class="btn btn-primary" id="pay-btn">💳 Payer 47€ maintenant</a>
+
+  <div class="secure">
+    <div class="icons">🔒 🛜 💳</div>
+    <p>Paiement 100% sécurisé par Stripe<br>
+    Tu recevras ton code d'accès par email immédiatement<br>
+    🛡️ Garantie 7 jours satisfait ou remboursé</p>
+  </div>
+</div>
+
+</body>
+</html>
