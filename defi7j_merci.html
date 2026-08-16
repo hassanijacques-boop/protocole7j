@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bienvenue dans le Défi 7J !</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:linear-gradient(135deg,#07070a 0%,#0a0a1a 50%,#07070a 100%); color:#f3f4f6; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:1.5rem; }
+    
+    .card { max-width:480px; width:100%; background:rgba(255,255,255,.03); border:1px solid rgba(16,185,129,.15); border-radius:24px; padding:2.5rem 2rem; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+    
+    .check { width:72px; height:72px; border-radius:50%; background:rgba(16,185,129,.1); border:2px solid rgba(16,185,129,.3); display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem; font-size:2rem; }
+    
+    h1 { font-size:1.5rem; font-weight:800; margin-bottom:.5rem; letter-spacing:-.02em; }
+    .sub { font-size:.85rem; color:#6b7280; margin-bottom:1.75rem; line-height:1.6; }
+    
+    .mail-box { background:rgba(245,158,11,.05); border:1px solid rgba(245,158,11,.15); border-radius:14px; padding:1.1rem 1.25rem; margin-bottom:1.5rem; font-size:.8rem; color:#9ca3af; line-height:1.6; text-align:left; }
+    .mail-box strong { color:#fbbf24; }
+    
+    .teaser { background:rgba(16,185,129,.05); border:1px solid rgba(16,185,129,.12); border-radius:14px; padding:1.25rem; margin-bottom:1.5rem; }
+    .teaser h3 { font-size:.75rem; color:#6b7280; text-transform:uppercase; letter-spacing:.08em; margin-bottom:.75rem; }
+    .teaser audio { width:100%; margin-bottom:.5rem; }
+    .teaser p { font-size:.7rem; color:#6b7280; }
+    
+    .steps { text-align:left; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:14px; padding:1.25rem; margin-bottom:1.5rem; }
+    .steps h3 { font-size:.75rem; color:#6b7280; text-transform:uppercase; letter-spacing:.08em; margin-bottom:.75rem; }
+    .step { display:flex; align-items:flex-start; gap:.6rem; font-size:.8rem; color:#9ca3af; padding:.35rem 0; line-height:1.5; }
+    .step .n { width:22px; height:22px; border-radius:50%; background:rgba(16,185,129,.1); color:#34d399; font-size:.65rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:.1rem; }
+    
+    .secure { font-size:.7rem; color:#4b5563; margin-top:1rem; line-height:1.6; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="check">✅</div>
+  <h1>Bienvenue dans le Défi 7J !</h1>
+  <p class="sub">Ton inscription est confirmée.<br>Le pack complet arrive dans ta boîte mail.</p>
+
+  <div class="mail-box">
+    📬 <strong>Vérifie ta boîte mail (et tes spams) :</strong> l'email « Voici ton Défi 7J » arrive dans les 5 prochaines minutes.<br>
+    Si tu ne le vois pas, cherche « Défi 7J » ou ajoute notre adresse à tes contacts.
+  </div>
+
+  <div class="teaser">
+    <h3>🎧 En attendant, écoute le teaser</h3>
+    <audio controls preload="none">
+      <source src="https://raw.githubusercontent.com/hassanijacques-boop/protocole7j/main/podcast_defi_7j/teaser_presentation.mp3" type="audio/mpeg">
+      Ton navigateur ne supporte pas l'audio.
+    </audio>
+    <p>43 secondes pour comprendre la méthode des 4 piliers.</p>
+  </div>
+
+  <div class="steps">
+    <h3>📅 Ce qui t'attend</h3>
+    <div class="step"><div class="n">1</div><div>Écoute l'épisode 2 (les 4 piliers) — 2 minutes</div></div>
+    <div class="step"><div class="n">2</div><div>Fais le test des 4 piliers (5 minutes)</div></div>
+    <div class="step"><div class="n">3</div><div>Commence ton Jour 1 ce soir — 4 missions, 20 minutes</div></div>
+  </div>
+
+  <p class="secure">🤲 7 jours pour amorcer le changement.<br>30 jours pour revenir à l'essentiel. Ta fitra t'attend.</p>
+</div>
+
+</body>
+</html>
