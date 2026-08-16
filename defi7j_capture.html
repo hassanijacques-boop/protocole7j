@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Défi 7J — Reprends le contrôle</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:linear-gradient(135deg,#07070a 0%,#0a0a1a 50%,#07070a 100%); color:#f3f4f6; min-height:100vh; }
+    .container { max-width:560px; margin:0 auto; padding:3rem 1.25rem 2rem; }
+    
+    .badge { display:inline-block; padding:.35rem 1rem; border-radius:99px; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.2); font-size:.7rem; color:#34d399; font-weight:600; letter-spacing:.08em; text-transform:uppercase; margin-bottom:1.5rem; }
+    
+    h1 { font-size:clamp(1.7rem,5vw,2.4rem); font-weight:900; line-height:1.15; margin-bottom:1rem; letter-spacing:-.02em; }
+    h1 .g { background:linear-gradient(135deg,#10b981,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    
+    .sub { font-size:1rem; color:#9ca3af; line-height:1.7; margin-bottom:2rem; }
+    .sub strong { color:#f3f4f6; }
+    
+    .pack { background:rgba(255,255,255,.03); border:1px solid rgba(16,185,129,.12); border-radius:16px; padding:1.5rem; margin-bottom:2rem; }
+    .pack h3 { font-size:.8rem; color:#6b7280; text-transform:uppercase; letter-spacing:.08em; margin-bottom:1rem; }
+    .pack .item { display:flex; align-items:center; gap:.75rem; padding:.55rem 0; font-size:.9rem; color:#d1d5db; }
+    .pack .item .ic { width:36px; height:36px; border-radius:10px; background:rgba(16,185,129,.1); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+    .pack .item small { display:block; font-size:.72rem; color:#6b7280; }
+    
+    .steps { display:flex; flex-direction:column; gap:.5rem; margin-bottom:2rem; }
+    .step { display:flex; align-items:center; gap:.9rem; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-radius:12px; padding:.9rem 1.1rem; }
+    .step .n { width:28px; height:28px; border-radius:50%; background:rgba(16,185,129,.12); color:#34d399; font-size:.75rem; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .step p { font-size:.85rem; color:#9ca3af; line-height:1.5; }
+    .step p strong { color:#f3f4f6; }
+    
+    .cta-note { text-align:center; font-size:.8rem; color:#6b7280; line-height:1.6; padding:1rem; border:1px dashed rgba(255,255,255,.08); border-radius:12px; margin-bottom:1rem; }
+    .cta-note strong { color:#fbbf24; }
+    
+    .secure { text-align:center; font-size:.7rem; color:#4b5563; margin-top:1rem; line-height:1.6; }
+    
+    @media(max-width:480px){
+      .container { padding:2rem 1rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="badge">🎁 OFFERT — 7 JOURS</div>
+  
+  <h1>Combien de fois as-tu décidé de changer...<br><span class="g">et tout est revenu comme avant ?</span></h1>
+  
+  <p class="sub">Ce n'est pas ta faute. C'est la méthode.<br>
+  La plupart des programmes ne travaillent qu'<strong>un seul aspect</strong> de toi.<br>
+  Mais tu es les <strong>quatre à la fois</strong> : Corps, Esprit, Âme, Cœur.</p>
+
+  <!-- Le pack offert -->
+  <div class="pack">
+    <h3>🎁 En t'inscrivant, tu reçois immédiatement :</h3>
+    <div class="item"><div class="ic">📄</div><div>Le livret complet du Défi 7J<small>PDF — 7 pages, la méthode pas à pas</small></div></div>
+    <div class="item"><div class="ic">🎧</div><div>Les 5 épisodes audio de la mini-formation<small>~8 minutes, à écouter n'importe où</small></div></div>
+    <div class="item"><div class="ic">📋</div><div>Ta feuille de suivi 7 jours<small>Pour ne jamais tricher avec toi-même</small></div></div>
+  </div>
+
+  <!-- Comment ça marche -->
+  <h3 style="font-size:.8rem;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.9rem">📅 Pendant 7 jours, gratuitement :</h3>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><p>Fais le <strong>test des 4 piliers</strong> (5 min) — identifie ton déséquilibre</p></div>
+    <div class="step"><div class="n">2</div><p>Reçois <strong>4 missions par jour</strong> (3 à 20 min chacune)</p></div>
+    <div class="step"><div class="n">3</div><p>Suis ta progression — <strong>une chaîne de 7 jours</strong> qui change tout</p></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-note">
+    <strong>👇 Remplis le formulaire ci-dessous</strong><br>
+    Le pack complet arrive dans ta boîte mail immédiatement.
+  </div>
+
+  <p class="secure">Gratuit. Sans engagement. Tu peux te désinscrire en un clic.<br>
+  🤲 30 jours pour revenir à l'essentiel. Ta fitra t'attend.</p>
+</div>
+
+</body>
+</html>
