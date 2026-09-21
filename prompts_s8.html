@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Human Matrix S8 — Prompts à copier</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0a0e1a;
+    color: #e8eef8;
+    padding: 16px;
+    line-height: 1.5;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 22px;
+    padding: 18px 14px;
+    background: linear-gradient(135deg, #1a1608 0%, #2d2408 100%);
+    border-radius: 16px;
+    border: 1px solid #6e5a1e;
+  }
+  .header h1 { font-size: 1.35rem; margin-bottom: 6px; color: #ffd77f; }
+  .header p { font-size: 0.85rem; color: #d4c08a; }
+  .badge {
+    display: inline-block; margin-top: 10px; padding: 4px 12px;
+    background: #3d3010; border-radius: 20px; font-size: 0.75rem; color: #ffd77f;
+  }
+  .jour {
+    background: #101828;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+    border: 1px solid #2a2415;
+    border-left: 4px solid #b8912f;
+  }
+  .jour h2 { font-size: 1.05rem; margin-bottom: 4px; color: #ffffff; }
+  .jour .theme { font-size: 0.82rem; color: #c9b789; margin-bottom: 4px; }
+  .jour .palette { font-size: 0.75rem; color: #96865e; margin-bottom: 12px; font-style: italic; }
+  .btn-copy {
+    display: block; width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1204;
+    background: linear-gradient(135deg, #ffd77f, #ffe9b8);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform .1s, background .2s;
+  }
+  .btn-copy:active { transform: scale(0.97); }
+  .btn-copy.done {
+    background: linear-gradient(135deg, #4ade80, #86efac);
+    color: #052e16;
+  }
+  .btn-gemini {
+    display: block; width: 100%; margin-top: 8px;
+    padding: 13px; font-size: 0.9rem; font-weight: 600;
+    color: #ffd77f; background: transparent;
+    border: 1.5px solid #6e5a1e; border-radius: 12px;
+    text-decoration: none; text-align: center;
+  }
+  .btn-gemini:active { background: #2d2408; }
+  .footer {
+    text-align: center; margin-top: 22px; padding: 14px;
+    font-size: 0.78rem; color: #96865e;
+    border-top: 1px solid #2a2415;
+  }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: #4ade80; color: #052e16; padding: 14px 24px;
+    border-radius: 12px; font-weight: 700; font-size: 0.95rem;
+    opacity: 0; transition: all .3s; z-index: 999; white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>💰 HUMAN MATRIX — SEMAINE 8</h1>
+  <p>« La vraie richesse » · 7 images à générer</p>
+  <span class="badge">Appuie sur le bouton du jour → colle dans Gemini</span>
+</div>
+
+<div id="jours"></div>
+
+<div class="footer">
+  <p>1️⃣ Appuie sur le bouton du jour (le prompt est copié)</p>
+  <p>2️⃣ Ouvre Gemini et colle</p>
+  <p>3️⃣ Demande « format vertical 9:16 »</p>
+  <p>4️⃣ Télécharge l'image et envoie-la à Hermes</p>
+</div>
+
+<div class="toast" id="toast">✅ Prompt copié !</div>
+
+<script>
+const BASE = "Cinematic digital art, photorealistic concept art, portrait 9:16 vertical format, high-end movie still quality, dramatic volumetric lighting, subtle atmospheric fog, deep shadows, ultra detailed, no visible human faces (faceless silhouettes only), STRICTLY no animals, no text, no letters, no words, no watermark, no logo. ";
+
+const jours = [
+  {
+    jour: "LUNDI",
+    emoji: "🛍️",
+    theme: "On te vend le bonheur",
+    palette: "Néon rose · Bleu froid · Noir",
+    scene: "PALETTE: toxic neon pink, cold electric blue, deep black. SCENE: A dark empty street at night, a single brightly lit shop window glowing with luxurious golden objects — but the glass is a mirror, and behind the reflection there is only a hollow black void. One tiny faceless silhouetted figure stands alone staring at the window. METAPHOR: happiness being sold, consumerism illusion."
+  },
+  {
+    jour: "MARDI",
+    emoji: "🛠️",
+    theme: "Le travail, pas la loterie",
+    palette: "Or chaud · Ambre · Terre cuite",
+    scene: "PALETTE: warm liquid gold, rich amber, terracotta brown, soft sunset light. SCENE: A dusty construction site at dawn — rough stone blocks and wooden beams, close-up on faceless dark hands (no face) shaping a stone with a chisel, golden sparks flying, sweat evaporating in the warm morning light. METAPHOR: the dignity and value of honest work."
+  },
+  {
+    jour: "MERCREDI",
+    emoji: "🪜",
+    theme: "Toujours plus",
+    palette: "Or pâle · Blanc cassé · Gris brume",
+    scene: "PALETTE: pale gold, cream white, misty grey, washed-out silver. SCENE: An endless golden ladder rising straight up into thick grey clouds and fog, disappearing far above with no top in sight. Several tiny faceless silhouettes climb it, one after another, and the higher ones fade into the mist. METAPHOR: the endless race for more, never being satisfied."
+  },
+  {
+    jour: "JEUDI",
+    emoji: "⛓️",
+    theme: "L'argent facile est un piège",
+    palette: "Or · Noir profond · Rouge sombre",
+    scene: "PALETTE: gleaming gold, absolute black, deep blood red glow. SCENE: A beautiful ornate golden treasure chest standing open in total darkness, radiating an irresistible warm light — but thick heavy golden chains pour out from inside it, coiling on the black floor. METAPHOR: easy money, debt, the trap of buying on credit."
+  },
+  {
+    jour: "VENDREDI",
+    emoji: "⚖️",
+    theme: "Gagner proprement",
+    palette: "Or · Blanc pur · Bleu nuit",
+    scene: "PALETTE: antique gold, pure white light, deep midnight blue. SCENE: A large ancient metal scale perfectly balanced in a dark void — one pan holds shining golden coins, the other holds a bright pure white flame. Both sides are exactly level. Dust particles floating in the light. METAPHOR: honesty, justice, earning what is right."
+  },
+  {
+    jour: "SAMEDI",
+    emoji: "🤲",
+    theme: "Ce que tu donnes reste",
+    palette: "Or chaud · Vert tendre · Lumière blanche",
+    scene: "PALETTE: warm honey gold, soft fresh green, glowing white light. SCENE: Two faceless open dark hands (no face, no body) gently releasing a stream of glowing golden light and seeds that fall onto dark soil — where tiny bright green shoots are already growing. Soft warm light from above. METAPHOR: generosity, giving, what you share multiplies."
+  },
+  {
+    jour: "DIMANCHE",
+    emoji: "🌅",
+    theme: "La vraie richesse",
+    palette: "Or liquide · Orange · Mauve · Sérénité",
+    scene: "PALETTE: liquid gold, soft orange, mauve, serene pale cream sky. SCENE: A calm wide natural landscape at golden hour — a simple silhouetted faceless figure sits peacefully on a rock facing a calm ocean and a small wooden boat on the shore. No luxury, no gold objects, only warm natural light, open sky, deep serenity. METAPHOR: true wealth, contentment, inner peace, the fitra."
+  }
+];
+
+const container = document.getElementById('jours');
+jours.forEach((j, i) => {
+  const div = document.createElement('div');
+  div.className = 'jour';
+  div.innerHTML = `
+    <h2>${j.emoji} ${j.jour}</h2>
+    <div class="theme">${j.theme}</div>
+    <div class="palette">🎨 ${j.palette}</div>
+    <button class="btn-copy" data-idx="${i}">📋 COPIE LE PROMPT ${j.jour}</button>
+    <a class="btn-gemini" href="https://gemini.google.com/app" target="_blank">Ouvrir Gemini ➜</a>
+  `;
+  container.appendChild(div);
+});
+
+document.querySelectorAll('.btn-copy').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const j = jours[btn.dataset.idx];
+    const texte = BASE + j.scene;
+    try {
+      await navigator.clipboard.writeText(texte);
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = texte;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    btn.classList.add('done');
+    btn.textContent = '✅ COPIÉ ! Colle dans Gemini';
+    showToast();
+    setTimeout(() => {
+      btn.classList.remove('done');
+      btn.textContent = '📋 COPIE LE PROMPT ' + j.jour;
+    }, 3000);
+  });
+});
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>
