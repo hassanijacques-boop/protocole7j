@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0B6E4F">
+<title>🏃 Journée du sport — Mardi 29 septembre</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #F4F6F4; color: #14231C; padding: 14px 14px 90px;
+    line-height: 1.5; font-size: 17px;
+  }
+  header {
+    background: linear-gradient(135deg, #0B6E4F 0%, #14A76C 100%);
+    color: #fff; border-radius: 18px; padding: 20px 18px; margin-bottom: 16px;
+    box-shadow: 0 6px 18px rgba(11,110,79,.28);
+  }
+  header h1 { font-size: 25px; line-height: 1.2; margin-bottom: 6px; }
+  header p { font-size: 15px; opacity: .95; }
+  .card {
+    background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  }
+  h2 {
+    font-size: 19px; color: #0B6E4F; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  /* --- Minuteur --- */
+  .timer-wrap { text-align: center; }
+  #chrono {
+    font-size: 76px; font-weight: 800; color: #0B6E4F;
+    font-variant-numeric: tabular-nums; letter-spacing: -2px; line-height: 1;
+    margin: 8px 0 4px;
+  }
+  #chrono.warn { color: #E8590C; }
+  #chrono.danger { color: #D00000; animation: pulse .8s infinite; }
+  @keyframes pulse { 50% { opacity: .45; } }
+  .timer-label { font-size: 14px; color: #5A6B62; margin-bottom: 14px; }
+  .row { display: flex; gap: 10px; }
+  button {
+    font-family: inherit; font-size: 17px; font-weight: 700; border: none;
+    border-radius: 13px; padding: 15px; cursor: pointer; flex: 1;
+    transition: transform .08s; min-height: 54px;
+  }
+  button:active { transform: scale(.97); }
+  .btn-main { background: #0B6E4F; color: #fff; }
+  .btn-main.on { background: #E8590C; }
+  .btn-sec { background: #E4EAE6; color: #14231C; }
+  .btn-mini { font-size: 15px; padding: 11px; min-height: 46px; }
+  /* --- Déroulé --- */
+  .etape {
+    display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #EDF1EE;
+    align-items: flex-start; cursor: pointer;
+  }
+  .etape:last-child { border-bottom: none; }
+  .etape .h { font-weight: 800; color: #0B6E4F; min-width: 88px; font-size: 14px; padding-top: 2px; }
+  .etape .t { flex: 1; font-size: 15.5px; }
+  .etape.fait { opacity: .42; }
+  .etape.fait .t { text-decoration: line-through; }
+  /* --- Ateliers --- */
+  details {
+    border: 1.5px solid #E4EAE6; border-radius: 13px; margin-bottom: 9px;
+    overflow: hidden; background: #fff;
+  }
+  details[open] { border-color: #14A76C; }
+  summary {
+    padding: 14px; font-weight: 700; font-size: 16px; cursor: pointer;
+    list-style: none; display: flex; align-items: center; gap: 10px;
+    background: #FAFCFB;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "＋"; margin-left: auto; color: #14A76C; font-weight: 800; font-size: 19px; }
+  details[open] summary::after { content: "－"; }
+  .corps { padding: 0 14px 14px; font-size: 15.5px; }
+  .corps ul { padding-left: 20px; margin: 8px 0; }
+  .corps li { margin-bottom: 5px; }
+  .tag { display: inline-block; background: #E7F6EF; color: #0B6E4F; font-size: 12.5px;
+         font-weight: 700; padding: 3px 9px; border-radius: 7px; margin: 4px 4px 0 0; }
+  .dire { background: #FFF6E5; border-left: 4px solid #F0A500; padding: 10px 12px;
+          border-radius: 8px; margin-top: 10px; font-size: 15px; }
+  /* --- Compteur --- */
+  .compteur { display: flex; align-items: center; justify-content: center; gap: 16px; }
+  #nbEleves { font-size: 54px; font-weight: 800; color: #0B6E4F; min-width: 105px; text-align: center; }
+  .cbtn {
+    width: 66px; height: 66px; flex: none; border-radius: 50%;
+    font-size: 32px; font-weight: 700; display: flex; align-items: center;
+    justify-content: center; padding: 0;
+  }
+  .cbtn.plus { background: #0B6E4F; color: #fff; }
+  .cbtn.moins { background: #E4EAE6; color: #14231C; }
+  .alerte { background: #FFEBEB; border-left: 4px solid #D00000; padding: 11px 13px;
+            border-radius: 8px; font-size: 14.5px; margin-top: 10px; }
+  footer { text-align: center; font-size: 13px; color: #7B8A82; padding: 8px 0 20px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏃 JOURNÉE DU SPORT</h1>
+  <p>Mardi 29 septembre 2026 · CM1/CM2 · École La Rose, Bandraboua</p>
+</header>
+
+<!-- MINUTEUR -->
+<div class="card timer-wrap">
+  <h2>⏱️ Minuteur des ateliers</h2>
+  <div id="chrono">12:00</div>
+  <div class="timer-label">12 minutes par atelier — un bip sonne à la fin</div>
+  <div class="row">
+    <button class="btn-main" id="btnTimer" onclick="basculerTimer()">▶ Démarrer</button>
+    <button class="btn-sec" onclick="resetTimer()">↺ 12:00</button>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <button class="btn-sec btn-mini" onclick="setMin(12)">12 min (atelier)</button>
+    <button class="btn-sec btn-mini" onclick="setMin(5)">5 min (pause eau)</button>
+  </div>
+</div>
+
+<!-- DÉROULÉ -->
+<div class="card">
+  <h2>✅ Déroulé de la journée</h2>
+  <div id="deroule"></div>
+</div>
+
+<!-- ATELIERS -->
+<div class="card">
+  <h2>🎯 Les 7 ateliers (consignes)</h2>
+  <div id="ateliers"></div>
+</div>
+
+<!-- PHRASES -->
+<div class="card">
+  <h2>🗣️ Les 5 phrases à dire</h2>
+  <div id="phrases" style="font-size:15.5px"></div>
+</div>
+
+<!-- COMPTEUR -->
+<div class="card">
+  <h2>🔢 Comptage des élèves</h2>
+  <div class="compteur">
+    <button class="cbtn moins" onclick="changeNb(-1)">−</button>
+    <div id="nbEleves">27</div>
+    <button class="cbtn plus" onclick="changeNb(1)">+</button>
+  </div>
+  <div class="row" style="margin-top:12px">
+    <button class="btn-sec btn-mini" onclick="setNb(27)">Réinitialiser à 27</button>
+  </div>
+  <div style="font-size:14px;color:#5A6B62;margin-top:10px;text-align:center">
+    À chaque point de regroupement : <b>2 adultes comptent et se confirment le nombre</b>.
+  </div>
+</div>
+
+<!-- SÉCURITÉ -->
+<div class="card">
+  <h2>🚨 Sécurité — à retenir</h2>
+  <div class="alerte">
+    <b>Malaise / insolation</b> → ombre + eau + jambes surélevées + appeler si ça ne passe pas.
+  </div>
+  <div class="alerte" style="margin-top:9px">
+    <b>Élève perdu</b> → 2 coups de sifflet : tout le monde s'arrête, comptage immédiat.
+  </div>
+  <ul style="padding-left:20px;margin-top:12px;font-size:15px">
+    <li>💧 <b>Boire toutes les 20 minutes</b>, même sans soif</li>
+    <li>🧢 <b>Casquettes obligatoires</b> · ombre toutes les 30 min</li>
+    <li>🏁 <b>Tout finir avant midi</b> (chaleur)</li>
+  </ul>
+</div>
+
+<footer>Bonne journée sport 🌴 — M. Hassani Moustoifa</footer>
+
+<script>
+/* ---------- DONNÉES ---------- */
+const ETAPES = [
+  ["7h30", "Accueil + présentation de la journée + règles de sécurité"],
+  ["7h45", "Échauffement collectif dans la cour"],
+  ["8h00", "🥾 RANDONNÉE — le tour du village (4 points de regroupement)"],
+  ["9h30", "💧 Arrivée au terrain de foot — pause eau + goûter (15 min minimum)"],
+  ["10h00", "🎯 LES 7 ATELIERS (12 min par atelier, rotation au sifflet)"],
+  ["11h30", "🏆 Grand relais final — toute la classe ensemble"],
+  ["11h50", "🧘 Retour au calme + bilan + rangement"]
+];
+
+const ATELIERS = [
+  ["🥇", "Chamboule-tout", "Adresse",
+   ["Pyramide de 10 boîtes · ligne de lancer à 3 m (et une à 2 m pour ceux qui préfèrent)",
+    "Chaque élève lance 3 balles — on compte les points de l'ÉQUIPE",
+    "On remonte la pyramide ensemble après chaque passage"],
+   "Tu as le droit de rater ! Essaie, on est là pour s'amuser."],
+  ["🥈", "Parcours de motricité", "Agilité",
+   ["Slalom entre 5 plots → 3 cerceaux (sauter dedans) → tunnel → arrivée",
+    "Chacun à SON rythme — on ne chronomètre PAS individuellement",
+    "2 parcours en parallèle si possible (moins d'attente)"],
+   "Prends ton temps, personne ne te presse."],
+  ["🥉", "Tir au but", "Précision",
+   ["But (ou 2 poteaux + corde) · zone de tir matérialisée par des plots",
+    "Chaque élève tire le même nombre de fois (ex. 4 tirs)",
+    "Les élèves qui ne veulent pas tirer peuvent être gardiens ou ramasseurs"],
+   "Bien joué d'avoir essayé !"],
+  ["🤝", "Jeux coopératifs ⭐", "Entraide",
+   ["Rivière aux crocodiles : traverser 6 m avec seulement 4 cartons pour l'équipe (le sol est interdit)",
+    "Pont de singe : toute l'équipe passe sous une corde tendue à 1,2 m sans la toucher",
+    "Si un pied touche le sol → tout le monde recommence (rires garantis)"],
+   "Vous n'avez pas de concurrent : votre adversaire, c'est le problème. Aidez-vous !"],
+  ["💃", "Danse / zumba ⭐", "Mouvement libre",
+   ["Cercle · un élève mène un mouvement, les autres imitent",
+    "On change de meneur toutes les 2 minutes (tout le monde passe !)",
+    "On termine par un « freeze » : tout le monde se fige sur la musique"],
+   "Il n'y a pas de bon ou mauvais danseur. Il y a des gens qui bougent et qui s'amusent."],
+  ["🏅", "Relais", "Vitesse en équipe",
+   ["2 files · départ → plot → retour → taper dans la main du suivant",
+    "Variantes : course en sac, à cloche-pied, en sautant",
+    "⚠️ RÈGLE D'OR : on attend toujours le dernier de son équipe"],
+   "Le relais n'est réussi que quand tout le monde a passé."],
+  ["🧘", "Espace calme ⭐⭐", "Récupération",
+   ["Jeux de société (dominos, dames, cartes) · dessin / coloriage de la journée",
+    "Étirements doux et respiration avec l'adulte (5 respirations profondes)",
+    "Ce n'est PAS une punition : c'est un vrai temps de récupération"],
+   "Se reposer, c'est aussi s'entraîner."]
+];
+
+const PHRASES = [
+  "Aujourd'hui, on ne cherche pas un champion. On cherche à passer une bonne journée tous ensemble.",
+  "Ici, on encourage, on ne se moque pas.",
+  "Chacun fait à son rythme. Le dernier de l'équipe, on l'attend.",
+  "On boit de l'eau toutes les 20 minutes, même si on n'a pas soif.",
+  "Si quelqu'un ne peut pas faire une activité, il a un rôle important : arbitre, reporter, responsable de l'eau. Personne ne reste sur le banc."
+];
+
+/* ---------- RENDU ---------- */
+document.getElementById("deroule").innerHTML = ETAPES.map((e, i) =>
+  `<div class="etape" onclick="this.classList.toggle('fait')">
+     <div class="h">${e[0]}</div><div class="t">${e[1]}</div>
+   </div>`).join("");
+
+document.getElementById("ateliers").innerHTML = ATELIERS.map(a => `
+  <details>
+    <summary><span>${a[0]}</span><span>${a[1]}</span></summary>
+    <div class="corps">
+      <span class="tag">${a[2]}</span>
+      <ul>${a[3].map(x => `<li>${x}</li>`).join("")}</ul>
+      <div class="dire">🗣️ <i>« ${a[4]} »</i></div>
+    </div>
+  </details>`).join("");
+
+document.getElementById("phrases").innerHTML = PHRASES.map((p, i) =>
+  `<div style="padding:9px 0;border-bottom:1px solid #EDF1EE">
+     <b style="color:#0B6E4F">${i + 1}.</b> « ${p} »
+   </div>`).join("");
+
+/* ---------- COMPTEUR ---------- */
+let nb = 27;
+function afficherNb() {
+  const el = document.getElementById("nbEleves");
+  el.textContent = nb;
+  el.style.color = (nb === 27) ? "#0B6E4F" : "#D00000";
+}
+function changeNb(d) { nb = Math.max(0, nb + d); afficherNb(); }
+function setNb(v) { nb = v; afficherNb(); }
+afficherNb();
+
+/* ---------- MINUTEUR ---------- */
+let total = 12 * 60, reste = total, enCours = false, intervalId = null;
+const chrono = document.getElementById("chrono");
+const btnT = document.getElementById("btnTimer");
+
+function afficher() {
+  const m = Math.floor(reste / 60), s = reste % 60;
+  chrono.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  chrono.className = reste <= 60 ? "danger" : (reste <= 180 ? "warn" : "");
+}
+function setMin(m) {
+  arreter();
+  total = m * 60; reste = total; afficher();
+  document.querySelector(".timer-label").textContent =
+    m + " minutes — un bip sonne à la fin";
+}
+function basculerTimer() {
+  if (enCours) { arreter(); return; }
+  enCours = true;
+  btnT.textContent = "⏸ Pause";
+  btnT.classList.add("on");
+  intervalId = setInterval(() => {
+    reste--;
+    if (reste <= 0) { reste = 0; afficher(); finir(); return; }
+    afficher();
+  }, 1000);
+}
+function arreter() {
+  enCours = false;
+  clearInterval(intervalId);
+  btnT.textContent = "▶ Démarrer";
+  btnT.classList.remove("on");
+}
+function resetTimer() { arreter(); reste = total; afficher(); }
+
+function finir() {
+  arreter();
+  bip(3);
+  if (navigator.vibrate) navigator.vibrate([300, 150, 300, 150, 300]);
+  chrono.textContent = "🔔 ROTATION";
+}
+function bip(n) {
+  try {
+    const C = window.AudioContext || window.webkitAudioContext;
+    const ctx = new C();
+    for (let i = 0; i < n; i++) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880; o.type = "sine";
+      const t = ctx.currentTime + i * 0.45;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.35, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+      o.start(t); o.stop(t + 0.4);
+    }
+  } catch (e) {}
+  if (navigator.vibrate) navigator.vibrate(400);
+}
+afficher();
+</script>
+</body>
+</html>
