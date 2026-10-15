@@ -5,7 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Protocole 30J — Human Matrix</title>
-  <style>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: linear-gradient(135deg, #050505 0%, #0a0a1a 50%, #050510 100%); color: #f3f4f6; min-height: 100vh; overflow-x: hidden; }
@@ -127,6 +129,11 @@
   #pc.sav b, #pc.sav strong { color: #e5e7eb; }
   #pc.sav h2, #pc.sav h3 { color: #f3f4f6; }
   #pc.sav .card { border-color: rgba(255,255,255,.08); }
+  /* --- Le Coran : mode test (verset masqué) --- */
+  .ar-coran.masque { filter: blur(7px); opacity: .45; cursor: pointer; transition: filter .25s, opacity .25s; }
+  .ar-coran.masque.revele { filter: none; opacity: 1; }
+  .card.on { border-color: rgba(16,185,129,.7) !important; box-shadow: 0 0 18px rgba(16,185,129,.25); }
+  .btn-xs { padding: .45rem .6rem; font-size: .72rem; border-radius: 10px; }
 </style>
 </head>
 <body><div id="app" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#10b981;font-size:.9rem;font-weight:500"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 22,22 2,22"/></svg><span>Chargement...</span></div>
@@ -558,7 +565,8 @@ function render() {
     proto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
     rep:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>',
     book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
-    savoir:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 8l7-3 7 3"/><path d="M5 8v8l7 3 7-3V8"/></svg>'
+    savoir:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 8l7-3 7 3"/><path d="M5 8v8l7 3 7-3V8"/></svg>',
+    nafs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 3 4 5 4 9a4 4 0 01-8 0c0-1 .4-2 1-2.6C8 10 7 12 7 14.5a5 5 0 0010 0C17 8 12 5 12 2z"/></svg>'
   }
   document.getElementById('app').innerHTML = `
     <div style="max-width:600px;margin:0 auto;padding:0 0 5rem">
@@ -572,6 +580,7 @@ function render() {
         <button class="tab-btn ${cp==='diag'?'active':''}" onclick="nav('diag')">${icons.test}<span>${state.scores?'Profil':'Test'}</span></button>
         <button class="tab-btn ${cp==='manifest'?'active':''}" onclick="nav('manifest')">${icons.book}<span>Piliers</span></button>
         <button class="tab-btn ${cp==='savoir'?'active':''}" onclick="nav('savoir')">${icons.savoir}<span>Savoir</span></button>
+        <button class="tab-btn ${cp==='nafs'?'active':''}" onclick="nav('nafs')">${icons.nafs}<span>Nafs</span></button>
         <button class="tab-btn ${cp==='report'?'active':''}" onclick="nav('report')" style="${state.packActive?'':'display:none'}">${icons.rep}<span>Rapport</span></button>
         <button class="tab-btn ${cp==='proto'?'active':''}" onclick="nav('proto')">${icons.proto}<span>Protocole</span></button>
       </div>
@@ -1117,11 +1126,667 @@ function renderRespirer(){
   respPeindre();
 }
 
+
+// =====================================================================
+// MAÎTRISE DE SOI — le nafs (la 4ᵉ dimension)
+// Un entraînement, pas un cours : le test des portes, le carnet de
+// muhâsaba, et le pacte de 40 jours. Tout reste sur le téléphone.
+// =====================================================================
+
+var PORTES = [
+ { id:"tel", em:"📱", n:"Le téléphone", court:"Ce qui prend ton temps sans rien te rendre",
+   texte:"Le téléphone n'est pas un péché en soi. Le problème, c'est ce qu'il fait de tes minutes : il prend les premières de ta journée et les dernières de ta nuit, et il te vole les moments où tu devais être avec ceux qui t'entourent.",
+   symptome:"Tu le consultes au réveil, pendant qu'on te parle, et avant de dormir.",
+   regle:"Pas de téléphone dans la première heure du réveil ni dans la dernière avant le sommeil.",
+   src:"« Deux bienfaits dont beaucoup de gens sont dupes : la santé et le temps libre. » (al-Bukhârî)" },
+
+ { id:"sucre", em:"🍬", n:"La nourriture", court:"Le plaisir qui commande",
+   texte:"Le nafs ne demande pas à manger : il demande à être satisfait. C'est pour ça qu'il ne s'arrête pas quand tu n'as plus faim, mais quand il n'y a plus rien à prendre.",
+   symptome:"Tu manges du sucré sans avoir faim, et tu grignotes entre les repas.",
+   regle:"Rien de sucré tout seul : jamais de sucre sans repas, jamais sans protéines.",
+   src:"« Le fils d'Adam ne remplit pas de récipient pire que son ventre. » (at-Tirmidhî)" },
+
+ { id:"regard", em:"👁", n:"Le regard", court:"La porte que personne ne surveille",
+   texte:"Le regard est la première porte du cœur : ce que tu laisses entrer par les yeux s'installe ensuite dans la tête. Personne ne peut surveiller cette porte à ta place.",
+   symptome:"Tu laisses ton regard s'attarder sur ce que tu ne devrais pas — dans la rue, sur l'écran.",
+   regle:"Un seul regard, puis je détourne : je ne reviens pas dessus.",
+   src:"« Dis aux croyants de baisser leurs regards et de garder leur chasteté. » (Coran, 24 : 30)" },
+
+ { id:"langue", em:"🗣", n:"La langue", court:"Ce qui sort et ne revient jamais",
+   texte:"La langue est petite et fait les plus gros dégâts. Médire, se moquer, jurer, raconter la vie des autres : ce sont des plaisirs du nafs, parce qu'ils font sentir supérieur.",
+   symptome:"Tu médites, tu te moques quand tu es en groupe, et tu parles quand tu n'as rien d'utile à dire.",
+   regle:"Avant de parler : est-ce vrai, est-ce utile, est-ce nécessaire ? Sinon, je me tais.",
+   src:"« Que celui qui croit en Allah et au Jour dernier dise du bien, ou qu'il se taise. » (al-Bukhârî et Muslim)" },
+
+ { id:"colere", em:"🔥", n:"La colère", court:"Surtout à la maison",
+   texte:"On ne crie pas devant son patron — on crie chez soi. La maison est l'endroit où le nafs se relâche, parce qu'il sait qu'il sera pardonné. C'est exactement là que le travail commence.",
+   symptome:"Tu réponds d'une voix forte à quelqu'un de ta famille, et tu le regrettes après.",
+   regle:"Quand la colère monte : je me tais, je change de place, je fais mes ablutions.",
+   src:"« Le fort n'est pas celui qui terrasse son adversaire ; le fort est celui qui se maîtrise quand la colère le saisit. » (al-Bukhârî et Muslim)" },
+
+ { id:"argent", em:"💰", n:"L'argent", court:"Ce qui sort sans qu'on le voie",
+   texte:"L'argent dit la vérité sur ton nafs : la précipitation, l'envie de paraître, la difficulté à dire non. Regarder où il va, c'est se regarder soi-même.",
+   symptome:"Tu dépenses sans savoir où est passé ton argent, et tu achètes sur un coup de tête.",
+   regle:"Je note chaque dépense pendant 40 jours — sans jugement, juste la vérité.",
+   src:"« Mangez et buvez, mais ne gaspillez pas : Il n'aime pas les gaspilleurs. » (Coran, 7 : 31)" },
+
+ { id:"compagnie", em:"🧭", n:"La compagnie", court:"Ceux que tu fréquentes te tirent",
+   texte:"Tu deviens ce que tu fréquentes. C'est pour ça que la compagnie est une porte du nafs : elle décide de ce que tu trouves normal. Si tes amis se moquent d'une chose, tu finiras par t'en moquer aussi.",
+   symptome:"Après avoir vu certaines personnes, tu te sens plus loin de ce que tu voulais être.",
+   regle:"Je réduis une compagnie qui me tire vers le bas, et j'en ajoute une qui me tire vers le haut.",
+   src:"« L'homme suit la religion de son ami : que chacun regarde donc qui il fréquente. » (Abû Dâwûd, at-Tirmidhî)" },
+
+ { id:"paresse", em:"🛏", n:"La paresse", court:"Le demain qui n'arrive jamais",
+   texte:"La paresse n'est pas de la fatigue : c'est une stratégie du nafs pour ne pas rencontrer la difficulté. Elle ne dit jamais « je ne veux pas » ; elle dit toujours « je le ferai demain ».",
+   symptome:"Tu repousses ce que tu sais devoir faire aujourd'hui, et tu restes sur le canapé avec ton téléphone.",
+   regle:"Ce que je repousse : je le fais dans les 5 minutes — ou je lui donne une heure précise, écrite.",
+   src:"« Ô Allah, je me réfugie auprès de Toi contre l'incapacité et la paresse. » (al-Bukhârî et Muslim)" },
+
+ { id:"riya", em:"🪞", n:"L'ostentation", court:"Faire le bien pour être vu",
+   texte:"C'est la porte la plus discrète : elle n'attaque pas tes actes, elle attaque ton intention. Tu fais la même chose, mais pour un autre regard. On peut jeûner, prier, aider — et perdre le tout au moment où on le raconte.",
+   symptome:"Il t'arrive de faire une bonne action pour qu'on la voie, ou d'être vexé qu'on ne la remarque pas.",
+   regle:"Un acte par jour que personne ne saura jamais — et qu'Allah seul voit.",
+   src:"« Ce que je crains le plus pour vous, c'est le petit shirk : l'ostentation. » (rapporté par Ahmad)" }
+];
+
+var QUESTIONS_PORTES = [
+ {p:"tel", q:"Je regarde mon téléphone dans les quinze minutes après mon réveil."},
+ {p:"tel", q:"Je le consulte pendant que quelqu'un me parle."},
+ {p:"sucre", q:"Je mange du sucré alors que je n'ai plus faim."},
+ {p:"sucre", q:"Je grignote entre les repas, sans faim réelle."},
+ {p:"regard", q:"Je laisse mon regard s'attarder sur ce que je ne devrais pas."},
+ {p:"regard", q:"Ce que je regarde en privé, je n'aimerais pas qu'on le voie."},
+ {p:"langue", q:"Il m'arrive de médire ou de me moquer quand je suis en groupe."},
+ {p:"langue", q:"Je parle alors que je n'ai rien d'utile à dire."},
+ {p:"colere", q:"Je réponds d'une voix forte à quelqu'un de ma famille."},
+ {p:"colere", q:"Je regrette après coup des mots dits sous le coup de la colère."},
+ {p:"argent", q:"Je dépense sans savoir où est passé mon argent."},
+ {p:"argent", q:"Il m'arrive d'acheter sur un coup de tête."},
+ {p:"compagnie", q:"Je passe du temps avec des gens qui ne me tirent pas vers le haut."},
+ {p:"compagnie", q:"Après les avoir vus, je me sens plus loin de ce que je veux être."},
+ {p:"paresse", q:"Je repousse à demain ce que je sais devoir faire aujourd'hui."},
+ {p:"paresse", q:"Je reste au lit ou sur le canapé avec mon téléphone au lieu d'agir."},
+ {p:"riya", q:"Il m'arrive de faire une bonne action pour qu'on me remarque."},
+ {p:"riya", q:"Je suis vexé que personne ne remarque ce que je fais de bien."}
+];
+
+var NIVEAUX = [["Jamais",1],["Rarement",3],["Parfois",5],["Souvent",7],["Presque toujours",10]];
+
+function porteById(id){ for(var i=0;i<PORTES.length;i++){ if(PORTES[i].id===id){ return PORTES[i]; } } return null; }
+var porteCourante = "";
+function ouvrirPorte(id){ porteCourante = id; nav('porte'); }
+
+/* ---- le test des portes ---- */
+var ti = 0, trep = {};
+function selPorte(i, v){
+  trep[i] = v; ti = i + 1;
+  if(ti >= QUESTIONS_PORTES.length){ return finTestPortes(); }
+  renderPortes();
+}
+function finTestPortes(){
+  var acc = {}, cnt = {};
+  for(var i=0;i<QUESTIONS_PORTES.length;i++){
+    var k = QUESTIONS_PORTES[i].p, v = trep[i] || 0;
+    acc[k] = (acc[k] || 0) + v; cnt[k] = (cnt[k] || 0) + 1;
+  }
+  var moy = [];
+  for(var j=0;j<PORTES.length;j++){
+    var id = PORTES[j].id;
+    moy.push({ id:id, score:Math.round(((acc[id]||0) / (cnt[id]||1)) * 10) / 10 });
+  }
+  moy.sort(function(a,b){ return b.score - a.score; });
+  SS('nafs_portes', { date:new Date().toISOString().slice(0,10), classement:moy });
+  ti = 0; trep = {};
+  toast('✅ Tes portes sont calculées');
+  nav('maPorte');
+}
+function classementPortes(){ return S('nafs_portes', null); }
+
+/* ---- le pacte de 40 jours ---- */
+function pacte(){ return S('nafs_pacte', null); }
+function jourCourantPacte(p){
+  if(!p){ return 0; }
+  var d1 = new Date(p.debut + 'T00:00:00');
+  var d2 = new Date();
+  var n = Math.floor((d2 - d1) / 86400000) + 1;
+  return (n < 1 || n > 40) ? (n < 1 ? 1 : 41) : n;
+}
+function demarrerPacte(porteId, regle){
+  var p = porteById(porteId);
+  SS('nafs_pacte', { porte:porteId, regle:regle || (p ? p.regle : ''), debut:new Date().toISOString().slice(0,10), jours:[] });
+  toast('✅ Pacte commencé — 40 jours');
+  nav('pacte');
+}
+function basculeJour(n){
+  var p = pacte(); if(!p){ return; }
+  var i = p.jours.indexOf(n);
+  if(i >= 0){ p.jours.splice(i, 1); } else { p.jours.push(n); }
+  SS('nafs_pacte', p); renderPacte();
+}
+function seriePacte(p){
+  if(!p || !p.jours.length){ return 0; }
+  var j = p.jours.slice().sort(function(a,b){ return a-b; });
+  return j[j.length - 1];
+}
+
+/* ---- le carnet de muhâsaba ---- */
+var CARNET_Q = [
+ "Qu'ai-je fait aujourd'hui que je ne voulais pas faire ?",
+ "Qu'ai-je tenu aujourd'hui, que j'aurais pu lâcher ?",
+ "Qui ai-je blessé — et qu'est-ce que je peux réparer ?",
+ "Où ai-je oublié de remercier ?",
+ "Que vais-je faire demain, quoi qu'il arrive ?"
+];
+function carnet(){ return S('nafs_carnet', []); }
+function enregistrerCarnet(){
+  var rep = [];
+  for(var i=0;i<CARNET_Q.length;i++){
+    var el = document.getElementById('cq' + i);
+    rep.push(el ? el.value.trim() : '');
+  }
+  if(!rep.join('').trim()){ toast('Rien à enregistrer'); return; }
+  var c = carnet();
+  var jour = new Date().toISOString().slice(0,10);
+  c = c.filter(function(x){ return x.d !== jour; });
+  c.unshift({ d:jour, r:rep });
+  SS('nafs_carnet', c.slice(0, 30));
+  toast('✅ Noté pour ce soir');
+  nav('carnet');
+}
+
+/* ================================ LES ÉCRANS ================================ */
+
+function nCarte(onclick, em, titre, sous, couleur, extra){
+  return `<div class="card" style="cursor:pointer;border-color:${couleur}35;background:${couleur}08;margin-bottom:.6rem" onclick="${onclick}">
+    <div style="display:flex;align-items:center;gap:.7rem">
+      <div style="font-size:1.3rem">${em}</div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:.93rem">${titre}</div>
+        <div style="font-size:.76rem;color:#6b7280;line-height:1.4;margin-top:.15rem">${sous}</div>
+      </div>
+      <div style="color:#6b7280;font-size:1.25rem">›</div>
+    </div>${extra||''}</div>`;
+}
+
+function renderNafs(){
+  const el = document.getElementById('pc'); if(!el) return
+  const cl = classementPortes(), p = pacte();
+  const ouverts = cl ? cl.classement.filter(x => x.score >= 5).length : 0;
+  el.innerHTML = `
+    <h2 style="font-size:1.15rem;font-weight:700;margin:.5rem 0 .25rem">🐺 Maîtrise de soi</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      C'est la dimension qui ne se soigne pas avec des informations. On peut te dire comment résister —
+      ça ne te fera pas résister. Ici, on ne lit pas : <b style="color:#9ca3af">on s'entraîne</b>.
+    </p>
+
+    ${nCarte("nav('portes')","🧭","Le test des 9 portes","18 questions. À la fin, tu sais par où ton nafs entre chez toi — et tu reçois la règle qui correspond.","#f59e0b",
+      cl ? `<div style="margin-top:.5rem;font-size:.75rem;color:#f59e0b"><b>Fait le ${cl.date}</b> — ${ouverts} porte(s) ouverte(s)</div>` : '')}
+    ${nCarte("nav('carnet')","🕯","Le carnet de muhâsaba","5 questions, chaque nuit. Un examen de conscience de deux minutes, gardé sur ton téléphone.","#3b82f6",
+      carnet().length ? `<div style="margin-top:.5rem;font-size:.75rem;color:#3b82f6"><b>${carnet().length} soir(s)</b> écrit(s)</div>` : '')}
+    ${nCarte("nav('pacte')","🤝","Le pacte de 40 jours","Une porte. Une règle. Quarante cases à cocher. C'est ça qui change un homme.","#10b981",
+      p ? `<div style="margin-top:.5rem;font-size:.75rem;color:#10b981"><b>${p.regle ? p.regle.slice(0,54) : ''}…</b></div>` : '')}
+    ${nCarte("nav('outils')","📜","Les trois outils","Muhâsaba, murâqaba, mujâhada : les trois outils de la tradition, et le jeûne comme entraînement roi.","#a78bfa")}
+
+    <h3 style="font-size:.95rem;font-weight:700;margin:1.4rem 0 .6rem">Les 9 portes — apprends à les reconnaître</h3>
+    ${PORTES.map(x => `
+      <div class="card" style="cursor:pointer;margin-bottom:.45rem;padding:.8rem 1rem" onclick="ouvrirPorte('${x.id}')">
+        <div style="display:flex;align-items:center;gap:.65rem">
+          <div style="font-size:1.15rem">${x.em}</div>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:.88rem">${x.n}</div>
+            <div style="font-size:.73rem;color:#6b7280">${x.court}</div>
+          </div>
+          <div style="color:#6b7280;font-size:1.15rem">›</div>
+        </div></div>`).join('')}
+
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">
+      Le nafs ne prévient pas quand il perd. Alors on mesure ailleurs — dans ce que ton foyer ne subit
+      plus, dans ce que tu n'as pas fait. Jamais dans ce que tu racontes.
+    </p>`
+}
+
+function renderOutils(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('nafs')">‹ Retour</button>
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">📜 Les trois outils de la tradition</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">Ils ont mille quatre cents ans, et ils marchent mieux que n'importe quelle méthode moderne.</p>
+
+    <div class="card" style="border-color:rgba(59,130,246,.35)">
+      <div style="font-weight:700;font-size:.95rem;margin-bottom:.4rem">1 · al-Muhâsaba — l'examen de conscience</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0 0 .6rem">Chaque soir, tu te regardes comme un commerçant regarde sa caisse : qu'est-ce qui est rentré, qu'est-ce qui est sorti. Sans dramatiser, sans se flageller. On constate.</p>
+      <p style="font-size:.83rem;line-height:1.7;margin:0;color:#9ca3af">« Que chaque âme regarde ce qu'elle a avancé pour demain. » (Coran, 59 : 18)</p>
+      <button class="btn btn-outline btn-sm" style="margin-top:.7rem" onclick="nav('carnet')">Ouvrir le carnet</button>
+    </div>
+
+    <div class="card" style="border-color:rgba(167,139,250,.35)">
+      <div style="font-weight:700;font-size:.95rem;margin-bottom:.4rem">2 · al-Murâqaba — la surveillance</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0 0 .6rem">C'est l'outil le plus puissant, et le seul qu'aucun logiciel ne peut remplacer : vivre avec la conscience qu'Allah te voit. Le nafs est très fort quand il est seul et qu'il croit n'être pas vu — il est faible devant celui qui sait qu'il est vu.</p>
+      <p style="font-size:.83rem;line-height:1.7;margin:0;color:#9ca3af">« Il est avec vous où que vous soyez. » (Coran, 57 : 4)</p>
+    </div>
+
+    <div class="card" style="border-color:rgba(16,185,129,.35)">
+      <div style="font-weight:700;font-size:.95rem;margin-bottom:.4rem">3 · al-Mujâhada — l'effort contre soi</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0 0 .6rem">Le nafs ne se raisonne pas, il s'entraîne. Et son entraînement roi, c'est le jeûne : tu imposes à ton corps une privation choisie, et tu apprends à ton nafs qui commande. Commence par le jeûne du lundi et du jeudi, ou par trois jours par mois.</p>
+      <p style="font-size:.83rem;line-height:1.7;margin:0;color:#9ca3af">Le jeûne est une protection : il apprend à dire non à ce qui est permis, pour savoir dire non à ce qui ne l'est pas.</p>
+    </div>
+
+    <div class="card" style="border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.05)">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.4rem">La règle du jeu</div>
+      <p style="font-size:.83rem;line-height:1.7;margin:0">Un outil sans rendez-vous ne sert à rien. Choisis une heure : la nuit, avant de dormir, cinq minutes. Le carnet, le pacte, et l'outil du soir. C'est tout ce que le nafs craint.</p>
+    </div>`
+}
+
+function renderPorte(){
+  const el = document.getElementById('pc'); if(!el) return
+  const x = porteById(porteCourante);
+  if(!x){ return renderNafs(); }
+  const p = pacte();
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('nafs')">‹ Retour</button>
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">${x.em} ${x.n}</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:.9rem">${x.court}</p>
+    <div class="card"><p style="font-size:.87rem;line-height:1.75;margin:0">${x.texte}</p></div>
+    <div class="card" style="border-color:rgba(232,114,92,.35)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.4rem">Comment tu sais qu'elle est ouverte</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">${x.symptome}</p>
+    </div>
+    <div class="card" style="border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.06)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.4rem">LA RÈGLE</div>
+      <p style="font-size:.92rem;line-height:1.6;margin:0;font-weight:600">${x.regle}</p>
+    </div>
+    <div style="background:rgba(217,178,106,.08);border-left:3px solid #d9b26a;border-radius:10px;padding:.8rem .95rem">
+      <div style="font-size:.62rem;letter-spacing:1.2px;text-transform:uppercase;color:#e5c36a;font-weight:700">Source</div>
+      <div style="font-size:.83rem;line-height:1.6;margin-top:.3rem">${x.src}</div>
+    </div>
+    ${(p && p.porte === x.id) ? `<div class="card" style="border-color:rgba(16,185,129,.4);margin-top:.8rem"><div style="font-size:.85rem">✅ C'est ta porte de pacte en cours.</div></div>` :
+      `<button class="btn btn-primary btn-sm" style="width:100%;margin-top:.9rem" onclick="demarrerPacte('${x.id}')">🤝 Faire de cette porte mon pacte de 40 jours</button>`}`
+}
+
+function renderPortes(){
+  const el = document.getElementById('pc'); if(!el) return
+  if(ti >= QUESTIONS_PORTES.length){ return nav('maPorte'); }
+  const q = QUESTIONS_PORTES[ti];
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('nafs')">‹ Retour</button>
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">🧭 Le test des 9 portes</h2>
+    <p style="font-size:.78rem;color:#6b7280;margin-bottom:1rem">Sois honnête : personne ne lit tes réponses, elles ne quittent pas ton téléphone.</p>
+    <div style="display:flex;justify-content:space-between;font-size:.72rem;color:#6b7280;margin-bottom:.5rem">
+      <span>${ti + 1} / ${QUESTIONS_PORTES.length}</span><span>${q.p ? (porteById(q.p) ? porteById(q.p).n : '') : ''}</span>
+    </div>
+    <div style="height:4px;background:rgba(255,255,255,.07);border-radius:99px;margin-bottom:1.2rem">
+      <div style="height:100%;width:${Math.round(ti * 100 / QUESTIONS_PORTES.length)}%;background:#f59e0b;border-radius:99px;transition:width .3s"></div>
+    </div>
+    <div class="card" style="margin-bottom:1rem">
+      <p style="font-size:.98rem;line-height:1.6;margin:0;font-weight:600">${q.q}</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.5rem">
+      ${NIVEAUX.map(nv => `<button class="btn btn-outline" style="justify-content:space-between;display:flex" onclick="selPorte(${ti},${nv[1]})"><span>${nv[0]}</span><span style="color:#6b7280;font-size:.8rem">${nv[1]}/10</span></button>`).join('')}
+    </div>`
+}
+
+function renderMaPorte(){
+  const el = document.getElementById('pc'); if(!el) return
+  const cl = classementPortes();
+  if(!cl){ return renderNafs(); }
+  const top = cl.classement.slice(0, 3);
+  const meilleure = cl.classement[cl.classement.length - 1];
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('nafs')">‹ Retour</button>
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">🧭 Tes portes</h2>
+    <p style="font-size:.78rem;color:#6b7280;margin-bottom:1rem">Calculé le ${cl.date}. Plus le score est haut, plus la porte est ouverte.</p>
+    ${top.map((x, i) => { const p = porteById(x.id); return `
+      <div class="card" style="border-color:rgba(245,158,11,.4);margin-bottom:.6rem;cursor:pointer" onclick="ouvrirPorte('${x.id}')">
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <div style="font-size:1.5rem">${p.em}</div>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:.95rem">${i === 0 ? 'La plus ouverte : ' : ''}${p.n}</div>
+            <div style="font-size:.76rem;color:#9ca3af;margin-top:.15rem">${p.regle}</div>
+          </div>
+          <div style="font-size:1.15rem;font-weight:800;color:#f59e0b">${x.score}</div>
+        </div></div>`; }).join('')}
+    <div class="card" style="margin-top:.9rem">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.5rem">Ta porte la plus solide</div>
+      <p style="font-size:.85rem;line-height:1.6;margin:0">${porteById(meilleure.id).em} <b>${porteById(meilleure.id).n}</b> (${meilleure.score}/10) — c'est de là que tu peux aider quelqu'un d'autre.</p>
+    </div>
+    <p style="font-size:.75rem;color:#4b5563;line-height:1.6;margin-top:.9rem">
+      Ne prends pas les trois. <b>Prends la première, et prends-la quarante jours.</b> C'est comme ça qu'un
+      homme change : une porte à la fois.
+    </p>
+    <button class="btn btn-primary" style="width:100%;margin-top:.6rem" onclick="demarrerPacte('${top[0].id}')">🤝 Faire de « ${porteById(top[0].id).n} » mon pacte</button>
+    <div style="text-align:center;margin-top:.6rem"><button class="btn btn-outline btn-sm" onclick="ti=0;trep={};nav('portes')">Refaire le test</button></div>`
+}
+
+function renderPacte(){
+  const el = document.getElementById('pc'); if(!el) return
+  const p = pacte();
+  if(!p){
+    el.innerHTML = `
+      <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('nafs')">‹ Retour</button>
+      <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">🤝 Le pacte de 40 jours</h2>
+      <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">Une seule porte, une seule règle, quarante jours. Choisis la porte :</p>
+      ${PORTES.map(x => `<div class="card" style="cursor:pointer;margin-bottom:.45rem;padding:.8rem 1rem" onclick="demarrerPacte('${x.id}')">
+        <div style="display:flex;align-items:center;gap:.65rem"><div style="font-size:1.15rem">${x.em}</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:.88rem">${x.n}</div>
+        <div style="font-size:.73rem;color:#6b7280">${x.regle}</div></div>
+        <div style="color:#6b7280;font-size:1.15rem">›</div></div></div>`).join('')}
+      <p style="font-size:.75rem;color:#4b5563;line-height:1.6;margin-top:.8rem">Si tu ne sais pas laquelle prendre, fais d'abord le test des portes.</p>`;
+    return;
+  }
+  const x = porteById(p.porte);
+  const jour = jourCourantPacte(p);
+  const faits = p.jours.length;
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('nafs')">‹ Retour</button>
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">🤝 Mon pacte — ${x.em} ${x.n}</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin:.2rem 0 1rem">Commencé le ${p.debut} · jour ${jour > 40 ? 40 : jour} sur 40</p>
+    <div class="card" style="border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.06)">
+      <div style="font-size:.62rem;letter-spacing:1.2px;text-transform:uppercase;color:#34d399;font-weight:700">Ma règle</div>
+      <p style="font-size:.95rem;line-height:1.6;margin:.4rem 0 0;font-weight:600">${p.regle}</p>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;color:#9ca3af;margin-bottom:.6rem">
+        <span>Jours tenus : <b style="color:#34d399">${faits}</b></span>
+        <span>Reste : <b>${40 - faits}</b></span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:5px">
+        ${Array.from({length:40}, (_, k) => { const n = k + 1; const ok = p.jours.indexOf(n) >= 0;
+          return `<div onclick="basculeJour(${n})" style="cursor:pointer;aspect-ratio:1;border-radius:7px;
+            display:flex;align-items:center;justify-content:center;font-size:.6rem;
+            background:${ok ? 'rgba(16,185,129,.85)' : 'rgba(255,255,255,.05)'};
+            color:${ok ? '#04140f' : '#6b7280'};font-weight:700;border:1px solid ${n === jour ? '#f59e0b' : 'transparent'}">${n}</div>`; }).join('')}
+      </div>
+      <p style="font-size:.72rem;color:#6b7280;margin:.7rem 0 0;line-height:1.5">Touche le jour d'aujourd'hui pour le valider. Un jour manqué ne casse rien : tu reprends le lendemain — le pacte n'est pas un jugement.</p>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;font-size:.86rem;margin-bottom:.4rem">Si tu tiens 40 jours</div>
+      <p style="font-size:.84rem;line-height:1.7;margin:0">Une porte fermée pendant quarante jours change ton quotidien — et se voit <b>chez toi</b> avant de se voir en toi. Ce n'est pas toi qui le diras : c'est ta famille.</p>
+    </div>
+    <div style="text-align:center;margin-top:.5rem">
+      <button class="btn btn-outline btn-sm" onclick="ouvrirPorte('${p.porte}')">Relire la fiche de cette porte</button>
+      <button class="btn btn-outline btn-sm" style="margin-top:.4rem" onclick="if(confirm('Arrêter ce pacte et en recommencer un ?')){ SS('nafs_pacte',null); nav('pacte'); }">Recommencer un autre pacte</button>
+    </div>`
+}
+
+function renderCarnet(){
+  const el = document.getElementById('pc'); if(!el) return
+  const c = carnet();
+  const jour = new Date().toISOString().slice(0,10);
+  const auj = c.filter(x => x.d === jour)[0];
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('nafs')">‹ Retour</button>
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">🕯 Le carnet de muhâsaba</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">Deux minutes, chaque nuit. Écris court — une phrase suffit.</p>
+    ${CARNET_Q.map((q, i) => `
+      <div class="card" style="margin-bottom:.5rem;padding:.8rem 1rem">
+        <div style="font-size:.83rem;font-weight:600;margin-bottom:.45rem">${i + 1}. ${q}</div>
+        <textarea id="cq${i}" rows="2" style="width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#e5e7eb;padding:.55rem .7rem;font-family:inherit;font-size:.85rem;resize:vertical">${auj ? (auj.r[i] || '') : ''}</textarea>
+      </div>`).join('')}
+    <button class="btn btn-primary" style="width:100%" onclick="enregistrerCarnet()">Enregistrer ce soir</button>
+    ${c.length ? `<h3 style="font-size:.92rem;font-weight:700;margin:1.3rem 0 .5rem">Mes soirs précédents (${c.length})</h3>
+      ${c.slice(0, 10).map(e => `<div class="card" style="margin-bottom:.45rem;padding:.75rem .9rem">
+        <div style="font-size:.72rem;color:#6b7280;margin-bottom:.3rem">${e.d}</div>
+        ${e.r.filter(Boolean).map(x => `<div style="font-size:.8rem;line-height:1.55;color:#d1d5db">· ${x}</div>`).join('') || '<div style="font-size:.8rem;color:#6b7280">(vide)</div>'}
+      </div>`).join('')}` : ''}
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">Ce carnet reste sur ton téléphone. Personne d'autre ne le lit — et c'est justement pour ça qu'on peut y être honnête.</p>`
+}
+
+
+// =====================================================================
+// LE CORAN — le pilier القَلْب (Qalb)
+// L'essentiel de Hifz Sentinel, dans l'application : lire, écouter,
+// répéter, tester de mémoire, et suivre ce qu'on a appris.
+// Source : api.alquran.cloud — aucune donnée ne quitte le téléphone.
+// =====================================================================
+
+var coranListe = S('coran_liste', null);
+var coranData = null, coranS = 0, coranEnChargement = false, coranErreur = "";
+var coranAudio = null, coranIdx = 0, coranCompte = 0;
+
+function coranReglages(){
+  var r = S('coran_reglages', null);
+  if(!r){ r = { trad:true, masque:false, rep:1 }; }
+  return r;
+}
+function coranSetReglages(patch){
+  var r = coranReglages();
+  for(var k in patch){ r[k] = patch[k]; }
+  SS('coran_reglages', r);
+  renderSourate();
+}
+function coranApprises(){ return S('coran_apprises', []); }
+function coranEstApprise(n){ return coranApprises().indexOf(n) >= 0; }
+function coranBasculerApprise(n){
+  var a = coranApprises(), i = a.indexOf(n);
+  if(i >= 0){ a.splice(i, 1); toast('Retirée des sourates apprises'); }
+  else { a.push(n); a.sort(function(x,y){ return x-y; }); toast('✅ Sourate marquée comme apprise'); }
+  SS('coran_apprises', a);
+  renderSourate();
+}
+function sourateDuJour(){
+  var d = new Date();
+  var n = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+  return (n % 114) + 1;
+}
+
+function coranChargerListe(){
+  if(coranListe){ return; }
+  coranErreur = "";
+  fetch('https://api.alquran.cloud/v1/surah')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d.status === 'OK' && d.data){ coranListe = d.data; SS('coran_liste', d.data); }
+      else { coranErreur = "Réponse inattendue de la source."; }
+      renderCoran();
+    })
+    .catch(function(){ coranErreur = "Pas de connexion — la liste se chargera à la prochaine ouverture."; renderCoran(); });
+}
+
+function coranChargerSourate(n){
+  coranS = n; coranEnChargement = true; coranData = null; coranErreur = "";
+  renderSourate();
+  fetch('https://api.alquran.cloud/v1/surah/' + n + '/editions/quran-uthmani,fr.hamidullah,ar.alafasy')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      coranEnChargement = false;
+      if(!d || d.status !== 'OK' || !d.data){ coranErreur = "Impossible de charger cette sourate."; renderSourate(); return; }
+      var ar = null, fr = null, au = null;
+      for(var i=0;i<d.data.length;i++){
+        var id = d.data[i].edition.identifier;
+        if(id === 'quran-uthmani'){ ar = d.data[i]; }
+        else if(id === 'fr.hamidullah'){ fr = d.data[i]; }
+        else if(id === 'ar.alafasy'){ au = d.data[i]; }
+      }
+      coranData = { n:n, ar:ar, fr:fr, au:au };
+      SS('coran_derniere', { s:n, t:Date.now() });
+      renderSourate();
+    })
+    .catch(function(){
+      coranEnChargement = false;
+      coranErreur = "Pas de connexion. Le texte du Coran se charge depuis internet — réessaie quand tu as du réseau.";
+      renderSourate();
+    });
+}
+
+/* ---- l'écoute ---- */
+function coranArreter(){
+  if(coranAudio){ try { coranAudio.pause(); coranAudio = null; } catch(e){} }
+  var l = document.querySelectorAll('.ayah.on');
+  for(var i=0;i<l.length;i++){ l[i].classList.remove('on'); }
+}
+function coranJouer(i){
+  if(!coranData || !coranData.au || !coranData.au.ayahs[i]){ return; }
+  coranArreter();
+  coranIdx = i; coranCompte = 0;
+  coranJouerUne(i);
+}
+function coranJouerUne(i){
+  var ay = coranData.au.ayahs[i];
+  if(!ay || !ay.audio){ return; }
+  var el = document.getElementById('ay' + i);
+  if(el){ el.classList.add('on'); }
+  coranAudio = new Audio(ay.audio);
+  coranAudio.onended = function(){
+    coranCompte++;
+    var rep = coranReglages().rep;
+    if(rep === 0 || coranCompte < rep){ coranJouerUne(i); return; }
+    if(i + 1 < coranData.au.ayahs.length){ coranJouer(i + 1); }
+    else { coranArreter(); if(el){ el.classList.remove('on'); } }
+  };
+  coranAudio.play().catch(function(){});
+}
+
+/* ================================ LES ÉCRANS ================================ */
+
+function renderCoran(){
+  const el = document.getElementById('pc'); if(!el) return
+  if(!coranListe && !coranErreur){ coranChargerListe(); }
+  const apprises = coranApprises();
+  const der = S('coran_derniere', null);
+  const sj = sourateDuJour();
+  const info = coranListe ? coranListe[sj - 1] : null;
+  const pc = Math.round(apprises.length * 100 / 114);
+
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('manifest')">‹ Retour aux piliers</button>
+    <h2 style="font-size:1.15rem;font-weight:700;margin:0 0 .2rem">📖 Le Coran</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      La parole d'Allah : la lire, l'écouter, la répéter, et la garder. C'est la nourriture du cœur —
+      et la base de tout ce qui précède.
+    </p>
+
+    ${der ? `<div class="card" style="cursor:pointer;border-color:rgba(16,185,129,.35);background:rgba(16,185,129,.06)" onclick="coranChargerSourate(${der.s})">
+      <div style="font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:#34d399;font-weight:700">Reprendre</div>
+      <div style="font-weight:700;font-size:.95rem;margin-top:.3rem">${coranListe ? (coranListe[der.s-1].englishName + ' · ' + coranListe[der.s-1].name) : ('Sourate ' + der.s)}</div>
+    </div>` : ''}
+
+    ${info ? `<div class="card" style="cursor:pointer;border-color:rgba(217,178,106,.35);background:rgba(217,178,106,.06)" onclick="coranChargerSourate(${sj})">
+      <div style="font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:#e5c36a;font-weight:700">Ta sourate du jour</div>
+      <div style="display:flex;align-items:center;gap:.7rem;margin-top:.35rem">
+        <div style="flex:1"><div style="font-weight:700;font-size:.95rem">${info.englishName} — ${info.englishNameTranslation}</div>
+        <div style="font-size:.75rem;color:#6b7280">${info.numberOfAyahs} versets · ${info.revelationType === 'Meccan' ? 'mecquoise' : 'médinoise'}</div></div>
+        <div style="font-size:1.3rem;font-family:'Traditional Arabic','Scheherazade New','Amiri','Noto Naskh Arabic',serif">${info.name.replace('سُورَةُ ','')}</div>
+      </div></div>` : ''}
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;color:#9ca3af;margin-bottom:.5rem">
+        <span>Sourates apprises : <b style="color:#34d399">${apprises.length}</b> / 114</span><span>${pc}%</span>
+      </div>
+      <div style="height:5px;background:rgba(255,255,255,.07);border-radius:99px">
+        <div style="height:100%;width:${pc}%;background:linear-gradient(90deg,#10b981,#34d399);border-radius:99px"></div>
+      </div>
+    </div>
+
+    ${coranErreur ? `<div class="card" style="border-color:rgba(239,68,68,.4)"><p style="font-size:.84rem;line-height:1.6;margin:0">${coranErreur}</p>
+      <button class="btn btn-outline btn-sm" style="margin-top:.6rem" onclick="coranErreur='';renderCoran()">Réessayer</button></div>` : ''}
+
+    ${coranListe ? `
+      <input id="cfilter" placeholder="Chercher une sourate (nom ou numéro)…" oninput="coranFiltrer()"
+        style="width:100%;padding:.7rem .9rem;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.35);color:#e5e7eb;font-family:inherit;font-size:.85rem;margin-bottom:.8rem"/>
+      <div id="cliste">${coranListeHTML('')}</div>` : `
+      <div class="card" style="text-align:center"><div style="font-size:1.4rem;margin-bottom:.4rem">⏳</div>
+      <p style="font-size:.85rem;margin:0">Chargement de la liste des 114 sourates…</p></div>`}
+
+    <div class="card" style="margin-top:1rem;border-color:rgba(59,130,246,.3)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.35rem">Pour aller plus loin</div>
+      <p style="font-size:.82rem;line-height:1.6;margin:0 0 .6rem">L'application <b>Hifz Sentinel</b> fait tout ça et plus encore : mushaf, récitateurs multiples, rappels quotidiens, statistiques.</p>
+      <a class="btn btn-outline btn-sm" style="text-decoration:none;text-align:center;display:block" href="https://hifz-sentinel.netlify.app/" target="_blank" rel="noopener">Ouvrir Hifz Sentinel ↗</a>
+    </div>
+
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">
+      Texte et audio : <b>api.alquran.cloud</b> — Coran en graphie uthmanienne, traduction Hamidullah, récitation de
+      Mishary Al-Afasy. Pour l'étude, reviens toujours au texte arabe et aux gens de science.
+    </p>`
+}
+
+function coranListeHTML(filtre){
+  var f = (filtre || '').trim().toLowerCase();
+  var out = '';
+  for(var i = 0; i < coranListe.length; i++){
+    var s = coranListe[i];
+    var nom = (s.englishName + ' ' + s.englishNameTranslation + ' ' + s.number).toLowerCase();
+    if(f && nom.indexOf(f) < 0 && String(s.number) !== f){ continue; }
+    var ok = coranEstApprise(s.number);
+    out += `<div class="card" style="cursor:pointer;margin-bottom:.4rem;padding:.7rem .9rem" onclick="coranChargerSourate(${s.number})">
+      <div style="display:flex;align-items:center;gap:.7rem">
+        <div style="width:30px;height:30px;flex:0 0 30px;border-radius:9px;background:rgba(16,185,129,.12);
+             display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#34d399">${s.number}</div>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:.87rem">${s.englishName}${ok ? ' <span style="color:#34d399">✓</span>' : ''}</div>
+          <div style="font-size:.72rem;color:#6b7280">${s.englishNameTranslation} · ${s.numberOfAyahs} versets</div>
+        </div>
+        <div style="font-size:1.05rem;font-family:'Traditional Arabic','Scheherazade New','Amiri','Noto Naskh Arabic',serif">${s.name.replace('سُورَةُ ','')}</div>
+      </div></div>`;
+  }
+  return out || `<div class="card"><p style="font-size:.84rem;margin:0">Aucune sourate ne correspond.</p></div>`;
+}
+function coranFiltrer(){
+  var el = document.getElementById('cfilter');
+  var c = document.getElementById('cliste');
+  if(c){ c.innerHTML = coranListeHTML(el ? el.value : ''); }
+}
+
+function renderSourate(){
+  const el = document.getElementById('pc'); if(!el) return
+  if(!coranData){
+    el.innerHTML = `<button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="coranArreter();nav('coran')">‹ Toutes les sourates</button>
+      ${coranErreur ? `<div class="card" style="border-color:rgba(239,68,68,.4)"><p style="font-size:.85rem;line-height:1.6;margin:0">${coranErreur}</p>
+        <button class="btn btn-outline btn-sm" style="margin-top:.6rem" onclick="coranChargerSourate(${coranS})">Réessayer</button></div>`
+        : `<div class="card" style="text-align:center"><div style="font-size:1.4rem">⏳</div><p style="font-size:.85rem;margin:.4rem 0 0">Chargement de la sourate…</p></div>`}`;
+    return;
+  }
+  const r = coranReglages(), info = coranListe ? coranListe[coranS - 1] : null;
+  const ar = coranData.ar.ayahs, fr = coranData.fr ? coranData.fr.ayahs : [];
+  const apprise = coranEstApprise(coranS);
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="coranArreter();nav('coran')">‹ Toutes les sourates</button>
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .15rem">${info ? info.englishName : ('Sourate ' + coranS)}</h2>
+    <p style="font-size:.78rem;color:#6b7280;margin:0 0 .2rem">
+      ${info ? info.englishNameTranslation + ' · ' + info.numberOfAyahs + ' versets · ' + (info.revelationType === 'Meccan' ? 'mecquoise' : 'médinoise') : ''}
+    </p>
+    ${info ? `<div style="font-size:1.25rem;margin-bottom:.8rem;font-family:'Traditional Arabic','Scheherazade New','Amiri','Noto Naskh Arabic',serif">${info.name}</div>` : ''}
+
+    <div class="card" style="padding:.8rem .9rem">
+      <div style="font-size:.68rem;letter-spacing:1.1px;text-transform:uppercase;color:#6b7280;font-weight:700;margin-bottom:.45rem">Répéter chaque verset</div>
+      <div style="display:flex;gap:.4rem;margin-bottom:.7rem">
+        ${[1,3,5,0].map(n => `<button class="btn ${r.rep === n ? 'btn-primary' : 'btn-outline'} btn-xs" style="flex:1" onclick="coranSetReglages({rep:${n}})">${n === 0 ? '∞' : n + 'x'}</button>`).join('')}
+      </div>
+      <div style="display:flex;gap:.4rem">
+        <button class="btn ${r.masque ? 'btn-primary' : 'btn-outline'} btn-xs" style="flex:1" onclick="coranSetReglages({masque:${!r.masque}})">${r.masque ? '🙈 Test actif' : '🙈 Mode test'}</button>
+        <button class="btn ${r.trad ? 'btn-primary' : 'btn-outline'} btn-xs" style="flex:1" onclick="coranSetReglages({trad:${!r.trad}})">${r.trad ? '🇫🇷 Traduction' : '🇫🇷 Sans traduction'}</button>
+      </div>
+      ${r.masque ? `<p style="font-size:.72rem;color:#9ca3af;margin:.6rem 0 0;line-height:1.5">Le verset est flouté : essaie de le réciter de mémoire, puis touche-le pour vérifier.</p>` : ''}
+    </div>
+
+    <div style="display:flex;gap:.5rem;margin-bottom:.8rem">
+      <button class="btn btn-primary btn-sm" style="flex:1" onclick="coranJouer(0)">▶ Écouter la sourate</button>
+      <button class="btn btn-outline btn-sm" onclick="coranArreter()">■ Stop</button>
+      <button class="btn ${apprise ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="coranBasculerApprise(${coranS})">${apprise ? '✓ Apprise' : 'Marquer apprise'}</button>
+    </div>
+
+    ${ar.map((a, i) => `
+      <div class="card" id="ay${i}" style="padding:.85rem 1rem;margin-bottom:.5rem;transition:border-color .2s">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+          <span style="font-size:.7rem;color:#6b7280;font-weight:700">${a.numberInSurah}</span>
+          <button class="btn btn-outline btn-xs" onclick="coranJouer(${i})">▶</button>
+        </div>
+        <div class="ar-coran${r.masque ? ' masque' : ''}" onclick="this.classList.toggle('revele')"
+             style="font-family:'Traditional Arabic','Scheherazade New','Amiri','Noto Naskh Arabic',serif;
+             font-size:1.55rem;line-height:2.3;text-align:right;direction:rtl;color:#f3f4f6">${a.text}</div>
+        ${r.trad && fr[i] ? `<div style="font-size:.83rem;line-height:1.65;color:#9ca3af;margin-top:.5rem">${fr[i].text}</div>` : ''}
+      </div>`).join('')}
+
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">
+      Récitation : Mishary Al-Afasy · Texte : graphie uthmanienne · Traduction : Hamidullah.
+      L'écoute se fait en ligne (les fichiers audio viennent d'internet).
+    </p>`
+}
+
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const savPages = ['savoir','axe','manger','mensonges','sources','respirer'];
+  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate'];
   el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate }
   if(pages[cp]) pages[cp]()
 }
 
@@ -1203,6 +1868,17 @@ function renderHome() {
       <div style="width:40px;height:3px;background:#10b981;margin:.75rem auto;border-radius:2px"></div>
     </div>
     ${citeCard()}
+    <div style="margin:0 0 1rem">
+      <div style="font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;color:#6b7280;font-weight:700;margin-bottom:.5rem;text-align:center">Les outils de tes dimensions</div>
+      <div style="display:grid;grid-template-columns:1fr;gap:.45rem">
+        <div class="card" style="cursor:pointer;margin:0;padding:.75rem .9rem;border-color:rgba(16,185,129,.3)" onclick="nav('coran')">
+          <div style="display:flex;align-items:center;gap:.6rem"><div style="font-size:1.1rem">📖</div><div style="flex:1"><div style="font-weight:600;font-size:.85rem">Le Coran</div><div style="font-size:.72rem;color:#6b7280">Lire, écouter, mémoriser — pour le pilier Cœur</div></div><div style="color:#6b7280">›</div></div></div>
+        <div class="card" style="cursor:pointer;margin:0;padding:.75rem .9rem;border-color:rgba(245,158,11,.3)" onclick="nav('nafs')">
+          <div style="display:flex;align-items:center;gap:.6rem"><div style="font-size:1.1rem">🐺</div><div style="flex:1"><div style="font-weight:600;font-size:.85rem">Maîtrise de soi</div><div style="font-size:.72rem;color:#6b7280">Les 9 portes, le carnet, le pacte — pour l'Âme</div></div><div style="color:#6b7280">›</div></div></div>
+        <div class="card" style="cursor:pointer;margin:0;padding:.75rem .9rem;border-color:rgba(59,130,246,.3)" onclick="nav('savoir')">
+          <div style="display:flex;align-items:center;gap:.6rem"><div style="font-size:1.1rem">🔬</div><div style="flex:1"><div style="font-weight:600;font-size:.85rem">Le savoir du corps</div><div style="font-size:.72rem;color:#6b7280">11 mécanismes, l'assiette, le souffle — pour le Corps</div></div><div style="color:#6b7280">›</div></div></div>
+      </div>
+    </div>
     ${p ? `<div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem"><span class="badge" style="background:rgba(16,185,129,.15);color:#34d399">Jour ${state.currentDay}/30</span><span class="badge" style="background:rgba(59,130,246,.15);color:#93c5fd">${td}/${tm} missions</span></div>` : ''}
     ${s ? `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
@@ -1258,6 +1934,8 @@ function renderManifest() {
         </div>
         <div class="pillar-desc">${p.desc.replace(/\n/g,'<br>')}</div>
         ${p.id==='Djism' ? `<button class="btn btn-outline btn-sm" style="margin-top:.85rem" onclick="nav('savoir')">📖 Le savoir du corps — 11 mécanismes, l'assiette, le souffle</button>` : ''}
+        ${p.id==='Nafs' ? `<button class="btn btn-outline btn-sm" style="margin-top:.85rem" onclick="nav('nafs')">🐺 Maîtrise de soi — le test des 9 portes, le carnet, le pacte de 40 jours</button>` : ''}
+        ${p.id==='Qalb' ? `<button class="btn btn-outline btn-sm" style="margin-top:.85rem" onclick="nav('coran')">📖 Ouvrir le Coran — lecture, écoute, répétition, mode test</button>` : ''}
       </div>
     `).join('')}
     <p style="text-align:center;font-size:.8rem;color:#4b5563;margin:.75rem 0;line-height:1.5">Ces 4 piliers sont interconnectés.<br>Quand tu nourris l'un, tu fortifies les autres.</p>`
