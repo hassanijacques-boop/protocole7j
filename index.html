@@ -928,7 +928,16 @@ function renderSavoir(){
       et huit mensonges démontés. <b style="color:#9ca3af">Chaque explication porte sa source.</b>
     </p>
 
-    ${savoirCarte("nav('manger')","🥗","Manger juste","Six blocs concrets : les boissons, l'assiette en trois zones, lire une étiquette, les protéines, la journée type.","#10b981")}
+    <div class="card" style="border-color:rgba(217,178,106,.4);background:rgba(217,178,106,.05);margin-bottom:.7rem">
+      <div style="font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:#e5c36a;font-weight:700">Les deux fondations</div>
+      <div style="font-weight:700;font-size:.95rem;margin:.3rem 0 .35rem">Comment tu dors, et ce que tu manges</div>
+      <p style="font-size:.82rem;line-height:1.6;margin:0;color:#d1d5db">Si tu ne devais changer que deux choses dans toute ta vie, change celles-là.
+      Tout le reste — le sport, les séances, les compléments — vient après, et ne compense jamais un mauvais sommeil ou une assiette désordonnée.</p>
+    </div>
+
+    ${savoirCarte("nav('sommeil')","🌙","Le sommeil","La fondation n°1 : ce qu'une nuit courte fait à ton appétit, à ton insuline, à ton cortisol — et le protocole du soir.","#3b82f6")}
+    ${savoirCarte("nav('manger')","🥗","Manger juste","La fondation n°2 : six blocs concrets — les boissons, l'assiette en trois zones, lire une étiquette, les protéines, la journée type.","#10b981")}
+    ${savoirCarte("nav('marche')","🚶","La marche japonaise — minuteur","3 min rapide / 3 min modérée, 7 fois = 45 minutes, guidé avec le signal sonore. La mission du jour 11.","#ef4444")}
     ${savoirCarte("nav('respirer')","🌬","Le souffle du calme","L'exercice 3 · 5 · 7 : inspirer, retenir, expirer. Guidé, seconde par seconde.","#3b82f6")}
     ${savoirCarte("nav('mensonges')","🔍","Les mensonges du bien-être","Huit phrases que tout le monde répète — et ce qu'elles valent vraiment.","#f59e0b")}
 
@@ -991,9 +1000,11 @@ function renderManger(){
         ${b.p.map(x => `<p style="font-size:.85rem;line-height:1.7;margin:0 0 .6rem;color:#d1d5db">${x}</p>`).join('')}
         ${b.li ? `<div style="margin-top:.6rem">${b.li.map(x => `<div style="display:flex;gap:.5rem;font-size:.83rem;line-height:1.6;margin-bottom:.35rem"><div style="color:#10b981">→</div><div>${x}</div></div>`).join('')}</div>` : ''}
       </div>`).join('')}
-    <div class="card" style="border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)">
-      <div style="font-weight:700;font-size:.88rem;margin-bottom:.5rem">🌙 Et la nuit : six gestes pour dormir</div>
-      ${SOMMEIL.map(g => `<div style="display:flex;gap:.55rem;margin-bottom:.5rem;font-size:.83rem;line-height:1.55"><div>${g[0]}</div><div><b>${g[1]}</b><br><span style="color:#9ca3af">${g[2]}</span></div></div>`).join('')}
+    <div class="card" style="border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06);cursor:pointer" onclick="nav('sommeil')">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.35rem">🌙 Et la nuit ?</div>
+      <p style="font-size:.83rem;line-height:1.6;margin:0;color:#d1d5db">Ce que tu manges ne suffit pas : la première fondation, c'est le sommeil.
+      Il a maintenant son écran — les mécanismes, les six gestes, et le protocole du soir.</p>
+      <div style="font-size:.78rem;color:#38bdf8;margin-top:.45rem;font-weight:600">Ouvrir le sommeil ›</div>
     </div>`
 }
 
@@ -1782,11 +1793,221 @@ function renderSourate(){
     </p>`
 }
 
+
+// =====================================================================
+// LA MARCHE JAPONAISE — le minuteur
+// 3 min RAPIDE / 3 min MODÉRÉE, 7 fois = 45 minutes.
+// (Interval Walking Training — professeur Hiroshi Nose, université de Shinshu)
+// =====================================================================
+
+var MAR_RAPIDE = 180, MAR_MOD = 180, MAR_CYCLES = 7;   /* 7×6 + 3 = 45 min */
+var marT = null, marSeq = [], marI = 0, marReste = 0, marActif = false, marFini = false;
+var marEcoule = 0;
+
+function marSequence(){
+  var s = [];
+  for(var c = 0; c < MAR_CYCLES; c++){ s.push("rapide"); s.push("moderee"); }
+  s.push("rapide");                       /* la dernière accélération : 45 min pile */
+  return s;
+}
+function marPhaseLabel(p){ return p === "rapide" ? "RAPIDE" : "MODÉRÉE"; }
+function marPhaseCouleur(p){ return p === "rapide" ? "#ef4444" : "#10b981"; }
+function marPhaseDuree(p){ return p === "rapide" ? MAR_RAPIDE : MAR_MOD; }
+function marCycleActuel(){ return Math.min(MAR_CYCLES, Math.floor(marI / 2) + 1); }
+
+function bip(freq, duree){
+  try {
+    var C = window.AudioContext || window.webkitAudioContext; if(!C){ return; }
+    if(!window._actx){ window._actx = new C(); }
+    var a = window._actx, o = a.createOscillator(), g = a.createGain();
+    o.type = 'sine'; o.frequency.value = freq || 880;
+    g.gain.setValueAtTime(0.0001, a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.25, a.currentTime + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + (duree || 0.18));
+    o.connect(g); g.connect(a.destination);
+    o.start(); o.stop(a.currentTime + (duree || 0.2));
+  } catch(e){}
+}
+function vibre(ms){ if(navigator.vibrate){ try { navigator.vibrate(ms || 120); } catch(e){} } }
+
+function marDemarrer(){
+  if(marActif){ return; }
+  if(marFini || !marSeq.length){ marSeq = marSequence(); marI = 0; marEcoule = 0; marFini = false; }
+  marReste = marPhaseDuree(marSeq[marI]);
+  marActif = true;
+  bip(880, 0.2); vibre(200);
+  marT = setInterval(marTic, 1000);
+  marPeindre();
+}
+function marPause(){
+  marActif = false;
+  if(marT){ clearInterval(marT); marT = null; }
+  marPeindre();
+}
+function marStop(){
+  marPause(); marSeq = []; marI = 0; marEcoule = 0; marFini = false;
+  marSeq = marSequence(); marReste = marPhaseDuree(marSeq[0]);
+  marPeindre();
+}
+function marTic(){
+  if(!document.getElementById('mar-num')){ marPause(); return; }   /* on a quitté l'écran */
+  marReste--; marEcoule++;
+  if(marReste <= 0){
+    marI++;
+    if(marI >= marSeq.length){
+      marActif = false;
+      if(marT){ clearInterval(marT); marT = null; }
+      marFini = true;
+      bip(1200, 0.4); vibre(500);
+      marPeindre();
+      return;
+    }
+    marReste = marPhaseDuree(marSeq[marI]);
+    bip(marSeq[marI] === "rapide" ? 1000 : 700, 0.3);
+    vibre(300);
+  }
+  marPeindre();
+}
+function marfmt(s){
+  var m = Math.floor(s / 60), r = s % 60;
+  return m + ":" + (r < 10 ? "0" : "") + r;
+}
+function marPeindre(){
+  var n = document.getElementById('mar-num'); if(!n){ return; }
+  var total = 45 * 60;
+  var reste = Math.max(0, total - marEcoule);
+  var ph = marActif ? marSeq[marI] : null;
+  n.textContent = marfmt(marReste);
+  document.getElementById('mar-phase').textContent = marFini ? "TERMINÉ" : (ph ? marPhaseLabel(ph) : "PRÊT");
+  var coul = marFini ? "#d9b26a" : (ph ? marPhaseCouleur(ph) : "#6b7280");
+  document.getElementById('mar-phase').style.color = coul;
+  document.getElementById('mar-cercle').style.borderColor = coul;
+  document.getElementById('mar-cercle').style.boxShadow = "0 0 46px " + coul + "55";
+  document.getElementById('mar-consigne').textContent = marFini
+    ? "45 minutes. C'est fait."
+    : (ph === "rapide" ? "Marche vite, souffle fort — tu dois pouvoir parler, pas chanter."
+                       : "Ralentis, respire — récupère pour l'accélération suivante.");
+  document.getElementById('mar-cycle').textContent = marFini ? MAR_CYCLES : marCycleActuel();
+  document.getElementById('mar-ecoule').textContent = marfmt(marEcoule);
+  document.getElementById('mar-reste').textContent = marfmt(reste);
+  var pct = Math.round(marEcoule * 100 / total);
+  var bar = document.getElementById('mar-bar');
+  if(bar){ bar.style.width = pct + "%"; }
+  var b = document.getElementById('mar-btn');
+  if(b){ b.textContent = marActif ? "⏸ Pause" : (marFini ? "Recommencer" : "▶ Commencer"); }
+}
+
+function renderMarche(){
+  const el = document.getElementById('pc'); if(!el) return
+  if(!marSeq.length){ marSeq = marSequence(); }
+  if(!marActif && !marFini && marReste <= 0){ marI = 0; marReste = marPhaseDuree(marSeq[0]); }
+  const ph = marActif ? marSeq[marI] : null;
+  const coul = marFini ? "#d9b26a" : (ph ? marPhaseCouleur(ph) : "#6b7280");
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="marPause();nav('savoir')">‹ Retour au Savoir</button>
+    <h2 style="font-size:1.15rem;font-weight:700;margin:0 0 .2rem">🚶 La marche japonaise</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      3 minutes RAPIDE, 3 minutes MODÉRÉE, et on recommence — <b style="color:#9ca3af">7 fois = 45 minutes</b>.
+      La méthode du professeur Hiroshi Nose (université de Shinshu, Japon) : l'alternance entraîne le cœur
+      mieux qu'une marche continue. C'est la mission du <b style="color:#9ca3af">jour 11</b>.
+    </p>
+
+    <div class="card" style="text-align:center;padding:1.4rem 1rem">
+      <div id="mar-cercle" style="width:180px;height:180px;border-radius:50%;border:4px solid ${coul};
+           margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+           transition:border-color .4s, box-shadow .4s">
+        <div id="mar-phase" style="font-size:.72rem;letter-spacing:2px;font-weight:800;color:${coul}">PRÊT</div>
+        <div id="mar-num" style="font-size:2.9rem;font-weight:800;line-height:1.15">3:00</div>
+        <div style="font-size:.68rem;color:#6b7280">cycle <b id="mar-cycle">1</b> / ${MAR_CYCLES}</div>
+      </div>
+      <div id="mar-consigne" style="font-size:.82rem;color:#9ca3af;margin-top:.9rem;line-height:1.5"></div>
+      <div style="display:flex;gap:.5rem;justify-content:center;margin-top:1.1rem">
+        <button id="mar-btn" class="btn btn-primary" style="min-width:150px" onclick="marActif ? marPause() : marDemarrer()">▶ Commencer</button>
+        <button class="btn btn-outline" onclick="marStop()">■ Stop</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;color:#9ca3af;margin-bottom:.45rem">
+        <span>Écoulé : <b id="mar-ecoule" style="color:#e5e7eb">0:00</b></span>
+        <span>Reste : <b id="mar-reste" style="color:#e5e7eb">45:00</b></span>
+      </div>
+      <div style="height:6px;background:rgba(255,255,255,.07);border-radius:99px">
+        <div id="mar-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#10b981,#ef4444);border-radius:99px;transition:width .4s"></div>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.9rem">
+        <button class="btn btn-outline btn-sm" style="flex:1" onclick="bip(880,0.2)">🔔 Tester le signal</button>
+        <button class="btn btn-outline btn-sm" style="flex:1" onclick="marSeq=[];marI=0;marEcoule=0;marFini=false;marReste=0;renderMarche()">Réinitialiser</button>
+      </div>
+      <p style="font-size:.72rem;color:#6b7280;margin:.7rem 0 0;line-height:1.5">
+        Le signal sonore et la vibration te préviennent à chaque changement de rythme : garde le téléphone
+        dans la poche ou à la main, et n'écoute pas de musique. Compte 7 cycles.</p>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.5rem">Comment marcher</div>
+      <div style="font-size:.84rem;line-height:1.7;color:#d1d5db">
+        <p style="margin:0 0 .5rem"><b style="color:#ef4444">RAPIDE</b> — tu marches vite, le souffle s'accélère, mais tu peux encore parler. Pas de course.</p>
+        <p style="margin:0 0 .5rem"><b style="color:#10b981">MODÉRÉE</b> — tu ralentis, tu récupères. C'est ce qui permet d'enchaîner 45 minutes sans t'épuiser.</p>
+        <p style="margin:0">Sept cycles, sans t'arrêter. Si tu débutes : commence par 3 cycles (18 minutes) et ajoute un cycle chaque semaine.</p>
+      </div>
+    </div>
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6">Méthode : Interval Walking Training — Pr Hiroshi Nose et Dr Shizue Masuki, université de Shinshu (Japon). Pas un avis médical : si tu as un souci cardiaque ou un doute, demande à ton médecin.</p>`
+  marPeindre();
+}
+
+// =====================================================================
+// LE SOMMEIL — la première des deux fondations
+// =====================================================================
+function renderSommeil(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('savoir')">‹ Retour au Savoir</button>
+    <h2 style="font-size:1.15rem;font-weight:700;margin:0 0 .2rem">🌙 Le sommeil</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      Ce n'est pas du temps perdu, et ce n'est pas un luxe. C'est <b style="color:#9ca3af">la seule période
+      où ton corps se répare</b> — et c'est la fondation n°1, avant même l'assiette.
+    </p>
+
+    <div class="card" style="border-color:rgba(217,178,106,.4);background:rgba(217,178,106,.06)">
+      <div style="font-weight:700;font-size:.92rem;margin-bottom:.5rem">Ce qu'une nuit courte fait, mécaniquement</div>
+      <div style="font-size:.84rem;line-height:1.75;color:#d1d5db">
+        <p style="margin:0 0 .55rem"><b>1. L'appétit se dérègle.</b> Trop peu de sommeil fait monter l'hormone de la faim et baisser celle de la satiété : tu manges plus le lendemain, et plutôt du sucré. Ce n'est pas un manque de volonté, c'est un signal.</p>
+        <p style="margin:0 0 .55rem"><b>2. L'insuline travaille moins bien.</b> Après quelques nuits courtes, les cellules répondent moins bien à l'insuline — donc le corps range plus facilement. <i>(à relire : le mécanisme 1, l'insuline)</i></p>
+        <p style="margin:0 0 .55rem"><b>3. Le cortisol perd son rythme.</b> Il doit baisser le soir et remonter au petit matin. Un écran tardif et un coucher désordonné cassent ce rythme — et le cortisol est justement celui qui range le gras devant. <i>(mécanisme 6)</i></p>
+        <p style="margin:0"><b>4. La réparation baisse.</b> L'hormone de croissance se libère surtout au début de la nuit profonde : mal dormir, c'est moins de réparation — et moins de muscle. <i>(mécanismes 8 et 11)</i></p>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:rgba(59,130,246,.35)">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.6rem">Le protocole du soir — cinq gestes, dans l'ordre</div>
+      <div style="font-size:.84rem;line-height:1.7;color:#d1d5db">
+        <p style="margin:0 0 .5rem"><b>1.</b> Une heure avant le coucher : le téléphone <b>hors de la chambre</b>, en silencieux. C'est la mesure qui change tout, et la plus dure.</p>
+        <p style="margin:0 0 .5rem"><b>2.</b> Rien de sucré et pas de café après 14 h.</p>
+        <p style="margin:0 0 .5rem"><b>3.</b> Un dîner plus léger, et plus tôt.</p>
+        <p style="margin:0 0 .5rem"><b>4.</b> Chambre sombre, fraîche, silencieuse.</p>
+        <p style="margin:0"><b>5.</b> Le dhikr du soir, puis les adhkar du sommeil : <i>« Bismika Allâhumma amûtu wa ahyâ »</i> (En Ton nom, ô Allah, je meurs et je vis — al-Bukhârî). Et le tasbîh de Fâtima : Subhânallâh 33, al-hamdulillâh 33, Allâhu akbar 34 (al-Bukhârî et Muslim).</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.55rem">Les six gestes de la nuit</div>
+      ${SOMMEIL.map(g => `<div style="display:flex;gap:.55rem;margin-bottom:.55rem;font-size:.84rem;line-height:1.55;color:#d1d5db">
+        <div>${g[0]}</div><div><b>${g[1]}</b><br><span style="color:#9ca3af">${g[2]}</span></div></div>`).join('')}
+    </div>
+
+    <div class="card" style="border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.06)">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.4rem">La décision la plus rentable du protocole</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">Choisis <b>une heure de coucher</b> et tiens-la quarante jours. Rien d'autre. C'est probablement le geste qui aura le plus d'effet sur ton corps dans tout ce protocole — et le plus dur, parce qu'il faut renoncer au dernier moment de la journée où tu es enfin tranquille.</p>
+      <button class="btn btn-outline btn-sm" style="margin-top:.7rem" onclick="demarrerPacte('paresse')">🤝 En faire mon pacte de 40 jours</button>
+    </div>`
+}
+
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate'];
+  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil'];
   el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil }
   if(pages[cp]) pages[cp]()
 }
 
@@ -1876,7 +2097,7 @@ function renderHome() {
         <div class="card" style="cursor:pointer;margin:0;padding:.75rem .9rem;border-color:rgba(245,158,11,.3)" onclick="nav('nafs')">
           <div style="display:flex;align-items:center;gap:.6rem"><div style="font-size:1.1rem">🐺</div><div style="flex:1"><div style="font-weight:600;font-size:.85rem">Maîtrise de soi</div><div style="font-size:.72rem;color:#6b7280">Les 9 portes, le carnet, le pacte — pour l'Âme</div></div><div style="color:#6b7280">›</div></div></div>
         <div class="card" style="cursor:pointer;margin:0;padding:.75rem .9rem;border-color:rgba(59,130,246,.3)" onclick="nav('savoir')">
-          <div style="display:flex;align-items:center;gap:.6rem"><div style="font-size:1.1rem">🔬</div><div style="flex:1"><div style="font-weight:600;font-size:.85rem">Le savoir du corps</div><div style="font-size:.72rem;color:#6b7280">11 mécanismes, l'assiette, le souffle — pour le Corps</div></div><div style="color:#6b7280">›</div></div></div>
+          <div style="display:flex;align-items:center;gap:.6rem"><div style="font-size:1.1rem">🔬</div><div style="flex:1"><div style="font-weight:600;font-size:.85rem">Le savoir du corps</div><div style="font-size:.72rem;color:#6b7280">11 mécanismes, le sommeil, l'assiette, la marche — pour le Corps</div></div><div style="color:#6b7280">›</div></div></div>
       </div>
     </div>
     ${p ? `<div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem"><span class="badge" style="background:rgba(16,185,129,.15);color:#34d399">Jour ${state.currentDay}/30</span><span class="badge" style="background:rgba(59,130,246,.15);color:#93c5fd">${td}/${tm} missions</span></div>` : ''}
@@ -1933,7 +2154,8 @@ function renderManifest() {
           <div><div class="pillar-name" style="color:${p.color}">${p.name}</div><div class="pillar-arabic">${p.arabic} — ${p.sub}</div></div>
         </div>
         <div class="pillar-desc">${p.desc.replace(/\n/g,'<br>')}</div>
-        ${p.id==='Djism' ? `<button class="btn btn-outline btn-sm" style="margin-top:.85rem" onclick="nav('savoir')">📖 Le savoir du corps — 11 mécanismes, l'assiette, le souffle</button>` : ''}
+        ${p.id==='Djism' ? `<button class="btn btn-outline btn-sm" style="margin-top:.85rem" onclick="nav('savoir')">🔬 Le savoir du corps — 11 mécanismes, le sommeil, l'assiette, le souffle</button>
+          <button class="btn btn-outline btn-sm" style="margin-top:.4rem" onclick="nav('marche')">🚶 La marche japonaise — le minuteur 45 min</button>` : ''}
         ${p.id==='Nafs' ? `<button class="btn btn-outline btn-sm" style="margin-top:.85rem" onclick="nav('nafs')">🐺 Maîtrise de soi — le test des 9 portes, le carnet, le pacte de 40 jours</button>` : ''}
         ${p.id==='Qalb' ? `<button class="btn btn-outline btn-sm" style="margin-top:.85rem" onclick="nav('coran')">📖 Ouvrir le Coran — lecture, écoute, répétition, mode test</button>` : ''}
       </div>
