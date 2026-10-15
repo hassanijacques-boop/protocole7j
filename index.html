@@ -118,7 +118,16 @@
       .sos-overlay .sos-text { font-size:1rem; padding:1.25rem; }
       .breath-circle { width:100px; height:100px; }
     }
-  </style>
+  
+  /* === SAVOIR (contenu intégré depuis JASAD) : texte lisible ===
+     L'application met par défaut le texte des cartes en vert : ici on rétablit
+     un contraste de lecture, sans toucher aux autres écrans. */
+  #pc.sav { color: #d1d5db; }
+  #pc.sav div, #pc.sav p, #pc.sav span { color: #d1d5db; }
+  #pc.sav b, #pc.sav strong { color: #e5e7eb; }
+  #pc.sav h2, #pc.sav h3 { color: #f3f4f6; }
+  #pc.sav .card { border-color: rgba(255,255,255,.08); }
+</style>
 </head>
 <body><div id="app" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#10b981;font-size:.9rem;font-weight:500"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 22,22 2,22"/></svg><span>Chargement...</span></div>
 <script>
@@ -1110,6 +1119,8 @@ function renderRespirer(){
 
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
+  const savPages = ['savoir','axe','manger','mensonges','sources','respirer'];
+  el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
   const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer }
   if(pages[cp]) pages[cp]()
 }
