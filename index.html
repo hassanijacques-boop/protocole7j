@@ -548,7 +548,8 @@ function render() {
     test:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>',
     proto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
     rep:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>',
-    book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>'
+    book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
+    savoir:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 8l7-3 7 3"/><path d="M5 8v8l7 3 7-3V8"/></svg>'
   }
   document.getElementById('app').innerHTML = `
     <div style="max-width:600px;margin:0 auto;padding:0 0 5rem">
@@ -561,6 +562,7 @@ function render() {
         <button class="tab-btn ${cp==='home'?'active':''}" onclick="nav('home')">${icons.home}<span>Accueil</span></button>
         <button class="tab-btn ${cp==='diag'?'active':''}" onclick="nav('diag')">${icons.test}<span>${state.scores?'Profil':'Test'}</span></button>
         <button class="tab-btn ${cp==='manifest'?'active':''}" onclick="nav('manifest')">${icons.book}<span>Piliers</span></button>
+        <button class="tab-btn ${cp==='savoir'?'active':''}" onclick="nav('savoir')">${icons.savoir}<span>Savoir</span></button>
         <button class="tab-btn ${cp==='report'?'active':''}" onclick="nav('report')" style="${state.packActive?'':'display:none'}">${icons.rep}<span>Rapport</span></button>
         <button class="tab-btn ${cp==='proto'?'active':''}" onclick="nav('proto')">${icons.proto}<span>Protocole</span></button>
       </div>
@@ -568,9 +570,547 @@ function render() {
   renderPage()
 }
 
+
+// =====================================================================
+// SAVOIR DU CORPS — intégré depuis l'application JASAD
+// 11 mécanismes, l'assiette, le souffle, les mensonges, les sources.
+// =====================================================================
+
+/* Contenu extrait de JASAD (savoir.js) — à intégrer à l'application Protocole 30J */
+var AXES = [
+{
+ id:"insuline", em:"🩸", n:"L’insuline", court:"Le bouton marche / arrêt",
+ p:["Après un repas, ton pancréas libère de l’insuline. Tant qu’elle est haute, une enzyme "
+   +"qui découpe les graisses (la HSL) est bloquée : ton corps ne puise pas dans ses réserves. "
+   +"Quand elle redescend, le découpage reprend.",
+    "C’est pour ça qu’on ne parle pas seulement de CE QUE tu manges, mais aussi de LA FRÉQUENCE. "
+    +"Grignoter toute la journée, c’est garder le bouton sur pause du matin au soir."],
+ r:["L’insuline monte à chaque repas — et plus haut quand c’est du sucre seul.",
+    "Tant qu’elle est haute, pas de puisage dans les réserves.",
+    "Laisser des trous entre les repas compte plus que compter les calories."],
+ src:[{v:"La Perte de gras Expliquée — la vérité cachée par l’industrie", id:"DQtY5Nyn6r0", t:"2:48 et 6:29",
+       c:"« Quand l’insuline est basse, la lipolyse est activée… L’enzyme HSL a un antagoniste : l’insuline. »"}]
+},
+{
+ id:"repas", em:"🍽", n:"Le trou entre les repas", court:"Le moment où le corps puise",
+ p:["Ton corps ne brûle ses réserves que dans les moments où l’insuline est basse. Après un repas, "
+   +"il faut du temps pour que le brûlage reprenne — d’autant plus longtemps que le repas était sucré.",
+    "La nuit est ton meilleur trou : plus elle est longue, plus ton corps travaille pour toi."],
+ r:["Repas tard le soir + petit-déjeuner sucré tôt = aucun trou dans la journée.",
+    "Eau et rien d’autre entre les repas : c’est déjà un changement.",
+    "Le jeûne n’est PAS pour tout le monde (voir l’avertissement plus bas)."],
+ src:[{v:"6 méthodes JAMAIS vues pour PERDRE DU POIDS", id:"yBZ9ukH9NZI", t:"2:56 et 3:23",
+       c:"« Si tu manges sucré le matin… ton insuline va faire comme ça. »"}],
+ note:"⚠️ Le jeûne ne convient pas à tout le monde : grossesse, diabète traité, enfants, "
+     +"travail physique intense, personne fragilisée. Parles-en à ton médecin."
+},
+{
+ id:"foie", em:"🫀", n:"Le foie, chef d’orchestre", court:"Celui qui allume tout",
+ p:["Ton foie n’est pas qu’un filtre. Il convertit l’hormone thyroïdienne inactive (T4) en forme "
+   +"active (T3) — la plus grande partie de cette transformation se fait chez lui. Il fabrique aussi "
+   +"l’essentiel de ton cholestérol, qui est la matière première de tes hormones. Et c’est lui qui "
+   +"active la vitamine D.",
+    "Autrement dit : un foie fatigué, ce n’est pas un détail — c’est un métabolisme qui tourne au "
+    +"ralenti et des hormones qui baissent."],
+ r:["T4 = le pétrole, T3 = l’essence. La transformation se fait dans le foie.",
+    "Le cholestérol n’est pas l’ennemi : c’est la brique de tes hormones.",
+    "Aucune gélule ne « nettoie » le foie. Ce qui l’aide, c’est ce qu’on arrête de lui envoyer."],
+ src:[{v:"Comment vraiment Perdre son VENTRE / P1 : le foie", id:"9nFsSIghnio", t:"3:00 à 4:50",
+       c:"« Avoir un foie à son plein potentiel, c’est ultra important… il y a vraiment tout qui part du foie. »"}]
+},
+{
+ id:"fructose", em:"🥤", n:"Le sucre qui se boit", court:"Celui qui va droit au foie",
+ p:["Le sucre des boissons et des produits industriels arrive directement au foie, qui n’a qu’une "
+   +"capacité limitée par jour. Au-delà, il range le surplus — et il le range devant, au ventre.",
+    "Une mangue n’est pas un soda : dans le fruit, le sucre est emballé avec des fibres et de l’eau, "
+    +"il arrive doucement. Dans la bouteille, il arrive seul."],
+ r:["Le sucre qui se boit n’est pas le sucre qui se mange.",
+    "Repère grand public : moins de 25 g de sucres libres par jour (Organisation mondiale de la santé) "
+    +"— soit environ 6 morceaux de sucre, boissons comprises.",
+    "Un soda de 50 cl peut à lui seul dépasser la journée entière."],
+ src:[{v:"Perdre son VENTRE — P1 : le foie", id:"9nFsSIghnio", t:"5:13 à 5:41",
+       c:"« L’excédent, il ne va pas se stocker dans les épaules : il va se stocker pile dans le ventre. »"},
+      {v:"Tu manges du POISON sans savoir (le fructose)", id:"SWmattdMbfk", t:"toute la vidéo",
+       c:"Sa vidéo entière sur le sujet. Son titre est volontairement provocateur — nous, on garde "
+       +"le mécanisme et on laisse de côté le mot « poison »."}]
+},
+{
+ id:"ventre", em:"🍩", n:"Ton ventre te parle", court:"Le gras n’est pas inerte",
+ p:["Le tissu graisseux n’est pas un sac immobile : il fabrique des messages hormonaux. Certains "
+   +"rendent ton corps moins sensible à l’insuline (le TNF-alpha, la résistine), d’autres entretiennent "
+   +"l’inflammation (l’IL-6). Et une enzyme du gras, l’aromatase, transforme les hormones mâles en "
+   +"hormones femelles : plus il y a de gras, plus cette transformation s’intensifie.",
+    "C’est un cercle : plus de gras → plus de résistance à l’insuline → plus de stockage. "
+    +"La bonne nouvelle, c’est que c’est aussi le ventre qui répond le premier quand tu changes "
+    +"quelque chose."],
+ r:["Le tissu graisseux envoie des signaux — ce n’est pas que du stockage.",
+    "Plus il y en a, plus l’insuline a du mal à faire son travail.",
+    "Le ventre est souvent le premier à réagir quand on change l’alimentation."],
+ src:[{v:"Meilleur cardio, perte de poids après 40 ans (Podcast 3)", id:"1UogdYYFXRs", t:"1:43 à 3:23",
+       c:"« Le gras du bide, c’est 100 hormones minimum… TNF-alpha, celle qui vient te rendre résistant à l’insuline. »"}]
+},
+{
+ id:"cortisol", em:"😖", n:"Le cortisol", court:"Le stress range le gras devant",
+ p:["Le cortisol se fabrique dans l’axe hypothalamo-hypophyso-surrénalien. Une inflammation de "
+   +"l’intestin remonte au cerveau et active cet axe. Un cortisol qui reste haut abîme le muscle et "
+   +"pousse au stockage abdominal : pendant un effort, l’adrénaline puise dans les graisses, mais le "
+   +"cortisol, lui, puise dans les muscles.",
+    "Donc dormir, marcher et respirer lentement ne sont pas des conforts : ce sont des gestes "
+    +"hormonaux."],
+ r:["Stress prolongé = stockage devant, et muscle mangé.",
+    "Le sommeil fait baisser le cortisol — c’est le levier le plus puissant et le plus gratuit.",
+    "Respirer lentement, marcher, ne pas s’épuiser : ça se voit dans les hormones."],
+ src:[{v:"Tout sur les glucides, inflammation, FODMAP (Podcast 2)", id:"hMx4x4foS20", t:"12:01 et 12:09",
+       c:"« Ça va activer l’axe HPA… c’est dans l’axe HPA que le cortisol est produit. »"}]
+},
+{
+ id:"mito", em:"⚡", n:"Tes petites centrales", court:"Là où l’énergie se fabrique",
+ p:["Toute ton énergie se fabrique dans les mitochondries. Elles ont deux carburants : ce que tu "
+   +"viens de manger, ou tes réserves de graisse. Quand les radicaux libres prennent le dessus, les "
+   +"membranes s’abîment : moins d’énergie, moins bonne réponse à l’insuline, vieillissement des "
+   +"cellules. Les oméga-3 renforcent ces membranes.",
+    "Ce qu’elles préfèrent : un effort long et doux plutôt qu’un effort violent. C’est exactement "
+    +"pour ça qu’une marche de quarante minutes fait plus qu’un sprint de trois minutes."],
+ r:["Deux carburants : ce que tu manges, ou ta graisse.",
+    "Marcher longtemps et tranquillement est ce que tes cellules préfèrent.",
+    "Ce qui les aide : bouger régulièrement, dormir, manger vrai. Pas une gélule."],
+ src:[{v:"Perte de poids — Stress oxydatif — Mitochondries", id:"acY6U9R2hdA", t:"0:30, 7:19, 18:21",
+       c:"« Le mécanisme du brûlage de graisse, il se passe dans les mitochondries… des petits moteurs "
+       +"où il y a deux carburants. »"}]
+},
+{
+ id:"age", em:"⏳", n:"À partir de 30 ans", court:"Le même corps ne répond plus pareil",
+ p:["Avec les années, le corps fabrique moins d’hormone de croissance, moins d’hormones sexuelles, "
+   +"la thyroïde ralentit et la sensibilité à l’insuline baisse. Résultat : la même assiette et le "
+   +"même effort ne donnent plus le même résultat.",
+    "L’hormone de croissance agit sur la même enzyme que l’insuline : quand l’insuline est haute, "
+    +"elle est au repos. D’où le conseil d’un dîner plus léger — pas une mode, une question de "
+    +"signaux."],
+ r:["Ce n’est pas de la paresse : c’est un terrain qui change.",
+    "Le levier qui marche après 40 ans : marcher, dormir, garder du muscle.",
+    "Le soir plus léger aide la nuit — et la nuit fait le reste."],
+ src:[{v:"J’ai perdu 40 kg en 90 jours, je t’explique tout", id:"m2YF01i1vzw", t:"1:21 et 1:26",
+       c:"« Entre 20 et 30 ans, tu n’as plus du tout le même métabolisme : ta thyroïde a commencé à "
+       +"ralentir. »"}],
+ note:"⚠️ On ne dit jamais à quelqu’un qu’il a « la thyroïde qui ne marche pas ». Ça, c’est un "
+     +"bilan de santé. Si tu as des doutes : ton médecin."
+},
+{
+ id:"dopamine", em:"🍫", n:"Ce n’est pas ta volonté", court:"L’accoutumance au sucre",
+ p:["Le sucre appuie sur le circuit du plaisir dans ton cerveau. À force, il en faut plus pour "
+   +"ressentir le même effet — exactement comme un récepteur d’insuline qui s’abîme et finit par "
+   +"moins bien répondre.",
+    "Ce n’est donc pas un défaut de caractère. C’est une accoutumance, et elle se démonte en deux "
+    +"à trois semaines, en changeant la forme du sucre (le fruit plutôt que le jus), en espaçant les "
+    +"prises et en dormant."],
+ r:["Le sucre est un plaisir, pas seulement une calorie.",
+    "Plus tu en manges, plus il t’en faut — ça s’appelle l’accoutumance.",
+    "On ne dit jamais « tu manques de volonté » : c’est faux, et c’est blessant."],
+ src:[{v:"Comment se désintoxiquer du Sucre (dopamine, flow)", id:"Fehrfs416jw", t:"0:00, 3:01, 6:32",
+       c:"« Tu crois que tu n’as pas de volonté ? »"}]
+},
+{
+ id:"femme", em:"🌸", n:"Le corps féminin", court:"Cycles, périménopause, ménopause",
+ p:["Les hormones féminines — œstrogènes et progestérone — naissent à 90-95 % dans l’axe "
+   +"hypothalamo-hypophyso-ovarien. Ce sont des hormones stéroïdiennes, donc fabriquées à partir du "
+   +"cholestérol : ton foie est concerné aussi.",
+    "Sur tes cellules graisseuses, deux enzymes s’opposent : la LPL remplit, la HSL vide. Et les "
+   +"œstrogènes bloquent la LPL. C’est pour ça qu’on stocke moins au ventre quand ils sont hauts.",
+    "Le cycle : une phase folliculaire, l’ovulation (le pic d’œstrogènes), puis une phase lutéale "
+   +"avec le pic de progestérone, puis la chute. Au pic, tu as plus d’énergie, moins faim et "
+   +"meilleure humeur. Après 40 ans, en périménopause puis à la ménopause, le terrain change : "
+   +"le même effort donne un autre résultat. Ce n’est pas toi qui as changé de caractère."],
+ r:["Les œstrogènes décident où le gras se range.",
+    "Il y a des jours du mois où tout est plus facile — ce n’est pas une impression.",
+    "Le cycle varie d’une femme à l’autre (24 à 34 jours) : aucune généralisation."],
+ src:[{v:"Cycle menstruel, périménopause, ménopause et perte de poids", id:"71ZcpBFYI00", t:"2:40, 8:50, 13:53, 15:03",
+       c:"« Tu as moins de gras du ventre quand les œstrogènes sont élevés… la LPL, c’est l’inverse de la HSL. »"}],
+ note:"⚠️ On ne dit jamais à une femme qu’elle a « un déséquilibre hormonal ». Un symptôme = "
+     +"un médecin ou un gynécologue. Pas une vidéo."
+},
+{
+ id:"muscle", em:"💪", n:"Le muscle qui protège", court:"Ton amortisseur",
+ p:["Le muscle se construit avec des hormones : dans la lecture d’Irvine K, la testostérone compte "
+   +"pour environ 40 %, l’IGF-1 pour 30 %, l’hormone de croissance pour 15 % et l’insuline pour 15 %. "
+   +"L’insuline n’est pas un bâtisseur : elle apporte les briques — les protéines — au muscle. "
+   +"Le cortisol, lui, fait l’inverse : il puise dans le muscle pour produire de l’énergie.",
+    "Ici, on ne cherche pas à en prendre. On cherche à ne pas en perdre. Parce que le muscle n’est "
+    +"pas pour la plage : c’est ce qui tient ton dos, ce qui amortit tes genoux, et ce qui te permet "
+    +"de te relever du sol à soixante-dix ans."],
+ r:["Le muscle est ta protection articulaire, pas un objet de vitrine.",
+    "Des protéines régulières : poisson, œufs, légumes secs, lait caillé, viande.",
+    "Le stress en mange : c’est l’autre raison de bien dormir."],
+ src:[{v:"Le SECRET sur la PRISE DE MUSCLE", id:"tgCtRL6KoLc", t:"≈ 2:00",
+       c:"« La testostérone joue à peu près sur 40 %, IGF1 30 %, l’hormone de croissance 15 % et "
+       +"l’insuline 15 %. »"}]
+}
+];
+var MANGER = [
+{ em:"🥤", n:"Le geste n°1 : ce que tu bois",
+  p:["C’est le geste le plus rentable, et le plus simple : tu ne changes rien dans ton assiette, "
+    +"tu changes ce que tu bois.",
+     "Méthode pour mesurer par toi-même : prends la ligne « dont sucres » de l’étiquette, en "
+     +"grammes pour 100 ml, et divise par 4. Tu obtiens le nombre de morceaux de sucre."],
+  li:["Soda → eau fraîche avec du citron, de la menthe ou du gingembre.",
+      "Jus de fruits en brique → le fruit entier (tu manges la fibre, tu bois de l’eau).",
+      "Boisson énergisante → eau, et si tu manques de tonus : du sommeil.",
+      "Sirop maison très sucré → divise le sucre par deux, puis par deux encore."],
+  src:"Repère grand public : moins de 25 g de sucres libres par jour (OMS)."}
+,
+{ em:"🍛", n:"L’assiette en trois zones",
+  p:["Une assiette, trois couleurs — et tu n’as plus besoin de calculer quoi que ce soit.",
+     "C’est ce qui marche aussi avec la cuisine d’ici : le poisson, les brèdes, le riz, le fruit "
+     +"à pain, le manioc."],
+  li:["Une paume de protéine : poisson, poulet, œufs, légumes secs, viande.",
+      "Deux poings de légumes ou de feuilles : brèdes, tomates, courgettes, salade, carottes.",
+      "Un poing de féculent : riz, manioc, fruit à pain, pommes de terre, pain.",
+      "Un pouce de gras : huile, arachides, avocat."],
+  src:"Repère de méthode (portions à la main)."}
+,
+{ em:"🏷", n:"Lire une étiquette en 10 secondes",
+  p:["Retourne l’emballage. Tu n’as pas besoin de lire tout : trois coups d’œil suffisent.",
+     "Et retiens la phrase d’Irvine K : « sans gras » ne veut pas dire « sans danger » — quand on "
+     +"retire le gras, on remet souvent du sucre."],
+  li:["1. Les trois premiers ingrédients : le sucre est-il dedans ? Si oui, repose-le.",
+      "2. La ligne « dont sucres » pour 100 g : au-dessus de 10 g, c’est beaucoup.",
+      "3. Les noms cachés : saccharose, sirop de glucose-fructose, dextrose, maltodextrine, "
+      +"jus de fruits concentré, miel ajouté."],
+  src:"Méthode de lecture ; « sans gras » : Irvine K, vidéo sur le fructose (SWmattdMbfk)."}
+,
+{ em:"🐟", n:"Les protéines d’ici",
+  p:["Tu n’as pas besoin de poudre ni de barres. À Mayotte, la meilleure protéine du monde est "
+    +"à quelques mètres de chez toi.",
+     "Répartis-les : un peu à chaque repas vaut mieux que tout le soir."],
+  li:["Poisson frais ou séché — le meilleur rapport qualité-prix.",
+      "Œufs.",
+      "Légumes secs : pois, lentilles, haricots, arachides non salées.",
+      "Poulet, viande — moins souvent, mais oui.",
+      "Lait caillé ou yaourt nature."],
+  src:"Repère pratique, cohérent avec sa vidéo sur la prise de muscle."}
+,
+{ em:"🕐", n:"La journée type",
+  p:["Ce n’est pas un régime : c’est un rythme. Les horaires comptent autant que le contenu, "
+    +"parce que c’est ce qui laisse des trous à ton insuline."],
+  li:["Le matin : une protéine (œufs, lait caillé, poisson) + un fruit. Pas de jus, pas de sucre seul.",
+      "Le midi : l’assiette en trois zones. Tu manges à ta faim.",
+      "16 h : le creux est normal. Eau + un fruit, ou une petite poignée d’arachides.",
+      "Le soir : plus léger, peu de féculent — ça aide la nuit.",
+      "Entre les repas : rien, et de l’eau. C’est tout le secret du bouton « pause »."],
+  src:"Rythme : Irvine K (trou entre les repas). Contenu : assiette en trois zones."}
+,
+{ em:"🔁", n:"Cinq remplacements, zéro interdit",
+  p:["On n’interdit rien. On remplace. Un interdit se contourne ; un remplacement, il reste."],
+  li:["Le soda → l’eau parfumée maison.",
+      "Le bokit tous les jours → le bokit une fois par semaine, sans culpabilité.",
+      "La friture quotidienne → la friture le week-end, le four en semaine.",
+      "Le goûter sucré de 16 h → le fruit ou les arachides.",
+      "Le riz seul → le riz avec des légumes et une protéine."],
+  src:"Repères pratiques. Le goût du sucré se remet à zéro en deux à trois semaines "
+     +"(Irvine K, vidéo sur le sucre, Fehrfs416jw)."}
+];
+var SOMMEIL = [
+ ["📵","Une heure sans écran avant de dormir","La lumière du téléphone retarde le sommeil : "
+  +"ton corps croit qu’il fait encore jour."],
+ ["☕","Pas de café après 14 h","Il travaille encore le soir, alors qu’il est déjà loin."],
+ ["🌙","La chambre sombre, fraîche et silencieuse","Trois conditions, et le sommeil vient plus vite."],
+ ["🍽","Un dîner plus léger","Le soir, on lève le pied sur le féculent : ça aide la nuit."],
+ ["☀️","Dix minutes dehors le matin","La lumière du matin règle l’horloge du soir."],
+ ["🔄","Le même horaire le week-end","C’est la régularité qui fait la qualité."]
+];
+var MENSONGES = [
+ ["Les abdos font le ventre plat",
+  "Les abdos renforcent ta sangle abdominale — et c’est très bien pour ton dos. Mais ils ne font "
+  +"pas disparaître la graisse qui est devant. C’est comme serrer une poche : le contenu ne bouge pas.",
+  "Irvine K — « Le SECRET des ABDOS révélé »"],
+ ["Il faut souffrir pour progresser",
+  "Une douleur qui dure n’est pas une preuve de sérieux : c’est un message. C’est même la première "
+  +"raison pour laquelle les gens arrêtent au bout de trois semaines.",
+  "Règle de la maison"],
+ ["Il faut boire trois litres d’eau",
+  "Ça dépend de ton corps, de la chaleur et de ce que tu manges. Le bon repère est simple : des "
+  +"urines claires, jamais soif. À Mayotte, la chaleur change tout — bois plus que tu ne le crois.",
+  "Repère de vie courante"],
+ ["Le détox",
+  "Ton foie et tes reins font le travail, gratuitement, vingt-quatre heures sur vingt-quatre. "
+  +"Aucun produit ne les remplace ni ne les « nettoie ».",
+  "Règle de la maison"],
+ ["Le sport, c’est pour les jeunes",
+  "C’est le mensonge qui coûte le plus cher. Ce qui change avec l’âge, ce sont les hormones et la "
+  +"récupération — pas le besoin de bouger. On ralentit, on ne s’arrête pas.",
+  "Irvine K — « Comment BOOSTER sa perte de poids après 30 ans »"],
+ ["Manger le soir fait grossir",
+  "Ce n’est pas l’heure qui décide : c’est la quantité et la qualité. En revanche, un dîner lourd "
+  +"abîme vraiment ton sommeil — et là, ça compte.",
+  "Nuance de la maison"],
+ ["Il faut une heure de sport pour que ça compte",
+  "Dix minutes régulières battent une heure une fois par mois. La régularité n’est pas une "
+  +"consolation : c’est la seule chose qui marche vraiment.",
+  "Règle de la maison"],
+ ["Un complément fera le travail",
+  "Il en a fait une vidéo entière : compléments sous-dosés, études détournées pour donner un air "
+  +"scientifique, et sentiment d’urgence pour vendre. Ici, il n’y a rien à vendre.",
+  "Irvine K — « La Manipulation des influenceurs »"]
+];
+var SOURCES_VIDEOS = [
+ ["La Perte de gras Expliquée — la vérité cachée par l’industrie","DQtY5Nyn6r0","insuline, mitochondries"],
+ ["Comment vraiment Perdre son VENTRE / P1 : le foie","9nFsSIghnio","foie, fructose, hormones"],
+ ["Meilleur cardio, perte de poids après 40 ans (Podcast 3)","1UogdYYFXRs","tissu graisseux, aromatase"],
+ ["Tout sur les glucides, inflammation, FODMAP (Podcast 2)","hMx4x4foS20","cortisol, axe HPA"],
+ ["Perte de poids, prise de muscle (Podcast 1)","GN4H-ViXuyM","cortisol et muscle"],
+ ["Perte de poids — Stress oxydatif — Mitochondries","acY6U9R2hdA","mitochondries, oméga-3"],
+ ["Comment se désintoxiquer du Sucre","Fehrfs416jw","dopamine, accoutumance"],
+ ["J’ai perdu 40 kg en 90 jours","m2YF01i1vzw","âge, thyroïde, hormone de croissance"],
+ ["Cycle menstruel, périménopause, ménopause","71ZcpBFYI00","corps féminin, œstrogènes, LPL"],
+ ["Le SECRET sur la PRISE DE MUSCLE","tgCtRL6KoLc","muscle, testostérone, IGF-1"]
+];
+
+var axeCourant = "";
+
+function axeById(id){ for(var i=0;i<AXES.length;i++){ if(AXES[i].id===id){ return AXES[i]; } } return null; }
+function ouvrirAxe(id){ axeCourant = id; nav('axe'); }
+
+function savoirSource(src){
+  var h = "";
+  for(var i=0;i<src.length;i++){
+    var s = src[i];
+    h += `<div style="background:rgba(217,178,106,.08);border-left:3px solid #d9b26a;border-radius:10px;padding:.8rem .95rem;margin:.8rem 0">
+      <div style="font-size:.62rem;letter-spacing:1.2px;text-transform:uppercase;color:#e5c36a;font-weight:700">Source — Irvine K</div>
+      <div style="font-size:.85rem;font-weight:600;margin-top:.3rem;line-height:1.35">${s.v}</div>
+      <div style="font-size:.79rem;color:#9ca3af;font-style:italic;margin-top:.3rem;line-height:1.5">${s.c}</div>
+      <div style="font-size:.72rem;color:#6b7280;margin-top:.4rem">à ${s.t} · youtube.com/watch?v=${s.id}</div>
+    </div>`;
+  }
+  return h;
+}
+
+function savoirRetour(){
+  return `<button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('savoir')">‹ Retour au Savoir</button>`;
+}
+
+function savoirCarte(onclick, em, titre, sous, couleur){
+  return `<div class="card" style="cursor:pointer;border-color:${couleur}35;background:${couleur}08;margin-bottom:.6rem" onclick="${onclick}">
+    <div style="display:flex;align-items:center;gap:.7rem">
+      <div style="font-size:1.35rem">${em}</div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:.95rem">${titre}</div>
+        <div style="font-size:.78rem;color:#6b7280;line-height:1.4;margin-top:.15rem">${sous}</div>
+      </div>
+      <div style="color:#6b7280;font-size:1.3rem">›</div>
+    </div></div>`;
+}
+
+// ------------------------------------------------------------- LE SAVOIR
+function renderSavoir(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <h2 style="font-size:1.15rem;font-weight:700;margin:.5rem 0 .25rem">📖 Savoir du corps</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      Bouger, c'est la moitié. L'autre moitié, c'est de comprendre : ${AXES.length} mécanismes expliqués
+      (insuline, foie, cortisol, œstrogènes, mitochondries…), six blocs pour l'assiette, le souffle,
+      et huit mensonges démontés. <b style="color:#9ca3af">Chaque explication porte sa source.</b>
+    </p>
+
+    ${savoirCarte("nav('manger')","🥗","Manger juste","Six blocs concrets : les boissons, l'assiette en trois zones, lire une étiquette, les protéines, la journée type.","#10b981")}
+    ${savoirCarte("nav('respirer')","🌬","Le souffle du calme","L'exercice 3 · 5 · 7 : inspirer, retenir, expirer. Guidé, seconde par seconde.","#3b82f6")}
+    ${savoirCarte("nav('mensonges')","🔍","Les mensonges du bien-être","Huit phrases que tout le monde répète — et ce qu'elles valent vraiment.","#f59e0b")}
+
+    <h3 style="font-size:.95rem;font-weight:700;margin:1.4rem 0 .6rem">Les ${AXES.length} mécanismes du corps</h3>
+    ${AXES.map(a => `
+      <div class="card" style="cursor:pointer;margin-bottom:.5rem;padding:.85rem 1rem" onclick="ouvrirAxe('${a.id}')">
+        <div style="display:flex;align-items:center;gap:.65rem">
+          <div style="font-size:1.2rem">${a.em}</div>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:.9rem">${a.n}</div>
+            <div style="font-size:.75rem;color:#6b7280">${a.court}</div>
+          </div>
+          <div style="color:#6b7280;font-size:1.2rem">›</div>
+        </div></div>`).join('')}
+
+    <div style="margin-top:1.4rem">
+      ${savoirCarte("nav('sources')","📚","Sources & crédits","Les vidéos utilisées, la règle du crédit, les limites, et l'avertissement médical.","#d9b26a")}
+    </div>
+
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">
+      Ce savoir vient de l'application <b>JASAD</b>. Il habille le pilier 🏋️ Corps : la mission du jour
+      te dit <i>quoi faire</i>, cette partie t'explique <i>pourquoi ça marche</i>.
+    </p>`
+}
+
+function renderAxe(){
+  const el = document.getElementById('pc'); if(!el) return
+  const a = axeById(axeCourant);
+  if(!a){ return renderSavoir(); }
+  el.innerHTML = `
+    ${savoirRetour()}
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">${a.em} ${a.n}</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:.9rem">${a.court}</p>
+    <div class="card">${a.p.map(x => `<p style="font-size:.88rem;line-height:1.75;margin:0 0 .8rem">${x}</p>`).join('')}</div>
+    <div class="card" style="border-color:rgba(16,185,129,.3)">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.5rem">À retenir</div>
+      ${a.r.map(x => `<div style="display:flex;gap:.5rem;margin-bottom:.45rem;font-size:.85rem;line-height:1.6">
+        <div style="color:#10b981;font-weight:700">✓</div><div>${x}</div></div>`).join('')}
+    </div>
+    ${a.note ? `<div style="background:rgba(239,68,68,.08);border-left:3px solid #ef4444;border-radius:10px;padding:.8rem .95rem;font-size:.83rem;line-height:1.6;color:#fca5a5">${a.note}</div>` : ''}
+    ${savoirSource(a.src)}
+    <p style="font-size:.75rem;color:#4b5563;line-height:1.6;margin-top:1rem">
+      Ce mécanisme explique une partie du pilier 🏋️ Corps. La mission du jour du Protocole te dira
+      quoi en faire — ici, tu comprends pourquoi.
+    </p>`
+}
+
+function renderManger(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    ${savoirRetour()}
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">🥗 Manger juste</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">Aucun régime, aucun kilo. Six gestes, dans l'ordre d'efficacité.</p>
+    ${MANGER.map((b,i) => `
+      <div class="card" style="margin-bottom:.6rem">
+        <div style="display:flex;gap:.6rem;align-items:center;margin-bottom:.5rem">
+          <div style="font-size:1.25rem">${b.em}</div>
+          <div style="font-weight:700;font-size:.92rem">${b.n}</div>
+        </div>
+        ${b.p.map(x => `<p style="font-size:.85rem;line-height:1.7;margin:0 0 .6rem;color:#d1d5db">${x}</p>`).join('')}
+        ${b.li ? `<div style="margin-top:.6rem">${b.li.map(x => `<div style="display:flex;gap:.5rem;font-size:.83rem;line-height:1.6;margin-bottom:.35rem"><div style="color:#10b981">→</div><div>${x}</div></div>`).join('')}</div>` : ''}
+      </div>`).join('')}
+    <div class="card" style="border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.5rem">🌙 Et la nuit : six gestes pour dormir</div>
+      ${SOMMEIL.map(g => `<div style="display:flex;gap:.55rem;margin-bottom:.5rem;font-size:.83rem;line-height:1.55"><div>${g[0]}</div><div><b>${g[1]}</b><br><span style="color:#9ca3af">${g[2]}</span></div></div>`).join('')}
+    </div>`
+}
+
+function renderMensonges(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    ${savoirRetour()}
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">🔍 Les mensonges du bien-être</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">Huit choses qu'on entend partout. Voilà ce qu'elles valent — et d'où vient la correction.</p>
+    ${MENSONGES.map(m => `
+      <div class="card" style="margin-bottom:.6rem">
+        <div style="display:flex;gap:.5rem;align-items:flex-start;margin-bottom:.5rem">
+          <div style="color:#ef4444;font-weight:700">✗</div>
+          <div style="font-weight:700;font-size:.9rem;line-height:1.4">${m[0]}</div>
+        </div>
+        <p style="font-size:.85rem;line-height:1.7;margin:0 0 .5rem;color:#d1d5db">${m[1]}</p>
+        <div style="font-size:.72rem;color:#6b7280">Source : ${m[2]}</div>
+      </div>`).join('')}`
+}
+
+function renderSources(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    ${savoirRetour()}
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">📚 Sources & crédits</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">Rien ici ne vient de nous.</p>
+    <div class="card">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.5rem">D'où vient ce savoir</div>
+      <p style="font-size:.85rem;line-height:1.7;color:#d1d5db;margin:0">
+        Les mécanismes du corps expliqués dans cette application sont issus des travaux
+        d'<b>Irvine K</b>, un créateur qui documente la physiologie de la perte de gras et de la
+        santé métabolique. Son nom est cité sur <b>chaque fiche</b>, avec le titre de la vidéo,
+        le minutage exact et ses mots entre guillemets. Ce n'est pas une politesse : c'est la
+        condition pour que tu puisses vérifier toi-même.
+      </p>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.6rem">Les vidéos utilisées (${SOURCES_VIDEOS.length})</div>
+      ${SOURCES_VIDEOS.map(v => `
+        <div style="padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05)">
+          <div style="font-size:.84rem;font-weight:600;line-height:1.4">${v[0]}</div>
+          <div style="font-size:.73rem;color:#6b7280;margin-top:.15rem">${v[2]} · youtube.com/watch?v=${v[1]}</div>
+        </div>`).join('')}
+    </div>
+    <div class="card" style="border-color:rgba(239,68,68,.3)">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.5rem">Les limites, dites clairement</div>
+      <p style="font-size:.84rem;line-height:1.7;color:#d1d5db;margin:0">
+        Ce contenu est une <b>vulgarisation</b>, pas un avis médical. Il ne remplace ni le médecin,
+        ni le suivi d'une maladie, ni un traitement. Si tu as un doute, une douleur, un traitement
+        en cours ou un doute sur ton alimentation : <b>parle à un professionnel de santé</b>.
+        Et sur le plan religieux, reviens toujours aux gens de science.
+      </p>
+    </div>
+    <div class="card" style="border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.4rem">L'application JASAD</div>
+      <p style="font-size:.82rem;line-height:1.65;color:#d1d5db;margin:0">
+        Ce <i>Savoir</i> est extrait de <b>JASAD · le corps</b>, une application gratuite, sans compte
+        et utilisable hors connexion. Elle reste disponible séparément pour les séances guidées.
+      </p>
+    </div>`
+}
+
+// ------------------------------------------------------------- LE SOUFFLE
+var respPhases = [["Inspire",3,"#17B8A6"],["Retiens",5,"#E3B25C"],["Expire",7,"#7FA6D8"]];
+var respT = null, respP = 0, respReste = 3, respCycles = 0;
+
+function respStart(){
+  if(respT){ return; }
+  respP = 0; respReste = respPhases[0][1]; respCycles = 0;
+  respT = setInterval(respTic, 1000);
+  respPeindre();
+}
+function respStop(){
+  if(respT){ clearInterval(respT); respT = null; }
+  respPeindre();
+}
+function respTic(){
+  if(!document.getElementById('resp-num')){ respStop(); return; }   // on a quitté l'écran
+  respReste--;
+  if(respReste <= 0){
+    respP++;
+    if(respP >= respPhases.length){ respP = 0; respCycles++; }
+    respReste = respPhases[respP][1];
+  }
+  respPeindre();
+}
+function respPeindre(){
+  var n = document.getElementById('resp-num'); if(!n){ return; }
+  var ph = respPhases[respP];
+  n.textContent = respReste;
+  document.getElementById('resp-phase').textContent = ph[0];
+  document.getElementById('resp-phase').style.color = ph[2];
+  document.getElementById('resp-cercle').style.borderColor = ph[2];
+  document.getElementById('resp-cercle').style.boxShadow = "0 0 40px " + ph[2] + "55";
+  document.getElementById('resp-cycles').textContent = respCycles;
+  var b = document.getElementById('resp-btn');
+  if(b){ b.textContent = respT ? "Arrêter" : "Commencer"; }
+}
+
+function renderRespirer(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    ${savoirRetour()}
+    <h2 style="font-size:1.1rem;font-weight:700;margin:0 0 .2rem">🌬 Le souffle du calme</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">
+      Inspire 3 secondes, retiens 5, expire 7. C'est tout. Le souffle long active le calme du corps.
+    </p>
+    <div class="card" style="text-align:center;padding:1.5rem 1rem">
+      <div id="resp-cercle" style="width:170px;height:170px;border-radius:50%;border:3px solid #17B8A6;
+           margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+           transition:border-color .4s,box-shadow .4s">
+        <div id="resp-phase" style="font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;color:#17B8A6;font-weight:700">Inspire</div>
+        <div id="resp-num" style="font-size:3.4rem;font-weight:800;line-height:1.1">3</div>
+        <div style="font-size:.7rem;color:#6b7280">secondes</div>
+      </div>
+      <div style="margin-top:1rem;font-size:.8rem;color:#9ca3af">Cycles terminés : <b id="resp-cycles" style="color:#e5e7eb">0</b></div>
+      <div style="display:flex;gap:.5rem;justify-content:center;margin-top:1rem">
+        <button id="resp-btn" class="btn btn-primary btn-sm" onclick="respT?respStop():respStart()">Commencer</button>
+        <button class="btn btn-outline btn-sm" onclick="respStop();respPeindre()">Remettre à zéro</button>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.5rem">Pourquoi ces chiffres</div>
+      <p style="font-size:.83rem;line-height:1.7;color:#d1d5db;margin:0">
+        L'expiration plus longue que l'inspiration freine le rythme du cœur : c'est un mécanisme
+        du corps, connu et mesurable. Cinq cycles suffisent à sentir la différence. Tu peux le faire
+        avant de dormir, avant une épreuve, ou après une colère.
+      </p>
+    </div>`
+  respPeindre();
+}
+
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer }
   if(pages[cp]) pages[cp]()
 }
 
@@ -706,6 +1246,7 @@ function renderManifest() {
           <div><div class="pillar-name" style="color:${p.color}">${p.name}</div><div class="pillar-arabic">${p.arabic} — ${p.sub}</div></div>
         </div>
         <div class="pillar-desc">${p.desc.replace(/\n/g,'<br>')}</div>
+        ${p.id==='Djism' ? `<button class="btn btn-outline btn-sm" style="margin-top:.85rem" onclick="nav('savoir')">📖 Le savoir du corps — 11 mécanismes, l'assiette, le souffle</button>` : ''}
       </div>
     `).join('')}
     <p style="text-align:center;font-size:.8rem;color:#4b5563;margin:.75rem 0;line-height:1.5">Ces 4 piliers sont interconnectés.<br>Quand tu nourris l'un, tu fortifies les autres.</p>`
