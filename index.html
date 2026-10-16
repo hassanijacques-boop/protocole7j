@@ -134,6 +134,8 @@
   .ar-coran.masque.revele { filter: none; opacity: 1; }
   .card.on { border-color: rgba(16,185,129,.7) !important; box-shadow: 0 0 18px rgba(16,185,129,.25); }
   .btn-xs { padding: .45rem .6rem; font-size: .72rem; border-radius: 10px; }
+  /* --- le symbole ﷺ : sans police arabe il sort en carré vide --- */
+  .pbuh { font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade New', 'Noto Naskh Arabic', serif; font-size: 1.08em; }
 </style>
 </head>
 <body><div id="app" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#10b981;font-size:.9rem;font-weight:500"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 22,22 2,22"/></svg><span>Chargement...</span></div>
@@ -2014,7 +2016,7 @@ function renderSommeil(){
 // =====================================================================
 // 1 · LA RECHERCHE — chercher dans TOUTE l'application
 // =====================================================================
-function sansAccent(s){ return String(s === undefined || s === null ? '' : s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+function sansAccent(s){ return String(s === undefined || s === null ? '' : s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[:–—-]/g, ' '); }
 
 var rIdx = null, rSouratesEnCours = false;
 function construireIndex(){
@@ -2061,6 +2063,10 @@ function construireIndex(){
             s:su.englishNameTranslation + ' · ' + su.numberOfAyahs + ' versets',
             act:"coranChargerSourate(" + su.number + ")",
             m:sansAccent(su.number + ' ' + su.englishName + ' ' + su.englishNameTranslation + ' sourate coran ' + su.name)}); } }
+  o.push({c:'Esprit · preuves', t:"Les arguments d'Allah — dans le Coran", s:"Six arguments avec leurs versets (41:53, 23:91, 39:38…)", act:"nav('arguments')",
+          m:sansAccent('arguments Allah coran versets signes fitra pacte creation premiere deux dieux aveu idoles impuissance preuve existence 41 53 51 20 21 88 17 20 52 35 2 28 36 78 79 19 67 21 22 23 91 39 38 31 25 29 61 43 87 22 73 13 16 7 172 30 30 14 10')});
+  o.push({c:'Esprit · preuves', t:"Les arguments du Prophète <span class=\'pbuh\'>ﷺ</span>", s:"La fitra, le doute, les signes au réveil, son invocation", act:"nav('prophete')",
+          m:sansAccent('prophete mohammed sunna hadith fitra doute foi pure invocation nuit lumiere cieux terre argument bukhari muslim 3 190 al imran tahajjud')});
   o.push({c:'Esprit · preuves', t:"Les preuves de l'existence d'Allah — les huit arguments", s:"Le réglage fin, la loterie, le commencement, l'ADN, la conscience…", act:"nav('argus')",
           m:sansAccent('preuves existence Allah Dieu atheisme reglage fin constantes penrose loterie commencement big bang univers adn information origine vie conscience morale anthropique')});
   o.push({c:'Esprit · preuves', t:"L'harmonie de la création", s:"Les plantes, les animaux, l'être humain, l'univers", act:"nav('harmonie')",
@@ -2696,7 +2702,8 @@ function renderPreuves(){
     <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('discernement')">‹ Retour au discernement</button>
     <h2 style="font-size:1.15rem;font-weight:700;margin:0 0 .2rem">🔎 Les preuves</h2>
     <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
-      Le chemin de la raison — avant tout le reste. <b style="color:#9ca3af">Ce ne sont pas des preuves de laboratoire :</b>
+      D'abord les arguments de la <b style="color:#9ca3af">révélation</b>, ensuite ceux de la <b style="color:#9ca3af">raison</b>.
+      <b>Ce ne sont pas des preuves de laboratoire :</b>
       la science décrit le <i>comment</i> du monde ; elle ne peut pas répondre à « pourquoi y a-t-il quelque chose plutôt que rien ».
       Ce que ces arguments montrent : <b style="color:#9ca3af">le hasard, la matière et le temps sont insuffisants.</b>
     </p>
@@ -2713,7 +2720,9 @@ function renderPreuves(){
       </p>
     </div>
 
-    ${dCartePreuve("nav('argus')","📐","Les huit arguments","Du réglage fin des constantes à la conscience — un par écran.","#38bdf8")}
+    ${dCartePreuve("nav('arguments')","📖","Les arguments d'Allah — dans le Coran","Six arguments, avec leurs versets. « Nous leur montrerons Nos signes dans l'univers et en eux-mêmes. » (41 : 53)","#10b981")}
+    ${dCartePreuve("nav('prophete')","🕌","Les arguments du Prophète <span class=\'pbuh\'>ﷺ</span>","Quatre hadiths : la fitra, le doute, les signes au réveil, son invocation de la nuit.","#d9b26a")}
+    ${dCartePreuve("nav('argus')","📐","Les huit arguments rationnels","Du réglage fin des constantes à la conscience — la raison qui confirme.","#38bdf8")}
     ${dCartePreuve("nav('harmonie')","🌿","L'harmonie de la création","Les plantes, les animaux, l'être humain, l'univers — en détail. Et le nombre d'or : ce qui est vrai, ce qui est faux.","#4fd1a5")}
     ${dCartePreuve("nav('penrose')","🔢","Le chiffre de Penrose","Un athée qui donne le chiffre le plus écrasant du débat.","#d9b26a")}
     ${dCartePreuve("nav('precautions')","⚠️","Les trois précautions","Ce qui protège ta crédibilité — à lire avant de partager.","#e8725c")}
@@ -2879,11 +2888,114 @@ function renderOr(){
     </div>`
 }
 
+
+// =====================================================================
+// LES ARGUMENTS D'ALLAH ET DU PROPHÈTE ﷺ
+// La méthode de la révélation — elle passe AVANT les arguments rationnels.
+// « Nous leur montrerons Nos signes dans l'univers et en eux-mêmes. » (41:53)
+// =====================================================================
+
+var ARG_ALLah = [
+ { n:"Les signes — dehors et dedans", em:"🌍", r:"Regarde autour de toi, et regarde-toi",
+   v:[["41 : 53","« Nous leur montrerons Nos signes dans l'univers et en eux-mêmes, jusqu'à ce qu'il leur apparaisse que c'est la vérité. »"],
+      ["51 : 20-21","« Il y a sur la terre des signes pour ceux qui croient avec certitude — et en vous-mêmes. Ne voyez-vous donc pas ? »"],
+      ["88 : 17-20","« Ne regardent-ils pas les chameaux, comment ils sont créés ? Le ciel, comment il est élevé ? Les montagnes, comment elles sont dressées ? La terre, comment elle est étendue ? »"]],
+   lec:"C'est la méthode du Coran : il ne demande pas de croire d'abord, il demande de REGARDER. Les signes sont dehors (l'univers) et dedans (toi-même). Et le verset 41:53 est le programme de tout ce module." },
+ { n:"La création première", em:"🌱", r:"Celui qui a commencé peut recommencer",
+   v:[["52 : 35","« Ou bien ont-ils été créés à partir de rien ? Ou bien sont-ils eux-mêmes les créateurs ? »"],
+      ["2 : 28","« Comment pouvez-vous renier Allah alors que vous étiez morts et qu'Il vous a donné la vie ? »"],
+      ["36 : 78-79","« Il a oublié sa propre création... Dis : c'est Celui qui l'a créé la première fois qui le fera revivre. »"],
+      ["19 : 67","« L'homme ne se rappelle-t-il pas que Nous l'avons créé auparavant, alors qu'il n'était rien ? »"]],
+   lec:"Le Coran ne discute pas de la résurrection comme d'une hypothèse : il renvoie à la création première. Celui qui a fait une fois peut refaire — et « à partir de rien » n'est pas une réponse." },
+ { n:"L'impossibilité de deux dieux", em:"⚖️", r:"S'il y avait plusieurs dieux, tout serait en désordre",
+   v:[["21 : 22","« S'il y avait dans le ciel et la terre d'autres divinités qu'Allah, tous deux seraient certes tombés dans le désordre. »"],
+      ["23 : 91","« ...sinon chaque divinité s'en irait avec ce qu'elle a créé, et certaines domineraient les autres. »"]],
+   lec:"C'est l'argument le plus serré du Coran — les savants l'appellent « l'argument de l'empêchement mutuel » : deux volontés absolues ne peuvent pas commander le même monde. Un monde cohérent trahit une seule volonté." },
+ { n:"Leur propre aveu", em:"🗣", r:"Ceux qui nient le reconnaissent eux-mêmes",
+   v:[["39 : 38","« Si tu leur demandes : “Qui a créé les cieux et la terre ?” ils diront : “Allah.” »"],
+      ["31 : 25 · 29 : 61 · 43 : 87","Le même aveu est répété quatre fois dans le Coran."]],
+   lec:"Argument redoutable : le Coran ne cherche pas à prouver la création, il constate que les négateurs l'admettent déjà. Le débat n'est donc pas « qui a créé ? » — c'est « pourquoi ne L'adorez-vous pas ? »" },
+ { n:"L'impuissance des idoles", em:"🪰", r:"Ce qu'on adore à la place d'Allah ne peut rien",
+   v:[["22 : 73","« Ceux que vous invoquez en dehors d'Allah ne sauraient créer une mouche, même s'ils s'unissaient pour cela. »"],
+      ["13 : 16","« Ont-ils pris en dehors de Lui des protecteurs qui ne disposent d'aucun pouvoir sur eux-mêmes ? »"]],
+   lec:"Le Coran renverse la charge : ce n'est pas à celui qui croit de justifier sa foi, c'est à l'idole de justifier son titre. Regarde ce que tu mets à la place — et demande-lui ce qu'elle a créé." },
+ { n:"La fitra et le pacte", em:"🫀", r:"Tu le sais déjà, avant toute preuve",
+   v:[["7 : 172","« Ne suis-Je pas votre Seigneur ? Ils dirent : Oui, nous en témoignons. »"],
+      ["30 : 30","« Dirige-toi vers la religion pure : la fitra d'Allah, selon laquelle Il a créé les hommes. »"],
+      ["14 : 10","« Leurs messagers dirent : Y a-t-il un doute sur Allah, Créateur des cieux et de la terre ? »"]],
+   lec:"Voilà le cœur de la méthode. Le Coran ne présente pas le doute comme normal : il s'en étonne. « Y a-t-il un doute sur Allah ? » La reconnaissance est l'état d'origine ; le refus est ce qui vient après, et qui demande des efforts." },
+];
+
+var ARG_PROPHETE = [
+ { t:"La fitra — tout enfant naît dessus", src:"al-Bukhârî et Muslim",
+   d:"« Tout enfant naît sur la fitra ; ce sont ses parents qui le rendent juif, chrétien ou mazdéen. »",
+   lec:"Le Prophète <span class='pbuh'>ﷺ</span> enseigne que la reconnaissance d'Allah n'est pas une information qu'on reçoit : c'est l'état de départ. On n'ajoute pas Dieu — on l'enlève." },
+ { t:"Le doute lui-même est une preuve", src:"Muslim",
+   d:"Des compagnons vinrent se plaindre : « Nous trouvons dans nos poitrines des choses que l'un de nous n'oserait même pas dire à voix haute. » Il répondit : « Vous ressentez cela ? » Ils dirent : « Oui. » Il dit : « C'est la foi pure. »",
+   lec:"Le raisonnement est magnifique : si rien n'existait dans ton cœur, le doute ne te dérangerait pas. Ce qui te dérange, c'est ce qui est là. On ne souffre pas de l'absence de ce qu'on n'a jamais connu." },
+ { t:"Il récitait les signes au réveil", src:"al-Bukhârî et Muslim",
+   d:"D'après 'Â'ishah : le Prophète <span class='pbuh'>ﷺ</span>, quand il se levait la nuit, récitait les dix derniers versets de la sourate Âl 'Imrân — celle qui se termine par : « En vérité, dans la création des cieux et de la terre, et dans l'alternance de la nuit et du jour, il y a des signes pour les doués d'intelligence. » (3 : 190)",
+   lec:"Le Prophète <span class='pbuh'>ﷺ</span> ne séparait jamais la foi de l'observation. Son ibâda commençait par les signes." },
+ { t:"Son invocation de la nuit", src:"al-Bukhârî et Muslim",
+   d:"« Ô Allah, à Toi appartient la louange ; Tu es la Lumière des cieux et de la terre et de ceux qui les peuplent ; à Toi la louange ; Tu es la Vérité, Ta promesse est vérité, Ta parole est vérité, Ta rencontre est vérité... »",
+   lec:"Le tawḥīd du Prophète <span class='pbuh'>ﷺ</span> n'est pas une théorie qu'il défend : c'est ce qu'il dit à Allah au milieu de la nuit, seul. C'est le signe auquel on reconnaît une croyance qui a passé du cerveau au cœur." },
+];
+
+function renderArguments(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('preuves')">‹ Retour</button>
+    <h2 style="font-size:1.12rem;font-weight:700;margin:0 0 .2rem">📖 Les arguments d'Allah</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      Avant les chiffres, il y a la méthode de la révélation. <b style="color:#9ca3af">Le Coran ne se défend pas : il rappelle.</b>
+      Il n'argumente pas pour prouver qu'Allah existe — il argumente pour enlever ce qui couvre.
+    </p>
+    ${ARG_ALLah.map(function(a, i){ return `<div class="card" style="margin-bottom:.55rem">
+      <div style="display:flex;gap:.7rem">
+        <div style="font-size:1.2rem">${a.em}</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:.9rem">${a.n}</div>
+          <div style="font-size:.75rem;color:#9ca3af;margin-top:.15rem">${a.r}</div>
+          ${a.v.map(function(x){ return `<div style="background:rgba(16,185,129,.07);border-left:3px solid #10b981;border-radius:9px;padding:.6rem .75rem;margin:.55rem 0 .1rem">
+            <div style="font-size:.68rem;font-weight:800;color:#34d399">${x[0]}</div>
+            <div style="font-size:.84rem;line-height:1.6;margin-top:.25rem">${x[1]}</div></div>`; }).join('')}
+          <p style="font-size:.82rem;line-height:1.7;margin:.6rem 0 0;color:#9ca3af"><b style="color:#d1d5db">Ce que ça dit :</b> ${a.lec}</p>
+        </div></div></div>`; }).join('')}
+    <div class="card" style="border-color:rgba(217,178,106,.45);background:rgba(217,178,106,.05)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.4rem">La différence avec les arguments rationnels</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0 0 .5rem">Les arguments rationnels (loterie, réglage fin, harmonie) <b>confirment</b> : ils servent quand quelqu'un a déjà décidé de regarder. Les arguments du Coran <b>renvoient à ce que la personne sait déjà</b> — et c'est pour ça qu'ils touchent plus profond.</p>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">Un chiffre peut être contesté. <b>La fitra, non.</b></p>
+    </div>
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">Les traductions données ici sont des sens proches du texte, pour comprendre. Pour l'étude, reviens au texte arabe et au tafsîr — Ibn Kathîr, at-Tabarî, al-Qurtubî.</p>`
+}
+
+function renderProphete(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('preuves')">‹ Retour</button>
+    <h2 style="font-size:1.12rem;font-weight:700;margin:0 0 .2rem">🕌 Les arguments du Prophète <span class='pbuh'>ﷺ</span></h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      Le Prophète <span class='pbuh'>ﷺ</span> n'a jamais argumenté comme un philosophe. Il <b style="color:#9ca3af">rappelait</b>, il faisait regarder,
+      et il ramenait l'homme à ce qu'il sait déjà. Voilà comment.
+    </p>
+    ${ARG_PROPHETE.map(function(a){ return `<div class="card" style="margin-bottom:.55rem">
+      <div style="font-weight:700;font-size:.9rem">${a.t}</div>
+      <div style="font-size:.68rem;letter-spacing:1px;text-transform:uppercase;color:#e5c36a;font-weight:700;margin-top:.3rem">${a.src}</div>
+      <p style="font-size:.85rem;line-height:1.75;margin:.5rem 0 0;font-style:italic">${a.d}</p>
+      <p style="font-size:.82rem;line-height:1.7;margin:.5rem 0 0;color:#9ca3af"><b style="color:#d1d5db">Ce que ça dit :</b> ${a.lec}</p>
+    </div>`; }).join('')}
+    <div class="card" style="border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.05)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.4rem">Sa méthode, en une phrase</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">Il ne demandait pas aux gens de croire quelque chose d'absent — il leur demandait de <b>se rappeler</b> quelque chose de présent. La preuve n'est pas dehors, à chercher : elle est déjà en eux, endormie. Le travail de l'appelant, c'est de la réveiller.</p>
+    </div>
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">Hadiths cités d'après leurs recueils (al-Bukhârî, Muslim). Pour l'usage en vidéo, toujours afficher le recueil à l'écran.</p>`
+}
+
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or'];
+  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or','arguments','prophete'];
   el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr, arguments:renderArguments, prophete:renderProphete }
   if(pages[cp]) pages[cp]()
 }
 
