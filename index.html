@@ -3604,7 +3604,8 @@ function renderAuth() {
         <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix — Reprends le contrôle en 30 jours</p>
         <div class="cite-card"><p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">"${q.text}"${q.author?'<br><span style=font-size:.65rem;color:#4b5563>\u2014 '+q.author+'</span>':''}</p><div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div><p style="font-size:.78rem;color:#93c5fd;line-height:1.5"><span class='pbuh'>ﷺ</span> ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p></div><div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
         <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleLogin()">Commencer</button>
-        <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563;display:flex;align-items:center;justify-content:center;gap:.35rem">${ICONS.lock}Données stockées uniquement sur cet appareil</p></div>
+        <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563;display:flex;align-items:center;justify-content:center;gap:.35rem">${ICONS.lock}Données stockées uniquement sur cet appareil</p>
+        <p style="margin-top:.5rem;font-size:.66rem;color:#374151;letter-spacing:.4px">Version du 16 octobre 2026 · 20h26</p></div>
       </div>
     </div>`
   document.getElementById('auth-name')?.addEventListener('keydown', e => { if(e.key==='Enter') handleLogin() })
