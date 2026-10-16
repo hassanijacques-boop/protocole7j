@@ -937,6 +937,7 @@ function renderSavoir(){
       Tout le reste — le sport, les séances, les compléments — vient après, et ne compense jamais un mauvais sommeil ou une assiette désordonnée.</p>
     </div>
 
+    ${savoirCarte("ouvrirFondement('jism')","📖","Le fondement révélé — le Corps","Ce que le Coran et la Sunna disent du corps : le dépôt, les droits, la mesure, la santé.","#ef4444")}
     ${savoirCarte("nav('sommeil')","🌙","Le sommeil","La fondation n°1 : ce qu'une nuit courte fait à ton appétit, à ton insuline, à ton cortisol — et le protocole du soir.","#3b82f6")}
     ${savoirCarte("nav('manger')","🥗","Manger juste","La fondation n°2 : six blocs concrets — les boissons, l'assiette en trois zones, lire une étiquette, les protéines, la journée type.","#10b981")}
     ${savoirCarte("nav('marche')","🚶","La marche japonaise — minuteur","3 min rapide / 3 min modérée, 7 fois = 45 minutes, guidé avec le signal sonore. La mission du jour 11.","#ef4444")}
@@ -1338,6 +1339,7 @@ function renderNafs(){
       carnet().length ? `<div style="margin-top:.5rem;font-size:.75rem;color:#3b82f6"><b>${carnet().length} soir(s)</b> écrit(s)</div>` : '')}
     ${nCarte("nav('pacte')","🤝","Le pacte de 40 jours","Une porte. Une règle. Quarante cases à cocher. C'est ça qui change un homme.","#10b981",
       p ? `<div style="margin-top:.5rem;font-size:.75rem;color:#10b981"><b>${p.regle ? p.regle.slice(0,54) : ''}…</b></div>` : '')}
+    ${nCarte("ouvrirFondement('nafs')","📖","Le fondement révélé — l'Âme","Les trois états de l'âme, le combat intérieur, et les portes déjà nommées par le Prophète ﷺ.","#f59e0b")}
     ${nCarte("nav('outils')","📜","Les trois outils","Muhâsaba, murâqaba, mujâhada : les trois outils de la tradition, et le jeûne comme entraînement roi.","#a78bfa")}
 
     <h3 style="font-size:.95rem;font-weight:700;margin:1.4rem 0 .6rem">Les 9 portes — apprends à les reconnaître</h3>
@@ -1700,7 +1702,13 @@ function renderCoran(){
       <div class="card" style="text-align:center"><div style="font-size:1.4rem;margin-bottom:.4rem">⏳</div>
       <p style="font-size:.85rem;margin:0">Chargement de la liste des 114 sourates…</p></div>`}
 
-    <div class="card" style="cursor:pointer;margin-top:1rem;border-color:rgba(16,185,129,.35);background:rgba(16,185,129,.05)" onclick="fcS=0;nav('flashcards')">
+    <div class="card" style="cursor:pointer;margin-top:1rem;border-color:rgba(16,185,129,.35);background:rgba(16,185,129,.05)" onclick="ouvrirFondement('qalb')">
+      <div style="display:flex;align-items:center;gap:.7rem"><div style="font-size:1.3rem">📖</div>
+      <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Le fondement révélé — le Cœur</div>
+      <div style="font-size:.76rem;color:#6b7280;margin-top:.15rem">Le cœur sain, le rappel, la quiétude : ce que le Coran et la Sunna en disent.</div></div>
+      <div style="color:#6b7280;font-size:1.15rem">›</div></div></div>
+
+    <div class="card" style="cursor:pointer;margin-top:.6rem;border-color:rgba(16,185,129,.35);background:rgba(16,185,129,.05)" onclick="fcS=0;nav('flashcards')">
       <div style="display:flex;align-items:center;gap:.7rem"><div style="font-size:1.3rem">🎴</div>
       <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Les flashcards — révise en cartes</div>
       <div style="font-size:.76rem;color:#6b7280;margin-top:.15rem">Le verset se cache, tu récites à voix haute, tu retournes la carte.</div></div>
@@ -2063,6 +2071,12 @@ function construireIndex(){
             s:su.englishNameTranslation + ' · ' + su.numberOfAyahs + ' versets',
             act:"coranChargerSourate(" + su.number + ")",
             m:sansAccent(su.number + ' ' + su.englishName + ' ' + su.englishNameTranslation + ' sourate coran ' + su.name)}); } }
+  o.push({c:'Corps', t:"Le fondement révélé — le Corps", s:"Le dépôt, les droits du corps, la mesure, la santé", act:"ouvrirFondement('jism')",
+          m:sansAccent('corps jism fondement revele coran sunna amana depot sante sommeil nourriture ventre droit hadith 7 31 2 195 23 14 16 78')});
+  o.push({c:'Cœur', t:"Le fondement révélé — le Cœur", s:"Le cœur sain, le rappel, la quiétude", act:"ouvrirFondement('qalb')",
+          m:sansAccent('coeur qalb fondement revele coran sunna qalb salim rappel dhikr sakina quietude 26 88 89 13 28 7 179 2 74 48 4')});
+  o.push({c:'Âme', t:"Le fondement révélé — l'Âme", s:"Les trois états du nafs, le combat intérieur", act:"ouvrirFondement('nafs')",
+          m:sansAccent('ame nafs fondement revele coran sunna ammara lawwama mutmainna jihada jeune 12 53 75 2 89 27 13 11 29 69 2 183')});
   o.push({c:'Esprit · preuves', t:"Les arguments d'Allah — dans le Coran", s:"Six arguments avec leurs versets (41:53, 23:91, 39:38…)", act:"nav('arguments')",
           m:sansAccent('arguments Allah coran versets signes fitra pacte creation premiere deux dieux aveu idoles impuissance preuve existence 41 53 51 20 21 88 17 20 52 35 2 28 36 78 79 19 67 21 22 23 91 39 38 31 25 29 61 43 87 22 73 13 16 7 172 30 30 14 10')});
   o.push({c:'Esprit · preuves', t:"Les arguments du Prophète <span class=\'pbuh\'>ﷺ</span>", s:"La fitra, le doute, les signes au réveil, son invocation", act:"nav('prophete')",
@@ -2991,11 +3005,151 @@ function renderProphete(){
     <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">Hadiths cités d'après leurs recueils (al-Bukhârî, Muslim). Pour l'usage en vidéo, toujours afficher le recueil à l'écran.</p>`
 }
 
+
+// =====================================================================
+// LE FONDEMENT RÉVÉLÉ — ce que le Coran et la Sunna disent de chaque dimension
+// Le pilier Esprit a « Les arguments d'Allah » ; voici les trois autres.
+// =====================================================================
+
+var FONDEMENTS = {
+  jism: {
+    em:"💪", n:"Le Corps", coul:"#ef4444", sous:"« Certes, ton corps a un droit sur toi »",
+    vers:[
+      ["7 : 31","« Mangez et buvez, mais ne gaspillez pas : Il n'aime pas les gaspilleurs. »"],
+      ["2 : 195","« ...et ne vous jetez pas vous-mêmes dans la perdition. »"],
+      ["23 : 14","« ...Béni soit Allah, le meilleur des créateurs ! »"],
+      ["16 : 78","« Allah vous a fait sortir du ventre de vos mères, sans rien savoir — et Il vous a donné l'ouïe, la vue et les cœurs. »"],
+    ],
+    had:[
+      { t:"Ton corps a un droit sur toi", src:"al-Bukhârî et Muslim",
+        d:"Salmân rendit visite à Abû ad-Dardâ et le vit négliger sa famille et son corps. Abû ad-Dardâ rapporta la parole au Prophète <span class='pbuh'>ﷺ</span>, qui dit : « Certes, ton Seigneur a un droit sur toi, ta famille a un droit sur toi, et ton corps a un droit sur toi. »",
+        lec:"Le corps n'est pas un outil qu'on use pour prouver sa piété. Il a un DROIT — et le négliger est une faute, pas une vertu." },
+      { t:"Le croyant fort est le meilleur", src:"Muslim",
+        d:"« Le croyant fort est meilleur et plus aimé d'Allah que le croyant faible — et il y a du bien dans les deux. »",
+        lec:"La force n'est pas un péché ni une vanité : c'est un bien, tant qu'elle sert. Le faible est excusé — le fort qui s'affaiblit tout seul ne l'est pas." },
+      { t:"Deux bienfaits dont on est dupes", src:"al-Bukhârî",
+        d:"« Deux bienfaits dont beaucoup de gens sont dupes : la santé, et le temps libre. »",
+        lec:"On ne mesure pas la santé quand on l'a : on la mesure quand elle part. C'est la définition même d'un bien dont on est « dupé »." },
+      { t:"L'estomac : trois tiers", src:"at-Tirmidhî, Ibn Mâja",
+        d:"« Le fils d'Adam ne remplit pas de récipient pire que son ventre. Trois tiers lui suffisent : un tiers pour la nourriture, un tiers pour la boisson, un tiers pour l'air. »",
+        lec:"Le Prophète <span class='pbuh'>ﷺ</span> n'a pas donné une règle de poids ni de calories : il a donné une mesure." },
+      { t:"La bénédiction du lever matinal", src:"Abû Dâwûd, at-Tirmidhî",
+        d:"« Ô Allah, bénis ma communauté dans son lever matinal. »",
+        lec:"Le début de journée est un temps béni — et c'est justement celui que le téléphone prend le premier." },
+    ],
+    regle:"Le corps est un dépôt, pas un instrument. Il faut le rendre plus fort que tu ne l'as reçu — et il a un droit sur toi, comme ton Seigneur et ta famille.",
+  },
+  qalb: {
+    em:"🫀", n:"Le Cœur", coul:"#10b981", sous:"« Sauf celui qui vient à Allah avec un cœur sain »",
+    vers:[
+      ["26 : 88-89","« Le jour où ni les biens ni les enfants ne serviront, sauf celui qui vient à Allah avec un cœur sain. »"],
+      ["13 : 28","« C'est par le rappel d'Allah que les cœurs se tranquillisent. »"],
+      ["7 : 179","« ...ils ont des cœurs avec lesquels ils ne comprennent pas. »"],
+      ["2 : 74","« ...puis vos cœurs se sont endurcis, pareils à la pierre, ou plus durs encore. »"],
+      ["48 : 4","« C'est Lui qui a fait descendre la quiétude (sakîna) dans les cœurs des croyants. »"],
+      ["24 : 50","« ...ou bien y a-t-il une maladie dans leurs cœurs ? »"],
+    ],
+    had:[
+      { t:"Allah ne regarde pas les apparences", src:"Muslim",
+        d:"« Certes, Allah ne regarde ni vos corps ni vos apparences, mais Il regarde vos cœurs et vos actes. »",
+        lec:"Le critère n'est pas ce que les gens voient de toi — c'est ce qu'Allah voit quand personne ne te voit." },
+      { t:"Le morceau de chair", src:"al-Bukhârî et Muslim",
+        d:"« Il y a dans le corps un morceau de chair : s'il est sain, le corps tout entier est sain ; s'il est corrompu, le corps tout entier est corrompu. C'est le cœur. »",
+        lec:"Le lien est posé par le Prophète <span class='pbuh'>ﷺ</span> : ce qui se passe dans le cœur finit toujours par sortir dans le corps et dans la maison." },
+      { t:"Affermis mon cœur", src:"at-Tirmidhî",
+        d:"« Ô Toi qui fais tourner les cœurs, affermis mon cœur dans Ta religion. »",
+        lec:"Le Prophète <span class='pbuh'>ﷺ</span> demandait à Allah de tenir son cœur — il ne comptait pas sur sa propre fermeté. Toi non plus." },
+      { t:"Le vivant et le mort", src:"al-Bukhârî",
+        d:"« Celui qui évoque son Seigneur et celui qui ne L'évoque pas sont comme le vivant et le mort. »",
+        lec:"Le rappel n'est pas un supplément spirituel : c'est ce qui distingue un cœur vivant d'un cœur éteint." },
+    ],
+    regle:"Le cœur n'est pas la boîte à émotions : c'est le lieu où l'on comprend et où l'on décide. Et le seul bagage du dernier jour, c'est un cœur sain.",
+  },
+  nafs: {
+    em:"🐺", n:"L'Âme", coul:"#f59e0b", sous:"« L'âme pousse au mal » — et pourtant elle peut s'apaiser",
+    vers:[
+      ["12 : 53","« Et je ne m'excuse pas moi-même : l'âme pousse au mal, sauf ce dont mon Seigneur fait miséricorde. »"],
+      ["75 : 2","« Et je jure par l'âme qui se blâme. »"],
+      ["89 : 27-30","« Ô âme apaisée, retourne vers ton Seigneur, satisfaite et agréée. »"],
+      ["13 : 11","« Allah ne change pas l'état d'un peuple tant qu'ils ne changent pas ce qui est en eux-mêmes. »"],
+      ["29 : 69","« Ceux qui luttent pour Nous, Nous les guiderons vers Nos sentiers. »"],
+      ["29 : 6","« Et quiconque lutte, ne lutte que pour lui-même. »"],
+      ["2 : 183","« Ô vous qui croyez, le jeûne vous a été prescrit comme il l'a été à ceux d'avant vous, afin que vous atteigniez la taqwâ. »"],
+    ],
+    had:[
+      { t:"Le combattant, c'est celui qui lutte contre son âme", src:"at-Tirmidhî",
+        d:"« Le combattant (al-mujâhid) est celui qui lutte contre son âme. »",
+        lec:"Le mot n'est pas une image : le vrai combat est intérieur, et il ne s'arrête à aucune victoire extérieure." },
+      { t:"Le sage se juge lui-même", src:"at-Tirmidhî, Ibn Mâja",
+        d:"« Le sage est celui qui se juge lui-même et agit pour ce qui vient après la mort. »",
+        lec:"C'est exactement la muhâsaba : se regarder avant d'être regardé. Et c'est le Prophète <span class='pbuh'>ﷺ</span> qui l'a définie." },
+      { t:"Le fort se maîtrise", src:"al-Bukhârî et Muslim",
+        d:"« Le fort n'est pas celui qui terrasse son adversaire ; le fort est celui qui se maîtrise quand la colère le saisit. »",
+        lec:"La colère est le meilleur test : elle arrive en une seconde, et elle dit la vérité sur ce que tu es vraiment." },
+      { t:"L'incapacité et la paresse", src:"al-Bukhârî et Muslim",
+        d:"« Ô Allah, je me réfugie auprès de Toi contre l'incapacité et la paresse. »",
+        lec:"Le Prophète <span class='pbuh'>ﷺ</span> ne dit pas « la paresse est un manque de volonté » : il en fait une chose dont on demande protection à Allah." },
+      { t:"La langue, la compagnie, l'ostentation", src:"al-Bukhârî et Muslim · Abû Dâwûd · Ahmad",
+        d:"« Que celui qui croit en Allah et au Jour dernier dise du bien, ou qu'il se taise. » · « L'homme suit la religion de son ami : que chacun regarde qui il fréquente. » · « Ce que je crains le plus pour vous, c'est le petit shirk : l'ostentation. »",
+        lec:"Les portes du nafs ne sont pas des inventions modernes : le Prophète <span class='pbuh'>ﷺ</span> a nommé la langue, la compagnie et l'envie d'être vu." },
+    ],
+    regle:"Le nafs a trois états — il pousse au mal, il se blâme, et il peut s'apaiser. Il n'est pas un ennemi à détruire : c'est une créature à entraîner. Et l'entraînement roi, c'est le jeûne.",
+  },
+};
+
+var fondCourant = "jism";
+function ouvrirFondement(id){ fondCourant = id; nav('fondement'); }
+
+function renderFondement(){
+  const el = document.getElementById('pc'); if(!el) return
+  const f = FONDEMENTS[fondCourant];
+  if(!f){ return nav('manifest'); }
+  const ordre = ["jism","qalb","nafs"];
+  const i = ordre.indexOf(fondCourant);
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('manifest')">‹ Retour aux piliers</button>
+    <div style="text-align:center;padding:.6rem 0 1rem">
+      <div style="font-size:2.4rem">${f.em}</div>
+      <div style="font-size:.68rem;letter-spacing:1.6px;text-transform:uppercase;color:${f.coul};font-weight:800;margin-top:.5rem">Le fondement révélé</div>
+      <h2 style="font-size:1.2rem;font-weight:700;margin:.35rem 0 .2rem">${f.n}</h2>
+      <div style="font-size:.82rem;color:#9ca3af">${f.sous}</div>
+    </div>
+
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      Avant les méthodes et les outils : ce que le Coran et le Prophète <span class='pbuh'>ﷺ</span> en disent.
+      <b style="color:#9ca3af">Tout ce qui suit dans cette dimension doit tenir sous ces textes.</b>
+    </p>
+
+    <h3 style="font-size:.9rem;font-weight:700;color:#4fd1a5;margin:0 0 .5rem">📖 Dans le Coran</h3>
+    ${f.vers.map(function(v){ return `<div style="background:rgba(16,185,129,.07);border-left:3px solid #10b981;border-radius:9px;padding:.65rem .8rem;margin-bottom:.45rem">
+      <div style="font-size:.68rem;font-weight:800;color:#34d399">${v[0]}</div>
+      <div style="font-size:.86rem;line-height:1.65;margin-top:.25rem">${v[1]}</div></div>`; }).join('')}
+
+    <h3 style="font-size:.9rem;font-weight:700;color:#e5c36a;margin:1.2rem 0 .5rem">🕌 Dans la Sunna</h3>
+    ${f.had.map(function(x){ return `<div class="card" style="margin-bottom:.5rem">
+      <div style="font-weight:700;font-size:.9rem">${x.t}</div>
+      <div style="font-size:.68rem;letter-spacing:1px;text-transform:uppercase;color:#e5c36a;font-weight:700;margin-top:.25rem">${x.src}</div>
+      <p style="font-size:.85rem;line-height:1.75;margin:.5rem 0 0;font-style:italic">${x.d}</p>
+      <p style="font-size:.82rem;line-height:1.7;margin:.45rem 0 0;color:#9ca3af"><b style="color:#d1d5db">Ce que ça dit :</b> ${x.lec}</p>
+    </div>`; }).join('')}
+
+    <div class="card" style="border-color:${f.coul}45;background:${f.coul}0d;margin-top:.9rem">
+      <div style="font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:${f.coul};font-weight:800">La règle de cette dimension</div>
+      <p style="font-size:.88rem;line-height:1.75;margin:.4rem 0 0;font-weight:600">${f.regle}</p>
+    </div>
+
+    <div style="display:flex;gap:.5rem;margin-top:.9rem">
+      <button class="btn btn-outline" style="flex:1;${i <= 0 ? 'opacity:.4;pointer-events:none' : ''}" onclick="ouvrirFondement('${ordre[i - 1] || ''}')">‹ Précédent</button>
+      <button class="btn btn-primary" style="flex:1;${i >= ordre.length - 1 ? 'opacity:.4;pointer-events:none' : ''}" onclick="ouvrirFondement('${ordre[i + 1] || ''}')">Suivant ›</button>
+    </div>
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">Traductions : des sens proches du texte, pour comprendre. Pour l'étude, reviens au texte arabe et au tafsîr — Ibn Kathîr, at-Tabarî, al-Qurtubî. Et pour la Sunna : les recueils cités.</p>`
+}
+
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or','arguments','prophete'];
+  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or','arguments','prophete','fondement'];
   el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr, arguments:renderArguments, prophete:renderProphete }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr, arguments:renderArguments, prophete:renderProphete, fondement:renderFondement }
   if(pages[cp]) pages[cp]()
 }
 
