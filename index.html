@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Protocole 30J — Human Matrix</title>
+  <title>Le Quadrant Holistique — Human Matrix</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet"/>
@@ -744,7 +744,7 @@ function render() {
   document.getElementById('app').innerHTML = `
     <div style="max-width:600px;margin:0 auto;padding:0 0 5rem">
       <div class="app-top" style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:rgba(10,10,20,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:10">
-        <div style="display:flex;align-items:center;gap:.5rem"><span class="logo" style="font-weight:600;font-size:.9rem">▲ Protocole 30J</span></div>
+        <div style="display:flex;align-items:center;gap:.5rem"><span class="logo" style="font-weight:700;font-size:.86rem;letter-spacing:.3px">▲ Le Quadrant Holistique</span></div>
         <div style="display:flex;align-items:center;gap:.5rem"><button class="btn btn-outline btn-xs" onclick="nav('recherche')">🔍</button><span style="font-size:.75rem;color:#6b7280">${state.user?.name||''}</span><button class="btn btn-outline btn-xs" onclick="logoutAccess()">✕</button></div>
       </div>
       <div id="pc" class="page active" style="padding:1rem"></div>
@@ -3487,8 +3487,10 @@ function renderHome() {
   let tm=0, td=0; for(let d=1;d<=30;d++){const g=state.progress[d];tm+=4;td+=g?.c?.length||0}
   el.innerHTML = `
     <div style="text-align:center;padding:2rem 0">
-      <h1 style="font-size:1.5rem;font-weight:700;letter-spacing:1px">HUMAN MATRIX</h1>
-      <p style="color:#6b7280;font-size:.85rem;margin-top:.3rem">Protocole 30 jours de restauration humaine</p>
+      <h1 style="font-size:1.42rem;font-weight:700;letter-spacing:1.5px">LE QUADRANT HOLISTIQUE</h1>
+      <div style="font-family:'Amiri',serif;font-size:1.02rem;color:#d9b26a;margin-top:.5rem;line-height:1.9">القَلْب · العَقْل · الجِسْم · النَّفْس</div>
+      <p style="color:#6b7280;font-size:.82rem;margin-top:.45rem">Le cœur, l'esprit, le corps et l'âme — l'être entier, aucune case manquante</p>
+      <p style="color:#4b5563;font-size:.72rem;margin-top:.35rem;letter-spacing:.5px">HUMAN MATRIX · protocole 30 jours</p>
       <div style="width:40px;height:3px;background:#10b981;margin:.75rem auto;border-radius:2px"></div>
     </div>
     ${citeCard()}
