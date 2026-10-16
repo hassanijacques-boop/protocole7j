@@ -708,13 +708,7 @@ const QUESTIONS = [
   {id:15,pole:'Qalb',q:"Je connais ma direction de vie."},
 ];
 
-let state = { user:S('user',null), accessCode:S('code',null), scores:S('scores',null), packActive:S('pack',false), currentDay:S('day',1), progress:S('progress',{}), diagAnswers:{} }
-
-// ========================== ACCÈS PAR CODE ==========================
-var VALID_CODES = ["P30J-DEMO-2025","HUMAN-MATRIX-30"];
-/* loadCodes() supprimé le 16/10/2026 : plus aucun appel réseau au démarrage. */
-
-function checkAccess(code) { return VALID_CODES.includes(code.trim().toUpperCase()) }
+let state = { user:S('user',null), scores:S('scores',null), packActive:S('pack',false), currentDay:S('day',1), progress:S('progress',{}), diagAnswers:{} }
 
 function save() { SS('user',state.user); SS('pack',state.packActive); SS('day',state.currentDay); SS('progress',state.progress) }
 function toast(m) { const t=document.createElement('div'); t.className='toast'; t.textContent=m; document.body.appendChild(t); setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},2500) }
@@ -3599,48 +3593,6 @@ function renderPage() {
 // ========================== AUTH ==========================
 
 // ========================== ACCÈS ==========================
-function renderAccess() { return renderAuth();  /* porte supprimée le 16/10/2026 : l'application est libre. Le code ci-dessous n'est jamais exécuté. */
-  document.getElementById('app').innerHTML = `
-    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(135deg,#050505 0%,#0a0a1a 50%,#050510 100%)">
-      <div class="card" style="max-width:380px;width:100%;padding:2.5rem 2rem;text-align:center">
-        <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:.25rem">▲</div>
-        <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:.3rem">Protocole 30J</h1>
-        <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix</p>
-        <div style="text-align:left;margin-bottom:1.25rem">
-          <label>Code d'accès</label>
-          <input type="text" id="access-code" placeholder="Entrez votre code" maxlength="30" style="text-transform:uppercase;letter-spacing:1px;text-align:center;font-weight:600">
-        </div>
-        <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleAccess()">Débloquer</button>
-        <div id="access-error" style="margin-top:.75rem;font-size:.8rem;color:#ef4444;display:none"></div>
-      </div>
-    </div>`
-  document.getElementById('access-code')?.addEventListener('keydown', e => { if(e.key==='Enter') handleAccess() })
-}
-function handleAccess() {
-  var code=document.getElementById('access-code')?.value.trim();
-  if(!code){ showAccessError('Entre un code'); return }
-  if(!checkAccess(code)){ showAccessError('Code invalide. Verifie ton email.'); return }
-  state.accessCode=code.toUpperCase();
-  SS('code',state.accessCode);
-  render()
-}
-function showAccessError(m) {
-  var el=document.getElementById('access-error');
-  if(el){ el.textContent=m; el.style.display='block' }
-}
-function logoutAccess() {
-  state.accessCode=null;
-  state.user=null;
-  state.scores=null;
-  state.packActive=false;
-  state.currentDay=1;
-  state.progress={};
-  SS('code',null);
-  SS('scores',null);
-  render()
-}
-
-
 function renderAuth() {
   var q=randomQuote(), h=randomHadith()
   document.getElementById('app').innerHTML = `
