@@ -3328,12 +3328,16 @@ function renderFondement(){
 
 /* ✏️ LE SEUL ENDROIT À REMPLIR : colle ici ton lien de don (PayPal, Stripe, Systeme.io…).
    Tant qu'il est vide, l'écran propose le du'â et le partage, et dit que le lien arrive. */
-var LIEN_DON = "";
+var LIEN_DON = "https://www.paypal.me/HumanMatrix608";
 
 function renderSoutenir(){
   const el = document.getElementById('pc'); if(!el) return
   const don = LIEN_DON
-    ? '<a class="btn btn-primary btn-lg" href="' + LIEN_DON + '" target="_blank" rel="noopener" style="text-decoration:none;margin-top:.4rem">Faire un don 🤲</a>'
+    ? '<div style="text-align:center;margin-top:.8rem">'
+      + '<a class="btn btn-primary btn-lg" href="' + LIEN_DON + '" target="_blank" rel="noopener" style="text-decoration:none">Faire un don 🤲</a>'
+      + '<div style="font-size:.74rem;color:#9ca3af;margin-top:.6rem;line-height:1.6">Paiement sécurisé par PayPal · aucune inscription · <b>aucun montant imposé</b> · tu peux fermer la page à tout moment.</div>'
+      + '<div style="font-size:.72rem;color:#6b7280;margin-top:.35rem">ou copie l\'adresse : <b style="color:#c9a961">paypal.me/HumanMatrix608</b></div>'
+      + '</div>'
     : '<p style="font-size:.82rem;color:#9ca3af;line-height:1.7;margin:.6rem 0 0">Le don par lien arrive bientôt. En attendant : <b style="color:#d1d5db">le du\'â et le partage font déjà tout le travail.</b></p>';
 
   el.innerHTML = `
