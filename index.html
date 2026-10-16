@@ -2244,6 +2244,8 @@ function construireIndex(){
             s:su.englishNameTranslation + ' · ' + su.numberOfAyahs + ' versets',
             act:"coranChargerSourate(" + su.number + ")",
             m:sansAccent(su.number + ' ' + su.englishName + ' ' + su.englishNameTranslation + ' sourate coran ' + su.name)}); } }
+  o.push({c:'Le projet', t:"Soutenir le projet — l'essence", s:"Gratuité, du'â, partage, don facultatif", act:"nav('soutenir')",
+          m:sansAccent('soutenir projet don gratuit gratuité essence sadaqa aumone dua partage libre recompense 26 109')});
   o.push({c:'Corps', t:"Le fondement révélé — le Corps", s:"Le dépôt, les droits du corps, la mesure, la santé", act:"ouvrirFondement('jism')",
           m:sansAccent('corps jism fondement revele coran sunna amana depot sante sommeil nourriture ventre droit hadith 7 31 2 195 23 14 16 78')});
   o.push({c:'Cœur', t:"Le fondement révélé — le Cœur", s:"Le cœur sain, le rappel, la quiétude", act:"ouvrirFondement('qalb')",
@@ -3319,11 +3321,94 @@ function renderFondement(){
     <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">Tous les versets sont cités dans la <b>traduction de Muhammad Hamidullah</b> — la même que l'onglet Coran de cette application (api.alquran.cloud). Pour l'étude, reviens au texte arabe et au tafsîr — Ibn Kathîr, at-Tabarî, al-Qurtubî.</p>`
 }
 
+
+// =====================================================================
+// SOUTENIR LE PROJET — l'essence, et les trois façons d'aider
+// =====================================================================
+
+/* ✏️ LE SEUL ENDROIT À REMPLIR : colle ici ton lien de don (PayPal, Stripe, Systeme.io…).
+   Tant qu'il est vide, l'écran propose le du'â et le partage, et dit que le lien arrive. */
+var LIEN_DON = "";
+
+function renderSoutenir(){
+  const el = document.getElementById('pc'); if(!el) return
+  const don = LIEN_DON
+    ? '<a class="btn btn-primary btn-lg" href="' + LIEN_DON + '" target="_blank" rel="noopener" style="text-decoration:none;margin-top:.4rem">Faire un don 🤲</a>'
+    : '<p style="font-size:.82rem;color:#9ca3af;line-height:1.7;margin:.6rem 0 0">Le don par lien arrive bientôt. En attendant : <b style="color:#d1d5db">le du\'â et le partage font déjà tout le travail.</b></p>';
+
+  el.innerHTML = `
+    <div style="text-align:center;padding:.6rem 0 1.2rem">
+      <div style="font-size:2.6rem">🤲</div>
+      <div style="font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:#e5c36a;font-weight:800;margin-top:.6rem">Soutenir le projet</div>
+      <h2 style="font-size:1.25rem;font-weight:700;margin:.4rem 0 0">L'essence de ce projet</h2>
+    </div>
+
+    <div class="card" style="border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.06)">
+      <p style="font-size:1.02rem;font-weight:700;line-height:1.6;margin:0">Cette application est gratuite. Elle le restera.</p>
+      <p style="font-size:.86rem;line-height:1.8;margin:.6rem 0 0;color:#d1d5db">
+        Aucun abonnement. Aucun compte. Aucune publicité. Rien ne sort de ton téléphone.
+        Ce n'est pas une stratégie commerciale : <b>c'est une décision</b> — et elle ne changera pas.</p>
+    </div>
+
+    <div style="background:rgba(217,178,106,.09);border-left:3px solid #d9b26a;border-radius:10px;padding:.8rem .95rem;margin:.7rem 0">
+      <div style="font-size:.68rem;font-weight:800;color:#e5c36a">26 : 109</div>
+      <div style="font-size:.92rem;line-height:1.75;margin-top:.3rem;font-style:italic">« Et je ne vous demande pas de salaire pour cela; mon salaire n'incombe qu'au Seigneur de l'univers. »</div>
+      <div style="font-size:.68rem;color:#8a7a55;margin-top:.4rem">Traduction Muhammad Hamidullah</div>
+    </div>
+
+    <p style="font-size:.87rem;line-height:1.8;color:#d1d5db;margin:.9rem 0 1rem">
+      Ce que je cherche n'est pas dans ton portefeuille. Mais si tu veux m'aider,
+      voilà <b>trois façons</b> — et la première ne coûte rien.</p>
+
+    <div class="card" style="margin-bottom:.55rem;border-color:rgba(16,185,129,.3)">
+      <div style="font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;color:#4fd1a5;font-weight:800">1 · Le du'â</div>
+      <p style="font-size:.87rem;line-height:1.75;margin:.4rem 0 0">
+        Demande à Allah qu'Il bénisse ce travail, qu'Il l'accepte, et qu'Il le fasse profiter.
+        <b>C'est le soutien qui compte le plus</b> — et le seul qui touche ce que les yeux ne voient pas.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:.55rem;border-color:rgba(56,189,248,.3)">
+      <div style="font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;color:#38bdf8;font-weight:800">2 · Le partage</div>
+      <p style="font-size:.87rem;line-height:1.75;margin:.4rem 0 0">
+        Une seule personne qui reçoit cette application par toi vaut plus que n'importe quel montant.
+        <b>C'est comme ça que ça grandit</b> — pas avec de la publicité.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:.55rem;border-color:rgba(217,178,106,.35)">
+      <div style="font-size:.68rem;letter-spacing:1.2px;text-transform:uppercase;color:#e5c36a;font-weight:800">3 · Le don — facultatif</div>
+      <p style="font-size:.87rem;line-height:1.75;margin:.4rem 0 0">
+        Si — et <b>seulement si</b> — tu en as les moyens, que rien ne te manque, et que tu veux participer.</p>
+      ${don}
+      <p style="font-size:.82rem;line-height:1.7;margin:.7rem 0 0;color:#e5c36a">
+        ⚠️ <b>Ne donne pas si tu es dans la gêne.</b> Garde ton argent, et demande plutôt à Allah :
+        c'est Lui qui pourvoit, et Il n'a besoin de personne.</p>
+    </div>
+
+    <h3 style="font-size:.9rem;font-weight:700;color:#9ca3af;margin:1.2rem 0 .5rem">Ce que ça finance — en toute transparence</h3>
+    <div class="card">
+      <ul style="list-style:none;font-size:.84rem;line-height:2;margin:0">
+        <li>🔎 Le <b>temps de recherche et de vérification</b> — chaque chiffre, chaque hadith, chaque verset est sourcé</li>
+        <li>🌐 L'<b>hébergement</b> de l'application</li>
+        <li>🛠️ Les <b>outils</b> qui me permettent de continuer</li>
+      </ul>
+      <p style="font-size:.82rem;color:#9ca3af;line-height:1.7;margin:.7rem 0 0">
+        Rien d'autre. Pas de salaire, pas de bureau, pas de frais inutiles.</p>
+    </div>
+
+    <p style="font-size:.88rem;line-height:1.85;text-align:center;color:#d1d5db;margin:1.2rem 0 0">
+      Cette application ne demande rien, ne vend rien, et ne te suivra jamais.<br>
+      Si elle t'a servi, <b style="color:#4fd1a5">dis-le à Allah</b> — c'est là que j'attends ma part.</p>
+
+    <div style="text-align:center;margin-top:1.2rem">
+      <button class="btn btn-outline btn-sm" onclick="nav('home')">‹ Retour</button>
+    </div>`
+}
+
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or','arguments','prophete','fondement'];
+  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or','arguments','prophete','fondement','soutenir'];
   el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr, arguments:renderArguments, prophete:renderProphete, fondement:renderFondement }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr, arguments:renderArguments, prophete:renderProphete, fondement:renderFondement, soutenir:renderSoutenir }
   if(pages[cp]) pages[cp]()
   /* relance l'entrée en cascade à chaque changement d'écran */
   el.classList.remove('anim'); void el.offsetWidth; el.classList.add('anim');
@@ -3497,7 +3582,7 @@ function renderProto() {
   if(!state.packActive){
     el.innerHTML=`<div style="text-align:center;padding:2rem 0"><h2 style="font-size:1.3rem;font-weight:700">Protocole 30 Jours</h2><p style="color:#6b7280;font-size:.85rem;margin:.5rem 0 1.5rem">Un mois pour transformer tes 4 piliers. Briefings quotidiens, missions ciblées, suivi pas à pas.</p>
       <div class="card" style="text-align:center;border:1px solid #10b98140"><ul style="list-style:none;font-size:.85rem;line-height:2;margin-bottom:1.25rem"><li>✅ 30 briefings écrits</li><li>✅ 120 missions ciblées</li><li>✅ 4 semaines progressives</li><li>✅ Bilan final</li></ul>
-      <button class="btn btn-primary btn-lg" onclick="activatePack()">Lancer le protocole</button><p style="font-size:.75rem;color:#4b5563;margin-top:.75rem">Gratuit — Soutiens le projet si tu le souhaites 🤲</p></div></div>`; return
+      <button class="btn btn-primary btn-lg" onclick="activatePack()">Lancer le protocole</button><p style="font-size:.75rem;color:#4b5563;margin-top:.75rem">Gratuit — <a onclick="nav('soutenir')" style="color:#4fd1a5;cursor:pointer;text-decoration:underline">soutiens le projet si tu le souhaites</a> 🤲</p></div></div>`; return
   }
   const d=state.currentDay, missions=MISSIONS[d]||MISSIONS[1]
   const p=state.progress[d]||{}, completed=p.c||[], briefingDone=p.b||false, sosCount=p.s||0
