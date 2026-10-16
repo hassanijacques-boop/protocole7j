@@ -2061,6 +2061,16 @@ function construireIndex(){
             s:su.englishNameTranslation + ' · ' + su.numberOfAyahs + ' versets',
             act:"coranChargerSourate(" + su.number + ")",
             m:sansAccent(su.number + ' ' + su.englishName + ' ' + su.englishNameTranslation + ' sourate coran ' + su.name)}); } }
+  o.push({c:'Esprit · preuves', t:"Les preuves de l'existence d'Allah — les huit arguments", s:"Le réglage fin, la loterie, le commencement, l'ADN, la conscience…", act:"nav('argus')",
+          m:sansAccent('preuves existence Allah Dieu atheisme reglage fin constantes penrose loterie commencement big bang univers adn information origine vie conscience morale anthropique')});
+  o.push({c:'Esprit · preuves', t:"L'harmonie de la création", s:"Les plantes, les animaux, l'être humain, l'univers", act:"nav('harmonie')",
+          m:sansAccent('harmonie creation plantes animaux humain univers fibonacci nombre or angle 135 abeille alveole oiseaux migration cerveau coeur oeil adn tournesol')});
+  o.push({c:'Esprit · preuves', t:"Le nombre d'or — vrai et faux", s:"Le nautile, le Parthénon, la Joconde : à ne pas utiliser", act:"nav('or')",
+          m:sansAccent('nombre or fibonacci spirale nautile parthenon joconde mythe vrai faux harmonie')});
+  o.push({c:'Esprit · preuves', t:"Le chiffre de Penrose", s:"1 sur 10 puissance 10 puissance 123 — un athée", act:"nav('penrose')",
+          m:sansAccent('penrose chiffre improbable probabilite athee 10 puissance')});
+  o.push({c:'Esprit · preuves', t:"Les trois précautions", s:"Ne pas faire du Coran un livre de science", act:"nav('precautions')",
+          m:sansAccent('precautions concordisme science coran limites rigueur ton')});
   o.push({c:'Esprit · discernement', t:'Le socle — la ʿaqīda et le tawḥīd', s:"Les trois questions, et pourquoi on commence par là", act:"nav('socle')",
           m:sansAccent('discernement socle aqida tawhid foi croyance trois questions seigneur invisible')});
   o.push({c:'Esprit · discernement', t:'Les quatre questions', s:'La méthode de tri', act:"nav('quatre')",
@@ -2437,12 +2447,18 @@ function renderDiscernement(){
       et c'est la seule dimension que personne ne peut faire à ta place.
     </p>
 
+    <div class="card" style="border-color:rgba(79,209,165,.35);background:rgba(79,209,165,.05);margin-bottom:.8rem">
+      <div style="font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:#4fd1a5;font-weight:700">L'ordre</div>
+      <p style="font-size:.84rem;line-height:1.7;margin:.35rem 0 0">① <b>Les preuves</b> — le chemin de la raison · ② <b>Le socle</b> — le tawḥīd · ③ <b>L'outil</b> — les quatre questions pour trier le monde.</p>
+    </div>
+
     <div class="card" style="border-color:rgba(56,189,248,.45);background:rgba(56,189,248,.07);margin-bottom:.8rem">
       <div style="font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:#38bdf8;font-weight:700">La réponse est dans un verset</div>
       <p style="font-size:.92rem;line-height:1.6;margin:.45rem 0 0;font-weight:600">« Si vous craignez Allah, Il vous donnera un furqân — un discernement. » <span style="font-weight:400;color:#9ca3af">(Coran, 8 : 29)</span></p>
       <p style="font-size:.8rem;color:#9ca3af;line-height:1.6;margin:.5rem 0 0">Le discernement n'est pas une récompense de l'intelligence : c'est une conséquence de la crainte d'Allah.</p>
     </div>
 
+    ${dCarte("nav('preuves')","🔎","Les preuves — le chemin de la raison","Les huit arguments, l'harmonie de la création (plantes, animaux, humain, univers), le chiffre de Penrose, et les précautions.","#4fd1a5")}
     ${dCarte("nav('socle')","⬛","Le socle — la ʿaqīda et le tawḥīd","On commence par là. Trois questions, et pourquoi ce n'est pas encore l'outil.","#38bdf8")}
     ${dCarte("nav('quatre')","🔍","Les quatre questions","La méthode de tri, applicable à tout : une pub, une « étude », une idéologie, une vidéo.","#3b82f6")}
     ${dCarte("nav('signes')","⚠️","Les signes d'alerte","Douze signes qui disent : on est en train de te manipuler.","#e8725c")}
@@ -2589,11 +2605,285 @@ function renderBiblio(){
     <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">Cette liste est une proposition : c'est toi qui valides ce que tu lis. Les traductions et les éditions varient beaucoup — pour le socle, demande conseil à quelqu'un de science de ta région.</p>`
 }
 
+
+// =====================================================================
+// LES PREUVES — le chemin de la raison (pilier العَقْل)
+// « Ce ne sont pas des preuves de laboratoire : ce sont des arguments
+//   rationnels. » Source : Série 13 de la chaîne Call of the Matrix.
+// =====================================================================
+
+var ARGUS = [
+ { n:"Le réglage fin des constantes", r:"Le hasard devrait tomber sur les bons boutons, du premier coup", txt:"Les forces et les masses de l'univers sont réglées à des précisions vertigineuses. La force nucléaire forte : modifiée de 0,5 %, plus aucun carbone, plus aucune vie. La constante cosmologique : réglée à 1 sur 10¹²⁰. La gravité : un cheveu plus forte, l'univers s'effondre.",
+   src:"Barrow & Tipler (1986) · Penrose, The Emperor's New Mind (1989)", v:"« Nous avons créé toute chose selon une mesure déterminée. » (54 : 49)" },
+ { n:"L'analogie de la loterie", r:"Le hasard ne gagne pas trois lotos de suite", txt:"Gagner le Loto une fois : 1 chance sur 19 millions. Trois fois de suite : 1 sur 10²¹. Personne n'y verrait du hasard — tout le monde chercherait un trucage. Et l'univers est infiniment plus improbable que trois lotos.",
+   src:"l'image de Jacques, à réutiliser telle quelle", v:"« Ou bien ont-ils été créés à partir de rien ? Ou bien sont-ils eux-mêmes les créateurs ? » (52 : 35)" },
+ { n:"Le commencement de l'univers", r:"Tout ce qui commence a une cause", txt:"1929, Hubble : l'univers s'étend — donc il a eu un début. 2003, Borde-Guth-Vilenkin : sous ses hypothèses, un univers en expansion est incomplètement passé. Ce qui commence a une cause : et cette cause est hors du temps, de l'espace et de la matière.",
+   src:"Al-Ghazâlî, Tahâfut al-Falâsifa · Borde, Guth & Vilenkin (2003)", v:"« Créateur des cieux et de la terre sans modèle antérieur. » (2 : 117)" },
+ { n:"L'information dans l'ADN", r:"Aucune loi physique n'écrit du code", txt:"3,2 milliards de lettres dans ton ADN. Un alphabet de 4 lettres qui code des instructions : comment fabriquer un être humain. Les lois physiques décrivent comment la matière se comporte — elles n'écrivent pas de messages.",
+   src:"à sourcer précisément avant diffusion", v:"—" },
+ { n:"L'origine de la vie", r:"La cellule et ses machines", txt:"La cellule n'est pas une bille : c'est une usine avec des moteurs, des ateliers, une salle de lecture, et une copie de ses plans. Aucune loi physique ne fabrique une machine.",
+   src:"à sourcer précisément avant diffusion", v:"—" },
+ { n:"L'ordre mathématique du monde", r:"Pourquoi l'univers se décrit-il en équations ?", txt:"L'univers est partout décrit par les mêmes lois, écrites en langage mathématique. Pourquoi le monde serait-il intelligible ? C'est devenu une question en soi.",
+   src:"—", v:"« Tu ne verras aucun défaut dans la création du Tout-Miséricordieux. » (67 : 3)" },
+ { n:"La conscience et la morale", r:"Comment la matière produirait-elle un « je » ?", txt:"Dans le monde décrit par la physique, il n'y a que des particules et des champs. D'où vient ce « je » qui souffre, qui choisit et qui juge le bien ?",
+   src:"—", v:"—" },
+ { n:"L'être dans sa plus belle forme", r:"Pourquoi tant de beauté, si personne ne regarde ?", txt:"L'être humain, l'animal, la plante : la forme, la symétrie, la couleur, le chant. Le décor dépasse largement la survie.",
+   src:"—", v:"« Nous avons certes créé l'homme dans la plus belle forme. » (95 : 4)" },
+];
+
+var HARMONIE = [
+ { id:"plantes", em:"🌿", n:"Les plantes", court:"Le nombre d'or, pour de vrai",
+   chap:[
+     ["L'angle d'or", "La feuille suivante du même plant pousse à 137,5° de la précédente — appelé l'angle d'or (on le rattache au nombre d'or, 1,618). Résultat : aucune feuille ne fait d'ombre à ses sœurs, et chacune reçoit le maximum de lumière."],
+     ["Le tournesol", "Compte les spirales d'un tournesol : 34 dans un sens, 55 dans l'autre. Prends un autre tournesol : 55 et 89. Prends un ananas : 8 et 13. Une pomme de pin : 8 et 13. Ce sont toujours des nombres de Fibonacci, et toujours voisins l'un de l'autre. Ce n'est pas une légende : c'est de la botanique mesurée (Douady & Couder, Science, 1992)."],
+     ["Pourquoi c'est la solution", "C'est la façon la plus efficace de remplir un cercle avec des graines, sans laisser de vide et sans les serrer inutilement. La plante ne calcule pas : elle pousse, et c'est ce qui arrive."],
+     ["L'arbre", "Observe les branches : d'abord 1, puis 2, puis 3, puis 5, puis 8… Le même compte. Et la forme entière se répète à toutes les échelles : branche, feuille, nervure."],
+     ["Le verset", "« Nous avons créé toute chose selon une mesure déterminée. » (54 : 49) et « Le soleil et la lune [suivent] un calcul. » (55 : 5)"],
+   ],
+   src:"Botanique (phyllotaxie) — Douady & Couder, Science, 1992" },
+
+ { id:"animaux", em:"🐝", n:"Les animaux", court:"Ce qu'aucun ingénieur n'a fait si petit",
+   chap:[
+     ["L'alvéole de l'abeille", "Six côtés. Pas par hasard : l'hexagone est la forme qui enferme le plus de volume avec le moins de cire. C'est un théorème démontré par Thomas Hales en 1999 — la « conjecture de la cellule de miel ». Des abeilles utilisent la meilleure réponse mathématique connue, parce qu'il existe une réponse mathématique."],
+     ["Le voyage des oiseaux", "Chaque année, des oiseaux traversent des milliers de kilomètres et retrouvent le même arbre. Ils s'orientent au champ magnétique de la Terre, aux étoiles, au soleil. Un minuscule composé chimique dans leur rétine réagit à la lumière en fonction du champ magnétique."],
+     ["La chauve-souris", "Elle chasse la nuit en criant et en écoutant l'écho. Dans le noir complet, elle distingue un fil de fer d'un insecte."],
+     ["Le reste", "La pieuvre qui change de couleur et de texture en une seconde. Le saumon qui retrouve la rivière de sa naissance. La fourmi seule qui ne survit pas, la colonie qui construit des chemins vivants."],
+     ["Le verset", "« Ne voient-ils pas les oiseaux au-dessus d'eux, déployant et repliant leurs ailes ? Seul le Tout-Miséricordieux les soutient. » (67 : 19)"],
+   ],
+   src:"Thomas Hales, 1999 (l'hexagone des abeilles) · l'orientation magnétique des oiseaux" },
+
+ { id:"humain", em:"🧬", n:"L'être humain", court:"Ce que tu ne regardes jamais",
+   chap:[
+     ["Le cœur", "Il bat environ 2,5 milliards de fois dans une vie, sans vacances, sans entretien, sans réparation. Il s'adapte tout seul : tu montes un escalier, il accélère avant que tu l'aies décidé."],
+     ["Le cerveau", "86 milliards de neurones, chacun relié à des milliers d'autres. Il consomme 20 % de ton énergie et pèse moins d'un kilo et demi. Il te reconnaît, il anticipe, il se répare — tu ne le surveilles jamais."],
+     ["L'œil", "Il n'est pas parfait au sens de l'ingénieur — il a même un point aveugle. Mais il tient dans deux centimètres, travaille en temps réel, s'adapte en permanence et fait ce qu'aucune caméra ne fait seule."],
+     ["La cicatrice", "Tu te coupes : une cascade d'une douzaine de réactions se déclenche dans le bon ordre, au bon endroit, et s'arrête au bon moment. Trop peu : tu te vides. Trop : un caillot dans une veine."],
+     ["L'ADN", "Chaque cellule contient environ 2 mètres d'ADN — et il y en a plusieurs milliers de milliards dans ton corps. Il porte les instructions de fabrication, dont personne n'a écrit la première ligne."],
+     ["Le verset", "« Qui a parfait tout ce qu'Il a créé. » (32 : 7) — et « Ne regardent-ils pas les chameaux, comment ils sont créés ? » (88 : 17-20)"],
+   ],
+   src:"Azevedo et al. 2009 (86 milliards de neurones) · la cascade de la coagulation" },
+
+ { id:"univers", em:"🌌", n:"L'univers", court:"Aucune dissonance",
+   chap:[
+     ["Les orbites", "Le soleil court vers un point qui lui est propre (36 : 38), la lune suit un calcul (55 : 5), et chaque astre vogue dans son orbite (21 : 33). Rien ne se bouscule."],
+     ["Le tableau des éléments", "Toute la matière de l'univers tient dans un tableau qui commence à l'hydrogène et suit un ordre. Le même ordre partout : dans ton corps, dans une étoile à mille années-lumière."],
+     ["Les mêmes lois partout", "La physique qui décrit une goutte d'eau décrit aussi une galaxie. C'est une chose étrange : rien n'obligeait l'univers à être régi par des lois uniformes."],
+     ["L'intelligibilité", "Ce que la physique cherche, c'est la FORMULE. L'univers est écrit dans un langage qu'un cerveau humain peut comprendre — et personne ne sait pourquoi."],
+     ["Le verset", "« Tu ne verras aucun défaut dans la création du Tout-Miséricordieux. Ramène ton regard : y vois-tu une quelconque fissure ? » (67 : 3)"],
+   ],
+   src:"Coran 67:3, 55:5, 36:38, 21:33" },
+];
+
+var OR_VRAI = [
+ ["L'angle d'or 137,5° chez les plantes", "Vérifiable, mesurable, publié. La disposition des feuilles et des graines suit réellement la suite de Fibonacci."],
+ ["Les spirales du tournesol, de la pomme de pin, de l'ananas", "Compte-les : 34 / 55, 8 / 13… Ce sont de vrais nombres de Fibonacci, constatés et non interprétés."],
+ ["Les nombres de Fibonacci dans la croissance", "1, 1, 2, 3, 5, 8, 13 : la façon la plus simple de croître en ajoutant ce qu'on a déjà. On la retrouve dans le vivant."],
+];
+
+var OR_FAUX = [
+ ["Le nautile", "Sa coquille est bien une spirale, mais PAS une spirale d'or : son rapport est un peu supérieur à 1,3 et il varie. L'image du nautile « parfait » est partout, et elle est fausse."],
+ ["Le Parthénon", "Le rectangle d'or n'est pas dans les plans d'origine. Il a été rapporté dessus au XIXᵉ siècle, avec un compas et de la bonne volonté."],
+ ["La Joconde", "Le quadrillage doré sur le tableau a été inventé au XXᵉ siècle. Léonard n'a rien écrit de tel."],
+ ["Les pyramides", "Aucune trace du nombre d'or dans leur conception."],
+ ["Le corps humain (le nombril, « l'homme de Vitruve »)", "Mesuré sérieusement, le rapport change d'une personne à l'autre. Ce n'est pas une constante anatomique."],
+];
+
+var HARM_PRINCIPE = "Regarder, mesurer, s'étonner. Puis se demander : pourquoi y a-t-il quelque chose à comprendre ? C'est exactement la méthode du Coran : « Ne regardent-ils pas… ? » (88 : 17-20).";
+
+function renderPreuves(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('discernement')">‹ Retour au discernement</button>
+    <h2 style="font-size:1.15rem;font-weight:700;margin:0 0 .2rem">🔎 Les preuves</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      Le chemin de la raison — avant tout le reste. <b style="color:#9ca3af">Ce ne sont pas des preuves de laboratoire :</b>
+      la science décrit le <i>comment</i> du monde ; elle ne peut pas répondre à « pourquoi y a-t-il quelque chose plutôt que rien ».
+      Ce que ces arguments montrent : <b style="color:#9ca3af">le hasard, la matière et le temps sont insuffisants.</b>
+    </p>
+
+    <div class="card" style="border-color:rgba(79,209,165,.45);background:rgba(79,209,165,.06)">
+      <div style="font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:#4fd1a5;font-weight:700">L'ordre juste</div>
+      <p style="font-size:.86rem;line-height:1.7;margin:.4rem 0 0">
+        ① <b>Les preuves</b> — le chemin de la raison · ② <b>Le socle</b> — le tawḥīd ·
+        ③ <b>L'outil</b> — les quatre questions.
+      </p>
+      <p style="font-size:.8rem;color:#9ca3af;line-height:1.6;margin:.5rem 0 0">
+        Et la règle qui empêche ce module de devenir un musée : <b>la raison ouvre la porte, elle ne fait pas entrer.</b>
+        « Si vous craignez Allah, Il vous donnera un furqân. » (8 : 29)
+      </p>
+    </div>
+
+    ${dCartePreuve("nav('argus')","📐","Les huit arguments","Du réglage fin des constantes à la conscience — un par écran.","#38bdf8")}
+    ${dCartePreuve("nav('harmonie')","🌿","L'harmonie de la création","Les plantes, les animaux, l'être humain, l'univers — en détail. Et le nombre d'or : ce qui est vrai, ce qui est faux.","#4fd1a5")}
+    ${dCartePreuve("nav('penrose')","🔢","Le chiffre de Penrose","Un athée qui donne le chiffre le plus écrasant du débat.","#d9b26a")}
+    ${dCartePreuve("nav('precautions')","⚠️","Les trois précautions","Ce qui protège ta crédibilité — à lire avant de partager.","#e8725c")}
+
+    <p style="font-size:.72rem;color:#4b5563;line-height:1.6;margin-top:1rem">
+      Ces arguments sont ceux de la <b>Série 13</b> de la chaîne Call of the Matrix — cinq vidéos existent déjà
+      (Le hasard n'a rien réglé · Trois lotos de suite · Les boutons de l'univers · Le nombre impossible · L'univers a commencé).
+    </p>`
+}
+
+function dCartePreuve(page, em, titre, sous, coul){
+  return `<div class="card" style="cursor:pointer;border-color:${coul}35;background:${coul}08;margin-bottom:.6rem" onclick="${page}">
+    <div style="display:flex;align-items:center;gap:.7rem">
+      <div style="font-size:1.25rem">${em}</div>
+      <div style="flex:1"><div style="font-weight:700;font-size:.92rem">${titre}</div>
+      <div style="font-size:.76rem;color:#6b7280;line-height:1.45;margin-top:.15rem">${sous}</div></div>
+      <div style="color:#6b7280;font-size:1.2rem">›</div>
+    </div></div>`;
+}
+
+function renderArgus(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('preuves')">‹ Retour</button>
+    <h2 style="font-size:1.12rem;font-weight:700;margin:0 0 .2rem">📐 Les huit arguments</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">« Je ne te dis pas de me croire. Je te donne les chiffres. Regarde-les. »</p>
+    ${ARGUS.map(function(a, i){ return `<div class="card" style="margin-bottom:.55rem">
+      <div style="display:flex;gap:.7rem">
+        <div style="width:26px;height:26px;flex:0 0 26px;border-radius:8px;background:rgba(56,189,248,.15);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:#38bdf8">${i + 1}</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:.9rem">${a.n}</div>
+          <div style="font-size:.75rem;color:#9ca3af;margin-top:.15rem">${a.r}</div>
+          <p style="font-size:.84rem;line-height:1.7;margin:.5rem 0 0">${a.txt}</p>
+          ${a.v && a.v !== '—' ? `<p style="font-size:.82rem;line-height:1.6;margin:.5rem 0 0;color:#4fd1a5">${a.v}</p>` : ''}
+          <p style="font-size:.72rem;color:#6b7280;margin:.45rem 0 0">Source : ${a.src}</p>
+        </div></div></div>`; }).join('')}`
+}
+
+function renderPenrose(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('preuves')">‹ Retour</button>
+    <h2 style="font-size:1.12rem;font-weight:700;margin:0 0 .2rem">🔢 Le chiffre de Penrose</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">L'atout principal — et il vient d'un athée.</p>
+    <div class="card" style="text-align:center;border-color:rgba(79,209,165,.5);background:rgba(79,209,165,.06);padding:1.5rem 1rem">
+      <div style="font-size:.8rem;letter-spacing:1.4px;text-transform:uppercase;color:#4fd1a5;font-weight:800">Roger Penrose</div>
+      <div style="font-size:.82rem;color:#9ca3af;margin-top:.3rem">mathématicien — et lui-même athée</div>
+      <div style="font-size:1.9rem;font-weight:800;color:#4fd1a5;margin:.9rem 0 .4rem">1 sur 10<sup>10¹²³</sup></div>
+      <div style="font-size:.84rem;color:#d1d5db;line-height:1.6">la probabilité qu'un univers comme le nôtre existe par hasard.</div>
+      <div style="font-size:.74rem;color:#6b7280;margin-top:.7rem">Roger Penrose, <i>The Emperor's New Mind</i> (1989)</div>
+    </div>
+    <div class="card" style="border-color:rgba(217,178,106,.4);background:rgba(217,178,106,.05)">
+      <p style="font-size:.86rem;line-height:1.7;margin:0">C'est pour ça que ce chiffre est ton meilleur argument : <b>on ne peut pas l'écarter comme un « argument religieux ».</b> Il vient de quelqu'un qui ne croit pas. Présente-le toujours comme tel — et n'ajoute rien.</p>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;font-size:.87rem;margin-bottom:.4rem">Comment le dire sans se tromper</div>
+      <p style="font-size:.84rem;line-height:1.7;margin:0 0 .5rem">Le chiffre de Penrose est un <b>calcul de probabilité</b>, pas une mesure. On le cite comme tel : « Penrose a calculé que… ».</p>
+      <p style="font-size:.84rem;line-height:1.7;margin:0">⚠️ Il est cité de mémoire dans nos notes de travail : <b>à revérifier à la source avant toute diffusion</b>. C'est exactement la promesse de la chaîne.</p>
+    </div>`
+}
+
+function renderPrecautions(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('preuves')">‹ Retour</button>
+    <h2 style="font-size:1.12rem;font-weight:700;margin:0 0 .2rem">⚠️ Les trois précautions</h2>
+    <p style="font-size:.8rem;color:#6b7280;margin-bottom:1rem">C'est ce qui sépare une preuve qui tient d'un argument qu'on te démonte en une phrase.</p>
+    <div class="card" style="border-color:rgba(232,114,92,.4)">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.4rem">1 · Ne pas faire du Coran un livre de science</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">Le concordisme — « le Coran avait tout prévu » — accroche le Coran à la science <b>du moment</b>. La science change ; le Coran non. C'est comme ça qu'on casse la foi quand une théorie tombe. Le verset 54:49 dit une chose sur Allah, pas une prévision scientifique.</p>
+    </div>
+    <div class="card" style="border-color:rgba(232,114,92,.4)">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.4rem">2 · Dire les limites à voix haute</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">Borde-Guth-Vilenkin : « <b>sous ses hypothèses</b> ». Les constantes : « <b>de l'ordre de</b> ». Un chiffre qu'on n'a pas vérifié, on ne le donne pas. Ce que tu n'as pas vérifié, tu ne le partages pas.</p>
+    </div>
+    <div class="card" style="border-color:rgba(232,114,92,.4)">
+      <div style="font-weight:700;font-size:.9rem;margin-bottom:.4rem">3 · Frapper le constat, jamais la personne</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">La rigueur convainc ; l'invective fait fermer. « Je ne te dis pas de me croire. Je te donne les chiffres. Regarde-les. »</p>
+    </div>
+    <div class="card" style="border-color:rgba(217,178,106,.4);background:rgba(217,178,106,.05)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.4rem">Et une quatrième, la plus importante</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">Ces arguments convainquent <b>l'esprit</b> — ils ne produisent pas la <b>taqwâ</b>. On peut connaître tous les chiffres et rester orgueilleux : Iblîs connaissait, et il a refusé. C'est pour ça que les preuves sont la <b>porte</b>, pas la maison.</p>
+    </div>`
+}
+
+function renderHarmonie(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('preuves')">‹ Retour</button>
+    <h2 style="font-size:1.12rem;font-weight:700;margin:0 0 .2rem">🌿 L'harmonie de la création</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      Ce n'est pas un argument de spécialiste : il suffit de regarder. C'est exactement la méthode du Coran —
+      <b style="color:#9ca3af">« Ne regardent-ils pas… ? »</b> (88 : 17-20)
+    </p>
+    ${HARMONIE.map(function(x){ return `<div class="card" style="cursor:pointer;margin-bottom:.6rem;border-color:rgba(79,209,165,.3)" onclick="ouvrirHarmo('${x.id}')">
+      <div style="display:flex;align-items:center;gap:.7rem">
+        <div style="font-size:1.4rem">${x.em}</div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.93rem">${x.n}</div>
+        <div style="font-size:.76rem;color:#6b7280">${x.court}</div></div>
+        <div style="color:#6b7280;font-size:1.2rem">›</div>
+      </div></div>`; }).join('')}
+    <div class="card" style="cursor:pointer;border-color:rgba(217,178,106,.5);background:rgba(217,178,106,.07)" onclick="nav('or')">
+      <div style="display:flex;align-items:center;gap:.7rem">
+        <div style="font-size:1.4rem">🔎</div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.93rem">Le nombre d'or — ce qui est VRAI, ce qui est FAUX</div>
+        <div style="font-size:.76rem;color:#9ca3af">Le nautile, le Parthénon, la Joconde : à ne pas utiliser. Voilà pourquoi.</div></div>
+        <div style="color:#d9b26a;font-size:1.2rem">›</div>
+      </div></div>
+    <p style="font-size:.75rem;color:#4b5563;line-height:1.6;margin-top:1rem">${HARM_PRINCIPE}</p>`
+}
+
+var harmoCourante = "plantes";
+function ouvrirHarmo(id){ harmoCourante = id; nav('harmo'); }
+function renderHarmo(){
+  const el = document.getElementById('pc'); if(!el) return
+  var x = null;
+  for(var i=0;i<HARMONIE.length;i++){ if(HARMONIE[i].id === harmoCourante){ x = HARMONIE[i]; } }
+  if(!x){ return renderHarmonie(); }
+  const idx = HARMONIE.findIndex(function(y){ return y.id === x.id; });
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('harmonie')">‹ Retour</button>
+    <div style="text-align:center;padding:.6rem 0 .8rem">
+      <div style="font-size:2.4rem">${x.em}</div>
+      <h2 style="font-size:1.15rem;font-weight:700;margin:.4rem 0 .1rem">${x.n}</h2>
+      <div style="font-size:.78rem;color:#6b7280">${x.court} · ${idx + 1} / ${HARMONIE.length}</div>
+    </div>
+    ${x.chap.map(function(c){ return `<div class="card" style="margin-bottom:.5rem;border-color:rgba(79,209,165,.22)">
+      <div style="font-weight:700;font-size:.9rem;color:#4fd1a5">${c[0]}</div>
+      <p style="font-size:.85rem;line-height:1.75;margin:.4rem 0 0">${c[1]}</p>
+    </div>`; }).join('')}
+    <div class="card" style="border-color:rgba(217,178,106,.35)"><div style="font-size:.72rem;color:#9ca3af">Source : ${x.src}</div></div>
+    <div style="display:flex;gap:.5rem;margin-top:.8rem">
+      <button class="btn btn-outline" style="flex:1;${idx === 0 ? 'opacity:.4;pointer-events:none' : ''}" onclick="ouvrirHarmo('${HARMONIE[idx - 1] ? HARMONIE[idx - 1].id : ''}')">‹ Précédent</button>
+      <button class="btn btn-primary" style="flex:1;${idx >= HARMONIE.length - 1 ? 'opacity:.4;pointer-events:none' : ''}" onclick="ouvrirHarmo('${HARMONIE[idx + 1] ? HARMONIE[idx + 1].id : ''}')">Suivant ›</button>
+    </div>`
+}
+
+function renderOr(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('harmonie')">‹ Retour</button>
+    <h2 style="font-size:1.12rem;font-weight:700;margin:0 0 .2rem">🔎 Le nombre d'or</h2>
+    <p style="font-size:.82rem;color:#6b7280;line-height:1.6;margin-bottom:1rem">
+      Le nombre d'or vaut environ 1,618. On le vend partout — dans l'art, les pyramides, le corps humain.
+      <b style="color:#9ca3af">Il est réel dans les plantes, et absent là où on l'utilise le plus.</b> Voilà la liste.
+    </p>
+
+    <div class="card" style="border-color:rgba(79,209,165,.45);background:rgba(79,209,165,.05)">
+      <div style="font-weight:800;font-size:.9rem;color:#4fd1a5;margin-bottom:.6rem">✓ CE QUI EST VRAI — à utiliser</div>
+      ${OR_VRAI.map(function(x){ return `<div style="margin-bottom:.6rem"><div style="font-weight:600;font-size:.86rem">${x[0]}</div>
+        <p style="font-size:.83rem;line-height:1.65;margin:.2rem 0 0;color:#c9d5e2">${x[1]}</p></div>`; }).join('')}
+    </div>
+
+    <div class="card" style="border-color:rgba(232,114,92,.5);background:rgba(232,114,92,.06)">
+      <div style="font-weight:800;font-size:.9rem;color:#e8725c;margin-bottom:.6rem">✗ CE QUI EST FAUX — à ne jamais utiliser</div>
+      ${OR_FAUX.map(function(x){ return `<div style="margin-bottom:.6rem"><div style="font-weight:600;font-size:.86rem">${x[0]}</div>
+        <p style="font-size:.83rem;line-height:1.65;margin:.2rem 0 0;color:#c9d5e2">${x[1]}</p></div>`; }).join('')}
+    </div>
+
+    <div class="card" style="border-color:rgba(217,178,106,.45);background:rgba(217,178,106,.05)">
+      <div style="font-weight:700;font-size:.88rem;margin-bottom:.4rem">Pourquoi cette page est ta meilleure protection</div>
+      <p style="font-size:.85rem;line-height:1.7;margin:0">Si tu utilises le nautile ou le Parthénon et qu'un type te démonte <b>cet</b> exemple, il croira avoir démonté <b>tout</b> l'argument — y compris les tournesols, qui sont vrais. En montrant toi-même ce qui est faux, tu ne perds rien : tu deviens celui qui vérifie. Et ça, personne ne peut te l'enlever.</p>
+    </div>`
+}
+
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio'];
+  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or'];
   el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr }
   if(pages[cp]) pages[cp]()
 }
 
