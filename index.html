@@ -7,6 +7,7 @@
   <title>Protocole 30J — Human Matrix</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -134,8 +135,178 @@
   .ar-coran.masque.revele { filter: none; opacity: 1; }
   .card.on { border-color: rgba(16,185,129,.7) !important; box-shadow: 0 0 18px rgba(16,185,129,.25); }
   .btn-xs { padding: .45rem .6rem; font-size: .72rem; border-radius: 10px; }
-  /* --- le symbole ﷺ : sans police arabe il sort en carré vide --- */
+  /* --- le symbole <span class='pbuh'>ﷺ</span> : sans police arabe il sort en carré vide --- */
   .pbuh { font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade New', 'Noto Naskh Arabic', serif; font-size: 1.08em; }
+</style>
+
+<style>
+  /* =========================================================================
+     COUCHE ESTHÉTIQUE — fond vivant, verre, typographie, transitions
+     ========================================================================= */
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap');
+
+  :root{
+    --mer: #0b1220;  --mer2: #070d18;
+    --or: #d9b26a;   --or-clair:#f0d9a4;
+    --vert: #10b981; --vert-clair:#34d399;
+    --bord: rgba(255,255,255,.09);
+    --bord-fort: rgba(255,255,255,.16);
+  }
+
+  /* ---------- le fond : plus jamais un four noir ---------- */
+  body{
+    background:
+      radial-gradient(120% 80% at 50% -10%, #16233c 0%, #0d1526 42%, var(--mer2) 100%) fixed;
+    color:#eef2f7;
+  }
+  body::before{                       /* trois halos qui respirent */
+    content:''; position:fixed; inset:-25% -20% auto -20%; height:95vh; z-index:-1;
+    pointer-events:none;
+    background:
+      radial-gradient(42% 46% at 18% 4%,  rgba(16,185,129,.26), transparent 68%),
+      radial-gradient(38% 44% at 86% 10%, rgba(217,178,106,.20), transparent 68%),
+      radial-gradient(52% 50% at 50% 96%, rgba(59,130,246,.16), transparent 70%);
+    filter: blur(26px);
+    animation: souffle 22s ease-in-out infinite alternate;
+  }
+  body::after{                        /* un grain, pour enlever le côté plat */
+    content:''; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @keyframes souffle{
+    from{ transform: translate3d(0,0,0) scale(1) rotate(0deg); opacity:.95 }
+    to  { transform: translate3d(0,-3.5%,0) scale(1.08) rotate(1.5deg); opacity:1 }
+  }
+
+  /* ---------- la typographie ---------- */
+  h1, h2, h3, .logo, .pillar-name, .pillar-arabic{
+    font-family:'Outfit','Inter',system-ui,sans-serif;
+    letter-spacing:.2px;
+  }
+  h1{ letter-spacing:3px }
+  #pc h1{                            /* le titre d'accueil : dégradé + relief */
+    background:linear-gradient(180deg,#ffffff 0%,#a9bdd4 100%);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
+    text-shadow:0 0 40px rgba(255,255,255,.08);
+  }
+  .logo{
+    background:linear-gradient(90deg,var(--vert-clair),var(--or-clair));
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
+  }
+
+  /* ---------- les cartes : du verre avec de la présence ---------- */
+  .card{
+    position:relative;
+    background:linear-gradient(180deg, rgba(255,255,255,.075) 0%, rgba(255,255,255,.028) 100%);
+    border:1px solid var(--bord);
+    border-radius:18px;
+    box-shadow:0 1px 0 rgba(255,255,255,.07) inset, 0 18px 40px -26px rgba(0,0,0,.95);
+    transition:transform .2s cubic-bezier(.22,.61,.36,1), border-color .25s ease, box-shadow .3s ease;
+  }
+  .card::before{                      /* le liseré de lumière en haut */
+    content:''; position:absolute; left:14px; right:14px; top:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+    opacity:.5; pointer-events:none; border-radius:99px;
+  }
+  .card[onclick]{ cursor:pointer }
+  .card[onclick]:hover{ border-color:var(--bord-fort); box-shadow:0 1px 0 rgba(255,255,255,.1) inset, 0 22px 44px -24px rgba(0,0,0,1) }
+  .card[onclick]:active{ transform:scale(.985) }
+
+  /* ---------- les boutons ---------- */
+  .btn{ border-radius:14px; transition:transform .16s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease, color .2s ease }
+  .btn:active{ transform:scale(.97) !important }
+  .btn-primary{
+    position:relative; overflow:hidden;
+    background:linear-gradient(135deg,#12c78d 0%,#0e9e73 100%);
+    color:#04140f; font-weight:700;
+    box-shadow:0 10px 26px -12px rgba(16,185,129,.85), 0 1px 0 rgba(255,255,255,.25) inset;
+  }
+  .btn-primary::after{                /* le reflet qui passe */
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.38) 50%,transparent 68%);
+    transform:translateX(-130%);
+    animation:reflet 4.2s ease-in-out infinite;
+  }
+  @keyframes reflet{ 0%,58%{ transform:translateX(-130%) } 88%,100%{ transform:translateX(130%) } }
+  .btn-outline{
+    background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+    border:1px solid var(--bord);
+  }
+  .btn-outline:hover{ border-color:rgba(16,185,129,.5); background:rgba(16,185,129,.1) }
+
+  /* ---------- l'en-tête et la barre d'onglets ---------- */
+  .app-top{
+    box-shadow:0 12px 30px -22px rgba(0,0,0,1);
+  }
+  .app-top::after{
+    content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(16,185,129,.5),rgba(217,178,106,.45),transparent);
+  }
+  .tab-bar{
+    background:rgba(9,13,24,.86);
+    box-shadow:0 -14px 34px -20px rgba(0,0,0,1);
+  }
+  .tab-bar::before{
+    content:''; position:absolute; left:0; right:0; top:0; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);
+  }
+  .tab-btn{ position:relative; transition:color .25s ease, transform .2s ease }
+  .tab-btn.active{ color:var(--vert-clair) }
+  .tab-btn.active::before{            /* le trait qui s'allume */
+    content:''; position:absolute; top:-.42rem; left:50%; transform:translateX(-50%);
+    width:28px; height:3px; border-radius:99px;
+    background:linear-gradient(90deg,var(--vert),var(--vert-clair));
+    box-shadow:0 0 14px rgba(16,185,129,.85);
+    animation:pousse .35s cubic-bezier(.22,.61,.36,1);
+  }
+  @keyframes pousse{ from{ width:0; opacity:0 } to{ width:28px; opacity:1 } }
+  .tab-btn.active svg{ filter:drop-shadow(0 0 7px rgba(16,185,129,.75)) }
+  .tab-btn:active{ transform:scale(.94) }
+
+  /* ---------- les transitions d'écran : entrée en cascade ---------- */
+  @keyframes monte{ from{ opacity:0; transform:translateY(12px) } to{ opacity:1; transform:none } }
+  #pc.anim > *{ animation:monte .42s cubic-bezier(.22,.61,.36,1) both }
+  #pc.anim > *:nth-child(1){ animation-delay:.01s }
+  #pc.anim > *:nth-child(2){ animation-delay:.05s }
+  #pc.anim > *:nth-child(3){ animation-delay:.09s }
+  #pc.anim > *:nth-child(4){ animation-delay:.13s }
+  #pc.anim > *:nth-child(5){ animation-delay:.16s }
+  #pc.anim > *:nth-child(6){ animation-delay:.19s }
+  #pc.anim > *:nth-child(7){ animation-delay:.22s }
+  #pc.anim > *:nth-child(8){ animation-delay:.24s }
+  #pc.anim > *:nth-child(n+9){ animation-delay:.26s }
+
+  /* ---------- les barres de progression ---------- */
+  .progress-fill{ box-shadow:0 0 12px rgba(16,185,129,.5) }
+  .progress-bar{ background:rgba(255,255,255,.07); height:5px; border-radius:99px }
+
+  /* ---------- l'écran de chargement ---------- */
+  #app > svg{ animation:halo 1.9s ease-in-out infinite }
+  @keyframes halo{ 0%,100%{ transform:scale(1); filter:drop-shadow(0 0 6px rgba(16,185,129,.5)) }
+                   50%{ transform:scale(1.12); filter:drop-shadow(0 0 18px rgba(16,185,129,.9)) } }
+  #app > span{ animation:respiration 1.9s ease-in-out infinite }
+  @keyframes respiration{ 0%,100%{ opacity:.55 } 50%{ opacity:1 } }
+
+  /* ---------- les pastilles, les jours, les scores ---------- */
+  .score-btn{ border-radius:14px }
+  .day-btn{ border-radius:12px }
+  .pole-card{ border-radius:18px }
+  .manifest-pillar{ border-radius:18px; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px) }
+  .toast{
+    left:1rem; right:1rem; bottom:5.6rem; max-width:none; text-align:center;
+    border-left:none; border:1px solid rgba(16,185,129,.35);
+    background:rgba(12,20,32,.96);
+    box-shadow:0 18px 44px -18px rgba(0,0,0,1), 0 0 0 1px rgba(255,255,255,.04) inset;
+    border-radius:16px;
+  }
+
+  /* ---------- accessibilité : on respecte le réglage du téléphone ---------- */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{ animation:none !important; transition:none !important }
+    #pc.anim > *{ animation:none !important; opacity:1 !important; transform:none !important }
+  }
 </style>
 </head>
 <body><div id="app" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#10b981;font-size:.9rem;font-weight:500"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 22,22 2,22"/></svg><span>Chargement...</span></div>
@@ -160,11 +331,11 @@ const ICONS = {
 
 
 const QUOTES = [
-  { text:"Les actes les plus aimés d'Allah sont ceux qui sont constants.", author:"Prophète ﷺ (Bukhārī, Muslim)" },
-  { text:"Quiconque persévère sur un chemin cherchant la science, Allah lui facilite le chemin vers le Paradis.", author:"Prophète ﷺ (Muslim)" },
+  { text:"Les actes les plus aimés d'Allah sont ceux qui sont constants.", author:"Prophète <span class='pbuh'>ﷺ</span> (Bukhārī, Muslim)" },
+  { text:"Quiconque persévère sur un chemin cherchant la science, Allah lui facilite le chemin vers le Paradis.", author:"Prophète <span class='pbuh'>ﷺ</span> (Muslim)" },
   { text:"La patience est la clé de la délivrance.", author:"Ibn al-Qayyim" },
   { text:"L'effort constant est meilleur qu'un grand effort suivi d'abandon.", author:"Ibn Taymiyyah" },
-  { text:"Prenez des oeuvres que vous pouvez supporter. Allah ne se lasse pas.", author:"Prophète ﷺ (Bukhārī, Muslim)" },
+  { text:"Prenez des oeuvres que vous pouvez supporter. Allah ne se lasse pas.", author:"Prophète <span class='pbuh'>ﷺ</span> (Bukhārī, Muslim)" },
   { text:"Les épreuves sont des cadeaux d'Allah déguisés.", author:"Ibn al-Qayyim" },
 ];
 function randomQuote() { return QUOTES[Math.floor(Math.random()*QUOTES.length)] }
@@ -465,7 +636,7 @@ MISSIONS[24] = [
 ];
 
 MISSIONS[25] = [
-  m('Djism','Marche Post-Repas','Marche 15 min juste APRÈS un repas. La marche digestive active le métabolisme, régule la glycémie et évite la somnolence. Le Prophète ﷺ conseillait la marche après le repas.'),
+  m('Djism','Marche Post-Repas','Marche 15 min juste APRÈS un repas. La marche digestive active le métabolisme, régule la glycémie et évite la somnolence. Le Prophète <span class=\"pbuh\">ﷺ</span> conseillait la marche après le repas.'),
   m('Aql','Méthode Pomodoro','Travaille 25 min, pause 5 min. 2 cycles. La concentration par intervalles est plus efficace.'),
   m('Nafs','Non Élégant','Refuse poliment quelque chose aujourd\'hui. Un non peut être doux et ferme.'),
   m('Qalb','Acte de Paix','Résous UN petit conflit aujourd\'hui (ou évite d\'en créer un). Sois le premier à tendre la main.'),
@@ -509,11 +680,11 @@ MISSIONS[30] = [
 // ========================== MANIFESTE ==========================
 const MANIFEST = [
   { id:'Djism', icon:ICONS.djism, name:'Djism', arabic:'جسم', sub:'Le Corps', color:'#ef4444',
-    desc:"Le corps est le vehicule de l'ame. Sans lui, rien n'est possible sur cette terre. Prendre soin de son corps, c'est respecter le depot qu'Allah nous a confie.\n\n═══ DIMENSIONS ═══\n• ALIMENTATION : Mange sainement, avec moderation. Le Prophete ﷺ disait : 'Le fils d'Adam ne remplit pas de recipient pire que son ventre.' 1/3 nourriture, 1/3 eau, 1/3 air.\n• SOMMEIL : 7-8h par nuit. Le sommeil repare le corps et l'esprit. Le Prophete ﷺ dormait tot et se levait avant l'aube.\n• MOUVEMENT : Marche, etirements, sport. Ton corps a besoin de bouger chaque jour. 15-30 min par jour suffisent.\n• HYGIENE : Purete corporelle, wudhu', bain rituel. La proprete est moitie de la foi.\n• RESPIRATION : Respire profondement. La respiration consciente calme le systeme nerveux.\n\n═══ SIGNES DE DESEQUILIBRE ═══\n• Fatigue chronique, douleurs frequentes\n• Troubles du sommeil (insomnie, hypersomnie)\n• Maladies repetees, baisse d'immunite\n• Dependances alimentaires, surpoids ou maigreur excessive\n\n═══ PRATIQUES CLES ═══\n• Bois 1,5-2L d'eau par jour\n• Marche au moins 20 min quotidiennement\n• Limite sucre et aliments transformes\n• Dors a heures regulieres, sans ecran avant le coucher\n• Ecoute ton corps : fatigue = pause, douleur = attention\n\nLe Prophete ﷺ disait : 'Ton corps a un droit sur toi.' Un corps sain est le terreau d'une foi solide. Quand le corps va bien, l'esprit est clair et le coeur est leger.\n\nPilier instable ? Commence par UNE seule chose : dors 7h cette semaine. Juste ca." },
+    desc:"Le corps est le vehicule de l'ame. Sans lui, rien n'est possible sur cette terre. Prendre soin de son corps, c'est respecter le depot qu'Allah nous a confie.\n\n═══ DIMENSIONS ═══\n• ALIMENTATION : Mange sainement, avec moderation. Le Prophete <span class='pbuh'>ﷺ</span> disait : 'Le fils d'Adam ne remplit pas de recipient pire que son ventre.' 1/3 nourriture, 1/3 eau, 1/3 air.\n• SOMMEIL : 7-8h par nuit. Le sommeil repare le corps et l'esprit. Le Prophete <span class='pbuh'>ﷺ</span> dormait tot et se levait avant l'aube.\n• MOUVEMENT : Marche, etirements, sport. Ton corps a besoin de bouger chaque jour. 15-30 min par jour suffisent.\n• HYGIENE : Purete corporelle, wudhu', bain rituel. La proprete est moitie de la foi.\n• RESPIRATION : Respire profondement. La respiration consciente calme le systeme nerveux.\n\n═══ SIGNES DE DESEQUILIBRE ═══\n• Fatigue chronique, douleurs frequentes\n• Troubles du sommeil (insomnie, hypersomnie)\n• Maladies repetees, baisse d'immunite\n• Dependances alimentaires, surpoids ou maigreur excessive\n\n═══ PRATIQUES CLES ═══\n• Bois 1,5-2L d'eau par jour\n• Marche au moins 20 min quotidiennement\n• Limite sucre et aliments transformes\n• Dors a heures regulieres, sans ecran avant le coucher\n• Ecoute ton corps : fatigue = pause, douleur = attention\n\nLe Prophete <span class='pbuh'>ﷺ</span> disait : 'Ton corps a un droit sur toi.' Un corps sain est le terreau d'une foi solide. Quand le corps va bien, l'esprit est clair et le coeur est leger.\n\nPilier instable ? Commence par UNE seule chose : dors 7h cette semaine. Juste ca." },
   { id:'Aql', icon:ICONS.aql, name:'Aql', arabic:'عقل', sub:'L\'Esprit', color:'#3b82f6',
-    desc:"L'esprit est le pont entre le monde visible et l'invisible. Le controle de l'esprit est la cle de toute maitrise de soi.\n\n═══ DIMENSIONS ═══\n• CONCENTRATION : La capacite a focaliser ton attention sur UNE chose a la fois. Le focus est un muscle : entraine-le chaque jour.\n• APPRENTISSAGE : Lis, etudie, apprends. Le Prophete ﷺ a dit : 'La quete de la science est une obligation pour tout musulman.' Lire 10 min par jour change une vie.\n• REFLEXION : Prends du recul. Observe tes pensees sans t'y identifier. La meditation et le tafakkur (reflexion) sont des actes d'adoration.\n• DECISION : Prends des decisions claires et rapides. L'indecision epuise l'esprit.\n• SILENCE : Le silence mental est un refuge. 5 min de silence par jour suffisent a recalibrer l'esprit.\n\n═══ SIGNES DE DESEQUILIBRE ═══\n• Incapacite a se concentrer plus de 2 min\n• Rumination mentale, pensees qui tournent en boucle\n• Difficulte a prendre des decisions, meme simples\n• Dependance aux ecrans et aux notifications\n• Sentiment de brouillard mental\n\n═══ PRATIQUES CLES ═══\n• Lis 10 pages par jour (livre papier de preference)\n• Pratique le silence : 5 min sans ecran, sans parole\n• Note tes pensees dans un journal\n• Reduis les notifications : coupe tout sauf l'essentiel\n• Apprends une chose nouvelle chaque jour\n• Fais une pause numerique d'1h par jour\n\nLes pensees sont des graines : certaines donnent des fruits, d'autres des epines. Apprends a choisir ou tu plantes ton attention. L'esprit bien dirige eclaire le coeur et guide le corps.\n\nPilier instable ? Reduis les distractions : mode avion 1h par jour, lecture quotidienne, 5 min de silence." },
+    desc:"L'esprit est le pont entre le monde visible et l'invisible. Le controle de l'esprit est la cle de toute maitrise de soi.\n\n═══ DIMENSIONS ═══\n• CONCENTRATION : La capacite a focaliser ton attention sur UNE chose a la fois. Le focus est un muscle : entraine-le chaque jour.\n• APPRENTISSAGE : Lis, etudie, apprends. Le Prophete <span class='pbuh'>ﷺ</span> a dit : 'La quete de la science est une obligation pour tout musulman.' Lire 10 min par jour change une vie.\n• REFLEXION : Prends du recul. Observe tes pensees sans t'y identifier. La meditation et le tafakkur (reflexion) sont des actes d'adoration.\n• DECISION : Prends des decisions claires et rapides. L'indecision epuise l'esprit.\n• SILENCE : Le silence mental est un refuge. 5 min de silence par jour suffisent a recalibrer l'esprit.\n\n═══ SIGNES DE DESEQUILIBRE ═══\n• Incapacite a se concentrer plus de 2 min\n• Rumination mentale, pensees qui tournent en boucle\n• Difficulte a prendre des decisions, meme simples\n• Dependance aux ecrans et aux notifications\n• Sentiment de brouillard mental\n\n═══ PRATIQUES CLES ═══\n• Lis 10 pages par jour (livre papier de preference)\n• Pratique le silence : 5 min sans ecran, sans parole\n• Note tes pensees dans un journal\n• Reduis les notifications : coupe tout sauf l'essentiel\n• Apprends une chose nouvelle chaque jour\n• Fais une pause numerique d'1h par jour\n\nLes pensees sont des graines : certaines donnent des fruits, d'autres des epines. Apprends a choisir ou tu plantes ton attention. L'esprit bien dirige eclaire le coeur et guide le corps.\n\nPilier instable ? Reduis les distractions : mode avion 1h par jour, lecture quotidienne, 5 min de silence." },
   { id:'Nafs', icon:ICONS.nafs, name:'Nafs', arabic:'نفس', sub:'L\'Âme / L\'Égo', color:'#f59e0b',
-    desc:"Le Nafs est a la fois ton plus grand adversaire et ton meilleur allie. C'est cette voix interieure qui te pousse vers la facilite, l'immediatete, l'ego. Mais c'est aussi cette energie puissante qui, une fois domptee, te propulse vers les sommets.\n\n═══ DIMENSIONS ═══\n• PATIENCE (Sabr) : La patience est la moitie de la foi. Attendre sans se plaindre, perseverer sans abandonner. Le Prophete ﷺ a dit : 'La patience est une lumiere.'\n• DISCIPLINE : La capacite a faire ce qui est bon pour toi, pas ce qui est facile. Chaque petit choix compte.\n• MAITRISE DES IMPULSIONS : Savoir dire non a soi-meme. Resister a la tentation renforce le Nafs comme un muscle.\n• HUMILITE : Reconnaitre ses erreurs, accepter la critique, ne pas se croire superieur. L'orgueil est le plus grand piege du Nafs.\n• AUTHENTICITE : Etre en paix avec qui tu es vraiment, sans masque, sans pretention.\n\n═══ SIGNES DE DESEQUILIBRE ═══\n• Difficulte a resister aux tentations (bouffe, ecrans, achats)\n• Procrastination chronique\n• Colere explosive ou rancune tenace\n• Dependances diverses\n• Sentiment de vide apres la gratification immediate\n• Orgueil, besoin constant de validation\n\n═══ PRATIQUES CLES ═══\n• Chaque matin, identifie UNE tentation et resiste-y\n• Quand tu sens l'impulsion monter, compte 5 secondes avant d'agir\n• Tiens un journal de tes victoires (chaque NON est une force)\n• Pratique le jeune (meme quelques heures) pour dompter le Nafs\n• Demande pardon sincerement quand tu fais une erreur\n• Fais une chose inconfortable mais utile chaque jour\n\nLe chemin de la maitrise du Nafs est un djihad interieur. Chaque fois que tu resistes a un desir futile, tu gagnes une bataille. Le Nafs dompte devient ton plus puissant allie vers l'excellence.\n\nPilier instable ? Identifie ta tentation numero 1, et fixe-toi un petit defi quotidien pour la dompter. Un seul pas a la fois." },
+    desc:"Le Nafs est a la fois ton plus grand adversaire et ton meilleur allie. C'est cette voix interieure qui te pousse vers la facilite, l'immediatete, l'ego. Mais c'est aussi cette energie puissante qui, une fois domptee, te propulse vers les sommets.\n\n═══ DIMENSIONS ═══\n• PATIENCE (Sabr) : La patience est la moitie de la foi. Attendre sans se plaindre, perseverer sans abandonner. Le Prophete <span class='pbuh'>ﷺ</span> a dit : 'La patience est une lumiere.'\n• DISCIPLINE : La capacite a faire ce qui est bon pour toi, pas ce qui est facile. Chaque petit choix compte.\n• MAITRISE DES IMPULSIONS : Savoir dire non a soi-meme. Resister a la tentation renforce le Nafs comme un muscle.\n• HUMILITE : Reconnaitre ses erreurs, accepter la critique, ne pas se croire superieur. L'orgueil est le plus grand piege du Nafs.\n• AUTHENTICITE : Etre en paix avec qui tu es vraiment, sans masque, sans pretention.\n\n═══ SIGNES DE DESEQUILIBRE ═══\n• Difficulte a resister aux tentations (bouffe, ecrans, achats)\n• Procrastination chronique\n• Colere explosive ou rancune tenace\n• Dependances diverses\n• Sentiment de vide apres la gratification immediate\n• Orgueil, besoin constant de validation\n\n═══ PRATIQUES CLES ═══\n• Chaque matin, identifie UNE tentation et resiste-y\n• Quand tu sens l'impulsion monter, compte 5 secondes avant d'agir\n• Tiens un journal de tes victoires (chaque NON est une force)\n• Pratique le jeune (meme quelques heures) pour dompter le Nafs\n• Demande pardon sincerement quand tu fais une erreur\n• Fais une chose inconfortable mais utile chaque jour\n\nLe chemin de la maitrise du Nafs est un djihad interieur. Chaque fois que tu resistes a un desir futile, tu gagnes une bataille. Le Nafs dompte devient ton plus puissant allie vers l'excellence.\n\nPilier instable ? Identifie ta tentation numero 1, et fixe-toi un petit defi quotidien pour la dompter. Un seul pas a la fois." },
   { id:'Qalb', icon:ICONS.qalb, name:'Qalb', arabic:'قلب', sub:'Le Cœur', color:'#10b981',
     desc:"Le coeur est le centre spirituel de l'etre humain. Dans la tradition islamique, le Qalb est le siege de la foi (iman), de la sincerite (ikhlas) et de la connexion avec Allah ﷻ.\n\n═══ DIMENSIONS ═══\n• FOI (Iman) : La certitude interieure, la confiance en Allah, la conviction qui traverse les epreuves sans faiblir. Le croyant fort est plus aime d'Allah que le croyant faible.\n• GRATITUDE (Shukr) : Reconnaitre les bienfaits d'Allah, petits et grands. La gratitude transforme ce que nous avons en assez. 'Si vous etes reconnaissants, J'augmenterai Mes bienfaits sur vous.'\n• PARDON : Pardonner aux autres, c'est se liberer soi-meme. La rancune empoisonne le coeur. Le pardon est un cadeau que tu te fais a toi-meme.\n• GENEROSITE : Donner sans attendre en retour. La main qui donne est meilleure que la main qui recoit. La charite purifie le coeur.\n• CONNEXION : Le lien avec Allah ﷻ par la priere, le dhikr, le doua. 5 prieres par jour sont 5 rendez-vous avec ton Createur.\n\n═══ SIGNES DE DESEQUILIBRE ═══\n• Sentiment de vide interieur, meme en faisant beaucoup\n• Difficulte a ressentir de la joie ou de la gratitude\n• Rancunes accumulees, amertume\n• Jalousie, envie du bien des autres\n• Durete de coeur, insensibilite\n• Anxiete, angoisse existentielle\n\n═══ PRATIQUES CLES ═══\n• Chaque jour, note 3 choses pour lesquelles tu es reconnaissant\n• Fais une bonne action anonyme par semaine\n• Pardonne a quelqu'un dans ton coeur (meme s'il ne le sait pas)\n• Lis le Coran avec traduction chaque jour (meme 3 versets)\n• Fais un doua sincere pour quelqu'un d'autre\n• Pratique le dhikr : 33 SubhanAllah, 33 Al-hamdulillah, 33 Allahu Akbar\n\nUn coeur pur est comme un miroir : il reflete la lumiere divine sans la deformer. Quand le coeur est serein, le corps est detendu, l'esprit est clair, et le Nafs est apaise. Tout est connecte.\n\nPilier instable ? Pratique la gratitude quotidienne : chaque soir, ecris 3 bienfaits de ta journee, meme les plus simples." },
 ];
@@ -572,8 +743,8 @@ function render() {
   }
   document.getElementById('app').innerHTML = `
     <div style="max-width:600px;margin:0 auto;padding:0 0 5rem">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:rgba(10,10,20,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:10">
-        <div style="display:flex;align-items:center;gap:.5rem"><span style="font-weight:600;font-size:.9rem">▲ Protocole 30J</span></div>
+      <div class="app-top" style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;background:rgba(10,10,20,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:10">
+        <div style="display:flex;align-items:center;gap:.5rem"><span class="logo" style="font-weight:600;font-size:.9rem">▲ Protocole 30J</span></div>
         <div style="display:flex;align-items:center;gap:.5rem"><button class="btn btn-outline btn-xs" onclick="nav('recherche')">🔍</button><span style="font-size:.75rem;color:#6b7280">${state.user?.name||''}</span><button class="btn btn-outline btn-xs" onclick="logoutAccess()">✕</button></div>
       </div>
       <div id="pc" class="page active" style="padding:1rem"></div>
@@ -1339,7 +1510,7 @@ function renderNafs(){
       carnet().length ? `<div style="margin-top:.5rem;font-size:.75rem;color:#3b82f6"><b>${carnet().length} soir(s)</b> écrit(s)</div>` : '')}
     ${nCarte("nav('pacte')","🤝","Le pacte de 40 jours","Une porte. Une règle. Quarante cases à cocher. C'est ça qui change un homme.","#10b981",
       p ? `<div style="margin-top:.5rem;font-size:.75rem;color:#10b981"><b>${p.regle ? p.regle.slice(0,54) : ''}…</b></div>` : '')}
-    ${nCarte("ouvrirFondement('nafs')","📖","Le fondement révélé — l'Âme","Les trois états de l'âme, le combat intérieur, et les portes déjà nommées par le Prophète ﷺ.","#f59e0b")}
+    ${nCarte("ouvrirFondement('nafs')","📖","Le fondement révélé — l'Âme","Les trois états de l'âme, le combat intérieur, et les portes déjà nommées par le Prophète <span class='pbuh'>ﷺ</span>.","#f59e0b")}
     ${nCarte("nav('outils')","📜","Les trois outils","Muhâsaba, murâqaba, mujâhada : les trois outils de la tradition, et le jeûne comme entraînement roi.","#a78bfa")}
 
     <h3 style="font-size:.95rem;font-weight:700;margin:1.4rem 0 .6rem">Les 9 portes — apprends à les reconnaître</h3>
@@ -1902,8 +2073,9 @@ function marPeindre(){
   document.getElementById('mar-cercle').style.boxShadow = "0 0 46px " + coul + "55";
   document.getElementById('mar-consigne').textContent = marFini
     ? "45 minutes. C'est fait."
-    : (ph === "rapide" ? "Marche vite, souffle fort — tu dois pouvoir parler, pas chanter."
-                       : "Ralentis, respire — récupère pour l'accélération suivante.");
+    : (ph === null ? "Prêt quand tu veux : 7 cycles, 45 minutes. Le signal t'annoncera chaque changement."
+                   : (ph === "rapide" ? "Marche vite, souffle fort — tu dois pouvoir parler, pas chanter."
+                                      : "Ralentis, respire — récupère pour l'accélération suivante."));
   document.getElementById('mar-cycle').textContent = marFini ? MAR_CYCLES : marCycleActuel();
   document.getElementById('mar-ecoule').textContent = marfmt(marEcoule);
   document.getElementById('mar-reste').textContent = marfmt(reste);
@@ -2035,9 +2207,10 @@ function construireIndex(){
             m:sansAccent(p.name + ' ' + p.sub + ' ' + p.arabic + ' pilier dimension fiche')}); }
   for(var j=1;j<=30;j++){ var ms = MISSIONS[j] || [];
     for(var k=0;k<ms.length;k++){ var mi = ms[k];
-      o.push({c:'Jour ' + j, t:mi.t, s:mi.p + ' · ' + String(mi.d).slice(0,95) + (String(mi.d).length > 95 ? '…' : ''),
+      var dTexte = String(mi.d).replace(/<[^>]*>/g, '');
+      o.push({c:'Jour ' + j, t:mi.t, s:mi.p + ' · ' + dTexte.slice(0,95) + (dTexte.length > 95 ? '…' : ''),
               act:"ouvrirMission(" + j + "," + k + ")",
-              m:sansAccent('jour ' + j + ' ' + mi.p + ' ' + mi.t + ' ' + mi.d)}); } }
+              m:sansAccent('jour ' + j + ' ' + mi.p + ' ' + mi.t + ' ' + dTexte)}); } }
   if(typeof AXES !== 'undefined'){ for(var a=0;a<AXES.length;a++){ var ax = AXES[a];
     o.push({c:'Corps · mécanisme', t:ax.n, s:ax.court, act:"ouvrirAxe('" + ax.id + "')",
             m:sansAccent(ax.n + ' ' + ax.court + ' corps mecanisme hormone')}); } }
@@ -2079,7 +2252,7 @@ function construireIndex(){
           m:sansAccent('ame nafs fondement revele coran sunna ammara lawwama mutmainna jihada jeune 12 53 75 2 89 27 13 11 29 69 2 183')});
   o.push({c:'Esprit · preuves', t:"Les arguments d'Allah — dans le Coran", s:"Six arguments avec leurs versets (41:53, 23:91, 39:38…)", act:"nav('arguments')",
           m:sansAccent('arguments Allah coran versets signes fitra pacte creation premiere deux dieux aveu idoles impuissance preuve existence 41 53 51 20 21 88 17 20 52 35 2 28 36 78 79 19 67 21 22 23 91 39 38 31 25 29 61 43 87 22 73 13 16 7 172 30 30 14 10')});
-  o.push({c:'Esprit · preuves', t:"Les arguments du Prophète <span class=\'pbuh\'>ﷺ</span>", s:"La fitra, le doute, les signes au réveil, son invocation", act:"nav('prophete')",
+  o.push({c:'Esprit · preuves', t:"Les arguments du Prophète <span class=\'pbuh\'><span class='pbuh'>ﷺ</span></span>", s:"La fitra, le doute, les signes au réveil, son invocation", act:"nav('prophete')",
           m:sansAccent('prophete mohammed sunna hadith fitra doute foi pure invocation nuit lumiere cieux terre argument bukhari muslim 3 190 al imran tahajjud')});
   o.push({c:'Esprit · preuves', t:"Les preuves de l'existence d'Allah — les huit arguments", s:"Le réglage fin, la loterie, le commencement, l'ADN, la conscience…", act:"nav('argus')",
           m:sansAccent('preuves existence Allah Dieu atheisme reglage fin constantes penrose loterie commencement big bang univers adn information origine vie conscience morale anthropique')});
@@ -2735,7 +2908,7 @@ function renderPreuves(){
     </div>
 
     ${dCartePreuve("nav('arguments')","📖","Les arguments d'Allah — dans le Coran","Six arguments, avec leurs versets. « Nous leur montrerons Nos signes dans l'univers et en eux-mêmes. » (41 : 53)","#10b981")}
-    ${dCartePreuve("nav('prophete')","🕌","Les arguments du Prophète <span class=\'pbuh\'>ﷺ</span>","Quatre hadiths : la fitra, le doute, les signes au réveil, son invocation de la nuit.","#d9b26a")}
+    ${dCartePreuve("nav('prophete')","🕌","Les arguments du Prophète <span class=\'pbuh\'><span class='pbuh'>ﷺ</span></span>","Quatre hadiths : la fitra, le doute, les signes au réveil, son invocation de la nuit.","#d9b26a")}
     ${dCartePreuve("nav('argus')","📐","Les huit arguments rationnels","Du réglage fin des constantes à la conscience — la raison qui confirme.","#38bdf8")}
     ${dCartePreuve("nav('harmonie')","🌿","L'harmonie de la création","Les plantes, les animaux, l'être humain, l'univers — en détail. Et le nombre d'or : ce qui est vrai, ce qui est faux.","#4fd1a5")}
     ${dCartePreuve("nav('penrose')","🔢","Le chiffre de Penrose","Un athée qui donne le chiffre le plus écrasant du débat.","#d9b26a")}
@@ -2905,7 +3078,7 @@ function renderOr(){
 
 
 // =====================================================================
-// LES ARGUMENTS D'ALLAH ET DU PROPHÈTE ﷺ
+// LES ARGUMENTS D'ALLAH ET DU PROPHÈTE <span class=\"pbuh\">ﷺ</span>
 // La méthode de la révélation — elle passe AVANT les arguments rationnels.
 // « Nous leur montrerons Nos signes dans l'univers et en eux-mêmes. » (41:53)
 // =====================================================================
@@ -3152,6 +3325,8 @@ function renderPage() {
   el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
   const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr, arguments:renderArguments, prophete:renderProphete, fondement:renderFondement }
   if(pages[cp]) pages[cp]()
+  /* relance l'entrée en cascade à chaque changement d'écran */
+  el.classList.remove('anim'); void el.offsetWidth; el.classList.add('anim');
 }
 
 // ========================== AUTH ==========================
@@ -3207,7 +3382,7 @@ function renderAuth() {
         <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:.25rem">▲</div>
         <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:.2rem">Protocole 30J</h1>
         <p style="font-size:.85rem;color:#6b7280;margin-bottom:1.5rem">Human Matrix — Reprends le contrôle en 30 jours</p>
-        <div class="cite-card"><p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">"${q.text}"${q.author?'<br><span style=font-size:.65rem;color:#4b5563>\u2014 '+q.author+'</span>':''}</p><div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div><p style="font-size:.78rem;color:#93c5fd;line-height:1.5">ﷺ ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p></div><div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
+        <div class="cite-card"><p style="font-size:.8rem;color:#34d399;line-height:1.6;font-style:italic">"${q.text}"${q.author?'<br><span style=font-size:.65rem;color:#4b5563>\u2014 '+q.author+'</span>':''}</p><div style="height:1px;background:rgba(16,185,129,.15);margin:.6rem 0"></div><p style="font-size:.78rem;color:#93c5fd;line-height:1.5"><span class='pbuh'>ﷺ</span> ${h.text}<br><span style="font-size:.65rem;color:#4b5563">${h.source}</span></p></div><div><div style="margin-bottom:.75rem"><label>Ton prénom</label><input type="text" id="auth-name" placeholder="Ex: Jacques" value="${S('lastName','')}" maxlength="30"></div>
         <button class="btn btn-primary btn-lg" style="width:100%" onclick="handleLogin()">Commencer</button>
         <p style="margin-top:.75rem;font-size:.75rem;color:#4b5563;display:flex;align-items:center;justify-content:center;gap:.35rem">${ICONS.lock}Données stockées uniquement sur cet appareil</p></div>
       </div>
