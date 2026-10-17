@@ -2234,6 +2234,8 @@ function construireIndex(){
             s:su.englishNameTranslation + ' · ' + su.numberOfAyahs + ' versets',
             act:"coranChargerSourate(" + su.number + ")",
             m:sansAccent(su.number + ' ' + su.englishName + ' ' + su.englishNameTranslation + ' sourate coran ' + su.name)}); } }
+  o.push({c:'Esprit · preuves', t:"Les signes confirmés", s:"Abeilles au féminin, dattes, deux mers, doigts, peau… et les pièges", act:"nav('confirmes')",
+          m:sansAccent('signes confirmes science abeilles feminin miel dattes accouchement deux mers tenebres doigts ciel montagnes piquets vents lait peau douleur iram ubar thamud araignee pieges hamane embryon expansion')});
   o.push({c:'Le projet', t:"Soutenir le projet — l'essence", s:"Gratuité, du'â, partage, don facultatif", act:"nav('soutenir')",
           m:sansAccent('soutenir projet don gratuit gratuité essence sadaqa aumone dua partage libre recompense 26 109')});
   o.push({c:'Corps', t:"Le fondement révélé — le Corps", s:"Le dépôt, les droits du corps, la mesure, la santé", act:"ouvrirFondement('jism')",
@@ -2643,6 +2645,7 @@ function renderDiscernement(){
       <p style="font-size:.8rem;color:#9ca3af;line-height:1.6;margin:.5rem 0 0">Le discernement n'est pas une récompense de l'intelligence : c'est une conséquence de la crainte d'Allah.</p>
     </div>
 
+    ${dCarte("nav('confirmes')","🔬","Les signes confirmés","Ce que le Coran dit, et que la science, la biologie ou l'archéologie confirment — classés en 3 niveaux, pièges compris.","#4FD1A5")}
     ${dCarte("nav('preuves')","🔎","Les preuves — le chemin de la raison","Les huit arguments, l'harmonie de la création (plantes, animaux, humain, univers), le chiffre de Penrose, et les précautions.","#4fd1a5")}
     ${dCarte("nav('socle')","⬛","Le socle — la ʿaqīda et le tawḥīd","On commence par là. Trois questions, et pourquoi ce n'est pas encore l'outil.","#38bdf8")}
     ${dCarte("nav('quatre')","🔍","Les quatre questions","La méthode de tri, applicable à tout : une pub, une « étude », une idéologie, une vidéo.","#3b82f6")}
@@ -2902,6 +2905,7 @@ function renderPreuves(){
     ${dCartePreuve("nav('arguments')","📖","Les arguments d'Allah — dans le Coran","Six arguments, avec leurs versets. « Nous leur montrerons Nos signes dans l'univers et en eux-mêmes. » (41 : 53)","#10b981")}
     ${dCartePreuve("nav('prophete')","🕌","Les arguments du Prophète <span class=\'pbuh\'><span class='pbuh'>ﷺ</span></span>","Quatre hadiths : la fitra, le doute, les signes au réveil, son invocation de la nuit.","#d9b26a")}
     ${dCartePreuve("nav('argus')","📐","Les huit arguments rationnels","Du réglage fin des constantes à la conscience — la raison qui confirme.","#38bdf8")}
+    ${dCartePreuve("nav('confirmes')","🔬","Les signes confirmés","14 signes solides, 7 discutés, et 8 pièges à ne jamais utiliser. Ce que le Coran dit, et que la science confirme.","#4FD1A5")}
     ${dCartePreuve("nav('harmonie')","🌿","L'harmonie de la création","Les plantes, les animaux, l'être humain, l'univers — en détail. Et le nombre d'or : ce qui est vrai, ce qui est faux.","#4fd1a5")}
     ${dCartePreuve("nav('penrose')","🔢","Le chiffre de Penrose","Un athée qui donne le chiffre le plus écrasant du débat.","#d9b26a")}
     ${dCartePreuve("nav('precautions')","⚠️","Les trois précautions","Ce qui protège ta crédibilité — à lire avant de partager.","#e8725c")}
@@ -3580,11 +3584,164 @@ function telechargerCarte(b){
   _carte(suite);
 }
 
+
+// =====================================================================
+// LES SIGNES CONFIRMÉS — 14 solides · 7 discutés · 8 pièges
+// L'arabe de chaque verset est la graphie uthmanienne exacte (api.alquran.cloud).
+// =====================================================================
+
+var SIGNES_N1 = [
+  {t:"Les abeilles : le Coran leur parle au FÉMININ", r:"16 : 68-69", ar:"وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًۭا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ  ثُمَّ كُلِى مِن كُلِّ ٱلثَّمَرَٰتِ فَٱسْلُكِى سُبُلَ رَبِّكِ ذُلُلًۭا ۚ يَخْرُجُ مِنۢ بُطُونِهَا شَرَابٌۭ مُّخْتَلِفٌ أَلْوَٰنُهُۥ فِيهِ شِفَآءٌۭ لِّلنَّاسِ ۗ إِنَّ فِى ذَٰلِكَ لَءَايَةًۭ لِّقَوْمٍۢ يَتَفَكَّرُونَ", q:"« Ton Seigneur inspira aux abeilles : “Prends demeure dans les montagnes…” Puis : “Mange de tous les fruits et suis les chemins de ton Seigneur.” »", sci:"Trois impératifs au féminin (ٱتَّخِذِى · كُلِى · فَٱسْلُكِى) et le pronom féminin بُطُونَِهَا. Or, en arabe, le masculin est la norme pour une espèce. Et la biologie confirme : celles qui bâtissent les rayons et font le miel sont les ouvrières — des femelles.", lim:"C'est une indication grammaticale, pas une prédiction."},
+  {t:"Le miel : « il s'y trouve une guérison »", r:"16 : 69", ar:"ثُمَّ كُلِى مِن كُلِّ ٱلثَّمَرَٰتِ فَٱسْلُكِى سُبُلَ رَبِّكِ ذُلُلًۭا ۚ يَخْرُجُ مِنۢ بُطُونِهَا شَرَابٌۭ مُّخْتَلِفٌ أَلْوَٰنُهُۥ فِيهِ شِفَآءٌۭ لِّلنَّاسِ ۗ إِنَّ فِى ذَٰلِكَ لَءَايَةًۭ لِّقَوْمٍۢ يَتَفَكَّرُونَ", q:"« Il sort de leurs ventres une boisson de couleurs variées, où il y a une guérison pour les gens. »", sci:"Le miel est antibactérien et antifongique (sucres concentrés, pH acide, peroxyde d'hydrogène). Des miels de qualité médicale sont utilisés à l'hôpital sur les plaies et les brûlures.", lim:"« Une guérison » ne veut pas dire « la guérison de tout ». La médecine confirme des usages précis."},
+  {t:"Les dattes, pour la femme qui accouche", r:"19 : 25", ar:"وَهُزِّىٓ إِلَيْكِ بِجِذْعِ ٱلنَّخْلَةِ تُسَٰقِطْ عَلَيْكِ رُطَبًۭا جَنِيًّۭا", q:"« Secoue vers toi le tronc du palmier : il fera tomber sur toi des dattes fraîches, mûres. »", sci:"Méta-analyse (Sagi-Dain & Sagi, Explore, 2021) : dilatation du col plus avancée (+1,1 cm), moins de déclenchements (risque 0,6), travail plus court (−4,6 h). Et le Prophète ﷺ pratiquait le tahnîk avec une datte sur le palais du nouveau-né (al-Bukhârî, Muslim).", lim:"La conclusion de la méta-analyse dit elle-même : « qualité des études faible ». Dis-le avant qu'on te le dise."},
+  {t:"La barrière entre les deux mers", r:"25 : 53", ar:"۞ وَهُوَ ٱلَّذِى مَرَجَ ٱلْبَحْرَيْنِ هَٰذَا عَذْبٌۭ فُرَاتٌۭ وَهَٰذَا مِلْحٌ أُجَاجٌۭ وَجَعَلَ بَيْنَهُمَا بَرْزَخًۭا وَحِجْرًۭا مَّحْجُورًۭا", q:"« Il a mis entre eux une barrière et un obstacle infranchissable. »", sci:"Là où deux mers de salinité et de densité différentes se rencontrent se forme une zone de séparation (halocline). C'est mesuré à Gibraltar et au Bab el-Mandeb.", lim:"Les eaux finissent par se mélanger, lentement. On dit « sans se mélanger aussitôt », jamais « jamais »."},
+  {t:"Les ténèbres des mers profondes", r:"24 : 40", ar:"أَوْ كَظُلُمَٰتٍۢ فِى بَحْرٍۢ لُّجِّىٍّۢ يَغْشَىٰهُ مَوْجٌۭ مِّن فَوْقِهِۦ مَوْجٌۭ مِّن فَوْقِهِۦ سَحَابٌۭ ۚ ظُلُمَٰتٌۢ بَعْضُهَا فَوْقَ بَعْضٍ إِذَآ أَخْرَجَ يَدَهُۥ لَمْ يَكَدْ يَرَىٰهَا ۗ وَمَن لَّمْ يَجْعَلِ ٱللَّهُ لَهُۥ نُورًۭا فَمَا لَهُۥ مِن نُّورٍ", q:"« …des ténèbres dans une mer profonde, couverte d'une vague au-dessus de laquelle une autre vague, au-dessus de laquelle un nuage. »", sci:"Passé 200 mètres, plus aucune lumière du soleil : obscurité totale. Et sous la surface existent des vagues internes, à l'interface de deux couches de densités différentes (découvertes au XXᵉ siècle).", lim:"Décrire deux couches de vagues demande des instruments : on ne le devine pas depuis un rivage."},
+  {t:"Le bout des doigts", r:"75 : 4", ar:"بَلَىٰ قَٰدِرِينَ عَلَىٰٓ أَن نُّسَوِّىَ بَنَانَهُۥ", q:"« Mais si ! Nous sommes capables de remettre en ordre le bout de ses doigts. »", sci:"Les empreintes digitales sont uniques à chaque être humain — même chez les jumeaux identiques — et permanentes toute la vie : c'est la base de la dermatoglyphie.", lim:"Le verset argumente sur la résurrection. Le signe, c'est le choix de ce détail-là."},
+  {t:"Le ciel, un toit protégé", r:"21 : 32", ar:"وَجَعَلْنَا ٱلسَّمَآءَ سَقْفًۭا مَّحْفُوظًۭا ۖ وَهُمْ عَنْ ءَايَٰتِهَا مُعْرِضُونَ", q:"« Nous avons fait du ciel un toit protégé. »", sci:"La couche d'ozone filtre les ultraviolets, la magnétosphère détourne le vent solaire, et l'atmosphère brûle la plupart des météorites avant le sol.", lim:""},
+  {t:"Les montagnes, comme des piquets", r:"78 : 7", ar:"وَٱلْجِبَالَ أَوْتَادًۭا", q:"« Et les montagnes, comme des piquets. »", sci:"C'est l'isostasie : une montagne a une racine de croûte qui s'enfonce dans le manteau, souvent bien plus profonde que sa hauteur visible. Une petite partie dehors, une grande partie enfoncée.", lim:""},
+  {t:"Les vents fécondants", r:"15 : 22", ar:"وَأَرْسَلْنَا ٱلرِّيَٰحَ لَوَٰقِحَ فَأَنزَلْنَا مِنَ ٱلسَّمَآءِ مَآءًۭ فَأَسْقَيْنَٰكُمُوهُ وَمَآ أَنتُمْ لَهُۥ بِخَٰزِنِينَ", q:"« Nous envoyons les vents fécondants. »", sci:"Les vents transportent le pollen (la pollinisation) et les noyaux de condensation sans lesquels les nuages ne se forment pas. Le mot employé est celui de la fécondation.", lim:""},
+  {t:"Le lait, entre le contenu des intestins et le sang", r:"16 : 66", ar:"وَإِنَّ لَكُمْ فِى ٱلْأَنْعَٰمِ لَعِبْرَةًۭ ۖ نُّسْقِيكُم مِّمَّا فِى بُطُونِهِۦ مِنۢ بَيْنِ فَرْثٍۢ وَدَمٍۢ لَّبَنًا خَالِصًۭا سَآئِغًۭا لِّلشَّٰرِبِينَ", q:"« Nous vous faisons boire, de ce qui est dans leurs ventres, entre le contenu des intestins et le sang, un lait pur. »", sci:"La mamelle ne transvase pas le contenu digestif : elle fabrique le lait à partir des nutriments apportés par le sang. Le contenu intestinal ne passe pas dans le lait — c'est la barrière intestinale.", lim:""},
+  {t:"La peau, siège de la douleur", r:"4 : 56", ar:"إِنَّ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَٰتِنَا سَوْفَ نُصْلِيهِمْ نَارًۭا كُلَّمَا نَضِجَتْ جُلُودُهُم بَدَّلْنَٰهُمْ جُلُودًا غَيْرَهَا لِيَذُوقُوا۟ ٱلْعَذَابَ ۗ إِنَّ ٱللَّهَ كَانَ عَزِيزًا حَكِيمًۭا", q:"« Chaque fois que leurs peaux sont consumées, Nous les remplaçons par d'autres peaux, afin qu'ils goûtent le châtiment. »", sci:"Les récepteurs de la douleur sont dans la peau. Une brûlure profonde détruit la peau — et la douleur disparaît dans la zone détruite. Remplacer la peau pour que la douleur revienne : c'est cohérent avec la physiologie.", lim:""},
+  {t:"Iram, la cité aux colonnes", r:"89 : 7", ar:"إِرَمَ ذَاتِ ٱلْعِمَادِ", q:"« Iram, aux colonnes. »", sci:"Ubar, cité perdue du Rub' al-Khali, retrouvée en 1992 grâce à l'imagerie satellitaire (Zarins et Hedges). Le site comporte une grande tour — des « colonnes ».", lim:"L'identification Iram = Ubar est débattue. Ce qui est certain : on a trouvé une cité à tour dans les sables."},
+  {t:"Les Thamûd et leurs maisons taillées dans la montagne", r:"15 : 82", ar:"وَكَانُوا۟ يَنْحِتُونَ مِنَ ٱلْجِبَالِ بُيُوتًا ءَامِنِينَ", q:"« Ils taillaient dans les montagnes des maisons, en sécurité. »", sci:"Mada'in Sâlih (al-Hijr), au nord de l'Arabie : des façades monumentales taillées dans la roche. Un site réel et visitable.", lim:"La datation (nabatéenne) et l'identification au peuple de Thamûd font débat."},
+  {t:"La toile d'araignée, la plus fragile des demeures", r:"29 : 41", ar:"مَثَلُ ٱلَّذِينَ ٱتَّخَذُوا۟ مِن دُونِ ٱللَّهِ أَوْلِيَآءَ كَمَثَلِ ٱلْعَنكَبُوتِ ٱتَّخَذَتْ بَيْتًۭا ۖ وَإِنَّ أَوْهَنَ ٱلْبُيُوتِ لَبَيْتُ ٱلْعَنكَبُوتِ ۖ لَوْ كَانُوا۟ يَعْلَمُونَ", q:"« La plus fragile des demeures est celle de l'araignée. »", sci:"La toile est une structure temporaire : reconstruite sans cesse, détruite au premier passage — et chez beaucoup d'espèces la femelle y tue le mâle.", lim:"⚠️ La soie d'araignée est, à poids égal, plus résistante que l'acier. Mais le verset parle de la DEMEURE, pas de la soie."}
+];
+var SIGNES_N2 = [
+  {t:"L'univers s'étend", r:"51 : 47", ar:"وَٱلسَّمَآءَ بَنَيْنَٰهَا بِأَيْي۟دٍۢ وَإِنَّا لَمُوسِعُونَ", q:"« Et le ciel, Nous l'avons bâti de Nos mains, et Nous l'étendons. »", sci:"La lecture « Nous l'étendons » est majoritaire chez les traducteurs modernes.", lim:"Mais mûsi'ûn peut aussi signifier « vastes, capables ». À ne jamais présenter comme une preuve."},
+  {t:"Ciel et terre « cousus » puis séparés", r:"21 : 30", ar:"أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًۭا فَفَتَقْنَٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ", q:"« Les cieux et la terre étaient joints (ratq), puis Nous les avons séparés (fatq). »", sci:"La lecture « big bang » est très répandue.", lim:"Elle est très contestée : les mots disent « joint, solide » puis « séparé »."},
+  {t:"Hâmân, un ministre égyptien", r:"40 : 36", ar:"وَقَالَ فِرْعَوْنُ يَٰهَٰمَٰنُ ٱبْنِ لِى صَرْحًۭا لَّعَلِّىٓ أَبْلُغُ ٱلْأَسْبَٰبَ", q:"« Pharaon dit : “Ô Hâmân, construis-moi une tour…” »", sci:"Le point CERTAIN : les critiques accusaient le Coran de confondre avec le Haman de la Bible (perse). Or ici, Hâmân est en Égypte, avec Pharaon, et il construit une tour. Ce n'est pas le personnage d'Esther.", lim:"L'attestation du nom dans des inscriptions égyptiennes (musée de Vienne) a été avancée, mais la lecture est débattue."},
+  {t:"Le corps de Pharaon préservé", r:"10 : 92", ar:"فَٱلْيَوْمَ نُنَجِّيكَ بِبَدَنِكَ لِتَكُونَ لِمَنْ خَلْفَكَ ءَايَةًۭ ۚ وَإِنَّ كَثِيرًۭا مِّنَ ٱلنَّاسِ عَنْ ءَايَٰتِنَا لَغَٰفِلُونَ", q:"« Aujourd'hui, Nous te sauverons dans ton corps, pour que tu sois un signe pour ceux qui viendront après toi. »", sci:"Très utilisé dans les discussions.", lim:"Fragile : l'identification du pharaon de l'Exode est incertaine, et les « preuves » sur les momies sont spéculatives. Ne rien construire dessus."},
+  {t:"Les étapes de l'embryon", r:"23 : 14", ar:"ثُمَّ خَلَقْنَا ٱلنُّطْفَةَ عَلَقَةًۭ فَخَلَقْنَا ٱلْعَلَقَةَ مُضْغَةًۭ فَخَلَقْنَا ٱلْمُضْغَةَ عِظَٰمًۭا فَكَسَوْنَا ٱلْعِظَٰمَ لَحْمًۭا ثُمَّ أَنشَأْنَٰهُ خَلْقًا ءَاخَرَ ۚ فَتَبَارَكَ ٱللَّهُ أَحْسَنُ ٱلْخَٰلِقِينَ", q:"« …la goutte (nutfa), puis l'adhérence ('alaqa), puis le morceau mâché (mudgha), puis des os, puis Nous avons revêtu les os de chair. »", sci:"La séquence est remarquable et sans les erreurs des théories anciennes.", lim:"Les comparaisons (« comme une sangsue », « comme un morceau mâché ») sont des interprétations, et les cautions scientifiques souvent citées sont contestées."},
+  {t:"Le cycle de l'eau", r:"30 : 48", ar:"ٱللَّهُ ٱلَّذِى يُرْسِلُ ٱلرِّيَٰحَ فَتُثِيرُ سَحَابًۭا فَيَبْسُطُهُۥ فِى ٱلسَّمَآءِ كَيْفَ يَشَآءُ وَيَجْعَلُهُۥ كِسَفًۭا فَتَرَى ٱلْوَدْقَ يَخْرُجُ مِنْ خِلَٰلِهِۦ ۖ فَإِذَآ أَصَابَ بِهِۦ مَن يَشَآءُ مِنْ عِبَادِهِۦٓ إِذَا هُمْ يَسْتَبْشِرُونَ", q:"« Allah envoie les vents : ils soulèvent les nuages… et tu vois la pluie sortir de leur sein. »", sci:"Exact et précis : vents → nuages → pluie.", lim:"Mais les Grecs le connaissaient déjà : l'argument « personne ne pouvait le savoir » ne tient pas."},
+  {t:"Le fer « envoyé du ciel »", r:"57 : 25", ar:"لَقَدْ أَرْسَلْنَا رُسُلَنَا بِٱلْبَيِّنَٰتِ وَأَنزَلْنَا مَعَهُمُ ٱلْكِتَٰبَ وَٱلْمِيزَانَ لِيَقُومَ ٱلنَّاسُ بِٱلْقِسْطِ ۖ وَأَنزَلْنَا ٱلْحَدِيدَ فِيهِ بَأْسٌۭ شَدِيدٌۭ وَمَنَٰفِعُ لِلنَّاسِ وَلِيَعْلَمَ ٱللَّهُ مَن يَنصُرُهُۥ وَرُسُلَهُۥ بِٱلْغَيْبِ ۚ إِنَّ ٱللَّهَ قَوِىٌّ عَزِيزٌۭ", q:"« …et Nous avons fait descendre le fer, où il y a une force redoutable et des profits pour les gens. »", sci:"La science est solide : le fer est forgé dans les étoiles (supernovæ) et vient de l'espace.", lim:"Lire « anzalnâ » comme « fait descendre de l'espace » est une lecture, pas le sens premier (« accordé, donné »)."}
+];
+var SIGNES_N3 = [
+  {t:"Les « roues de chars » de Nuweiba", d:"Aucune trace archéologique sérieuse. Les « roues » photographiées sont des concrétions de corail. Un hoax (Ron Wyatt)."},
+  {t:"« La NASA a prouvé la fente de la Lune »", d:"Aucune déclaration de la NASA. La faille Rima Ariadaeus n'a rien à voir avec le verset 54:1."},
+  {t:"« Le Coran donne la vitesse de la lumière »", d:"Construction numérologique sur des cycles lunaires (299 792,458). Les savants l'ont rejetée."},
+  {t:"Les « miracles du chiffre 19 »", d:"Reşad Khalifa. A conduit à une secte qui a rejeté les hadiths. Danger doctrinal, pas seulement scientifique."},
+  {t:"« Le soleil se couche dans une source boueuse » (18:86)", d:"Ce n'est pas une affirmation cosmologique : c'est ce que Dhul-Qarnayn VOYAIT depuis son point de vue. Prépare la réponse, on te la posera."},
+  {t:"« Les 7 cieux = les 7 couches de l'atmosphère »", d:"Lecture forcée : la troposphère et la stratosphère ne sont pas « sept cieux »."},
+  {t:"« La Terre est un œuf » (dahâ)", d:"dahâ signifie « étendre, déployer ». L'« œuf d'autruche » est une sur-traduction."},
+  {t:"Tout chiffre ou toute étude que tu ne peux pas nommer", d:"Si tu ne peux pas dire qui, où, quand — tu ne le dis pas. Jamais."}
+];
+
+function renderConfirmes(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('discernement')">‹ Discernement</button>
+    <div style="text-align:center;padding:.4rem 0 1.1rem">
+      <div style="font-size:2.3rem">🔬</div>
+      <div style="font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:#e5c36a;font-weight:800;margin-top:.5rem">Les signes confirmés</div>
+      <h2 style="font-size:1.22rem;font-weight:700;margin:.35rem 0 0">Ce que le Coran dit,<br>et que la science confirme</h2>
+    </div>
+
+    <div class="card" style="border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.06);margin-bottom:.7rem">
+      <p style="font-size:.88rem;font-weight:700;margin:0 0 .5rem">La règle, avant la liste</p>
+      <p style="font-size:.84rem;line-height:1.75;margin:0;color:#d1d5db">
+        Le Coran n'est pas un livre de science : il ne « prédit » pas, il <b>montre des signes</b>.
+        La science change, le Coran ne change pas. Et <b>on dit toujours la limite</b> — avant qu'on nous la sorte.</p>
+    </div>
+
+    <div class="card" style="cursor:pointer;border-color:rgba(79,209,165,.45);background:rgba(79,209,165,.07);margin-bottom:.5rem" onclick="nav('signes1')">
+      <div style="display:flex;align-items:center;gap:.7rem">
+        <div style="font-size:1.5rem">✅</div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.95rem">Les ${SIGNES_N1.length} signes solides</div>
+        <div style="font-size:.78rem;color:#9ca3af;margin-top:.15rem">Vérifiables dans le texte, ou établis par la science</div></div>
+        <div style="color:#6b7280;font-size:1.2rem">›</div>
+      </div>
+    </div>
+
+    <div class="card" style="cursor:pointer;border-color:rgba(217,178,106,.45);background:rgba(217,178,106,.06);margin-bottom:.5rem" onclick="nav('signes2')">
+      <div style="display:flex;align-items:center;gap:.7rem">
+        <div style="font-size:1.5rem">🟡</div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.95rem">Les ${SIGNES_N2.length} discutés</div>
+        <div style="font-size:.78rem;color:#9ca3af;margin-top:.15rem">Sérieux — mais jamais comme une preuve</div></div>
+        <div style="color:#6b7280;font-size:1.2rem">›</div>
+      </div>
+    </div>
+
+    <div class="card" style="cursor:pointer;border-color:rgba(232,114,92,.45);background:rgba(232,114,92,.07);margin-bottom:.9rem" onclick="nav('signes3')">
+      <div style="display:flex;align-items:center;gap:.7rem">
+        <div style="font-size:1.5rem">⛔</div>
+        <div style="flex:1"><div style="font-weight:700;font-size:.95rem">Les ${SIGNES_N3.length} pièges</div>
+        <div style="font-size:.78rem;color:#9ca3af;margin-top:.15rem">À ne jamais utiliser — ce sont eux qui font perdre tout le reste</div></div>
+        <div style="color:#6b7280;font-size:1.2rem">›</div>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:rgba(217,178,106,.35)">
+      <div style="font-size:.65rem;letter-spacing:1.2px;text-transform:uppercase;color:#e5c36a;font-weight:800">La phrase à garder</div>
+      <p style="font-size:.9rem;line-height:1.8;margin:.45rem 0 0;font-style:italic">
+        « Je ne te demande pas de me croire sur parole. Je te donne le texte, et je te donne la recherche.
+        Regarde les deux — et demande-toi : qui, au VII<sup>e</sup> siècle, au milieu du désert, parlait aux abeilles au féminin ? »</p>
+    </div>
+
+    <div style="text-align:center;margin-top:1rem">
+      <button class="btn btn-outline btn-sm" onclick="nav('preuves')">‹ Toutes les preuves</button>
+    </div>`
+}
+
+function _ficheSigne(x, n){
+  return `<div class="card" style="margin-bottom:.6rem">
+    <div style="display:flex;align-items:baseline;gap:.5rem">
+      <div style="font-size:.66rem;font-weight:800;color:#4fd1a5">${n}</div>
+      <div style="font-size:.68rem;font-weight:800;color:#e5c36a">${x.r}</div>
+    </div>
+    <div style="font-weight:700;font-size:.93rem;margin-top:.25rem">${x.t}</div>
+    <div style="font-family:'Amiri',serif;font-size:1.02rem;line-height:2;color:#e8dcc0;margin:.5rem 0;text-align:right;direction:rtl">${x.ar}</div>
+    <p style="font-size:.82rem;line-height:1.7;margin:0;color:#c9d6e4;font-style:italic">${x.q}</p>
+    <p style="font-size:.83rem;line-height:1.75;margin:.6rem 0 0"><b style="color:#4fd1a5">Ce que la science dit :</b> ${x.sci}</p>
+    ${x.lim ? `<div style="margin-top:.6rem;padding:.5rem .7rem;border-radius:8px;background:rgba(217,178,106,.1);border-left:3px solid #d9b26a">
+      <div style="font-size:.64rem;letter-spacing:1px;text-transform:uppercase;color:#e5c36a;font-weight:800">La limite</div>
+      <p style="font-size:.8rem;line-height:1.65;margin:.25rem 0 0;color:#d8cbaa">${x.lim}</p></div>` : ''}
+  </div>`;
+}
+
+function renderSignes1(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('confirmes')">‹ Les signes confirmés</button>
+    <h2 style="font-size:1.05rem;font-weight:700;margin:0 0 .2rem">✅ Les signes solides</h2>
+    <p style="font-size:.78rem;color:#6b7280;margin-bottom:.9rem">Vérifiables dans le texte, ou établis par la science. C'est ici qu'on puise.</p>
+    ${SIGNES_N1.map(function(x,i){ return _ficheSigne(x, i+1); }).join('')}
+    <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="nav('signes2')">Les discutés ›</button>`
+}
+
+function renderSignes2(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('confirmes')">‹ Les signes confirmés</button>
+    <h2 style="font-size:1.05rem;font-weight:700;margin:0 0 .2rem">🟡 Les discutés</h2>
+    <p style="font-size:.78rem;color:#6b7280;margin-bottom:.9rem">Sérieux — mais jamais comme une preuve. On dit « certains lisent ici… ».</p>
+    ${SIGNES_N2.map(function(x,i){ return _ficheSigne(x, i+1); }).join('')}
+    <button class="btn btn-outline" style="width:100%;margin-top:.5rem;border-color:rgba(232,114,92,.5)" onclick="nav('signes3')">⚠️ Les pièges à éviter ›</button>`
+}
+
+function renderSignes3(){
+  const el = document.getElementById('pc'); if(!el) return
+  el.innerHTML = `
+    <button class="btn btn-outline btn-sm" style="margin:0 0 .75rem" onclick="nav('confirmes')">‹ Les signes confirmés</button>
+    <h2 style="font-size:1.05rem;font-weight:700;margin:0 0 .2rem">⛔ Les pièges</h2>
+    <p style="font-size:.78rem;color:#6b7280;margin-bottom:.9rem">Une seule de ces erreurs détruit la crédibilité de tout le reste.</p>
+    ${SIGNES_N3.map(function(x,i){ return `<div class="card" style="margin-bottom:.5rem;border-color:rgba(232,114,92,.3)">
+      <div style="display:flex;gap:.6rem"><div style="font-size:.72rem;font-weight:800;color:#e8725c;flex:none">${i+1}</div>
+      <div><div style="font-weight:700;font-size:.88rem;line-height:1.4">${x.t}</div>
+      <p style="font-size:.8rem;line-height:1.65;margin:.35rem 0 0;color:#b8c4d2">${x.d}</p></div></div></div>`; }).join('')}
+    <div class="card" style="border-color:rgba(232,114,92,.45);background:rgba(232,114,92,.07);margin-top:.8rem">
+      <p style="font-size:.85rem;line-height:1.75;margin:0"><b>La règle qui sauve :</b> si tu ne peux pas dire <b>qui</b>,
+      <b>où</b>, <b>quand</b> — tu ne le dis pas. Un seul chiffre inventé, et c'est tout le dossier qui tombe.</p>
+    </div>
+    <div style="text-align:center;margin-top:1rem">
+      <button class="btn btn-outline btn-sm" onclick="nav('confirmes')">‹ Retour</button>
+    </div>`
+}
+
 function renderPage() {
   const el = document.getElementById('pc'); if(!el) return
-  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or','arguments','prophete','fondement','soutenir'];
+  const savPages = ['savoir','axe','manger','mensonges','sources','respirer','nafs','outils','porte','portes','maPorte','carnet','pacte','coran','sourate','marche','sommeil','recherche','mission','flashcards','visite','discernement','socle','quatre','signes','crible','biblio','preuves','argus','penrose','precautions','harmonie','harmo','or','arguments','prophete','fondement','soutenir','confirmes','signes1','signes2','signes3'];
   el.className = 'page active' + (savPages.indexOf(cp) >= 0 ? ' sav' : '');
-  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr, arguments:renderArguments, prophete:renderProphete, fondement:renderFondement, soutenir:renderSoutenir }
+  const pages = { home:renderHome, diag:renderDiag, proto:renderProto, manifest:renderManifest, report:renderReport, savoir:renderSavoir, axe:renderAxe, manger:renderManger, mensonges:renderMensonges, sources:renderSources, respirer:renderRespirer, nafs:renderNafs, outils:renderOutils, porte:renderPorte, portes:renderPortes, maPorte:renderMaPorte, carnet:renderCarnet, pacte:renderPacte, coran:renderCoran, sourate:renderSourate, marche:renderMarche, sommeil:renderSommeil, recherche:renderRecherche, mission:renderMission, flashcards:renderFlashcards, visite:renderVisite, discernement:renderDiscernement, socle:renderSocle, quatre:renderQuatre, signes:renderSignes, crible:renderCrible, biblio:renderBiblio, preuves:renderPreuves, argus:renderArgus, penrose:renderPenrose, precautions:renderPrecautions, harmonie:renderHarmonie, harmo:renderHarmo, or:renderOr, arguments:renderArguments, prophete:renderProphete, fondement:renderFondement, soutenir:renderSoutenir, confirmes:renderConfirmes, signes1:renderSignes1, signes2:renderSignes2, signes3:renderSignes3 }
   if(pages[cp]) pages[cp]()
   /* relance l'entrée en cascade à chaque changement d'écran */
   el.classList.remove('anim'); void el.offsetWidth; el.classList.add('anim');
